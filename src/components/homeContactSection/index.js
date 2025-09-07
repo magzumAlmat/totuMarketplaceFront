@@ -60,6 +60,8 @@ const ContactSection = () => {
     setPhone("");
   };
 
+
+
   return (
     <Box
       mt={8}
@@ -85,99 +87,11 @@ const ContactSection = () => {
         },
       }}
     >
-      <Grid container spacing={4} alignItems="center" sx={{ position: "relative", zIndex: 2 }}>
-        <Grid item xs={12} md={6}>
-          <Typography
-            variant="h4"
-            fontWeight="700"
-            color="#003087"
-            mb={2}
-            sx={{ fontFamily: "Montserrat, sans-serif" }}
-          >
-            Нужна консультация специалиста?
-          </Typography>
-          <Typography
-            variant="body1"
-            color="#333333"
-            mb={3}
-            sx={{ fontFamily: "Montserrat, sans-serif", maxWidth: "400px" }}
-          >
-            Оставьте заявку на сайте и наш специалист свяжется с вами в самое
-            ближайшее время
-          </Typography>
-          <Box sx={{ width: "100px", height: "40px" }}>
-            {/* <Image
-              src="https://biolane.kz/Uploads/arrow.png" // Замените на реальный путь, например: `/image/arrow.png`
-              alt="Декоративная стрелка"
-              width={100}
-              height={40}
-              style={{ objectFit: "contain" }}
-              sizes="100px"
-              priority={false}
-              loading="lazy"
-            /> */}
-          </Box>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Paper
-            elevation={3}
-            sx={{
-              p: 4,
-              borderRadius: "15px",
-              backgroundColor: "#FFFFFF",
-              maxWidth: "400px",
-              mx: "auto",
-            }}
-          >
-            <Typography
-              variant="subtitle2"
-              fontWeight="700"
-              color="#333333"
-              mb={3}
-              sx={{
-                fontFamily: "Montserrat, sans-serif",
-                textTransform: "uppercase",
-                textAlign: "center",
-              }}
-            >
-              Оставить заявку на обратный звонок
-            </Typography>
-            <form onSubmit={handleSubmit}>
-              <StyledTextField
-                fullWidth
-                placeholder="Ваше имя"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                sx={{ mb: 2 }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <PersonOutline sx={{ color: "#666666" }} />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <StyledTextField
-                fullWidth
-                placeholder="Ваш телефон"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                sx={{ mb: 3 }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <PhoneOutlined sx={{ color: "#666666" }} />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <DarkStyledButton type="submit">
-                Оставить заявку на звонок
-              </DarkStyledButton>
-            </form>
-          </Paper>
-        </Grid>
-      </Grid>
+     
+
+
+  фывфвы
+
     </Box>
   );
 };

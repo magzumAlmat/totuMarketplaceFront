@@ -10,7 +10,7 @@ export default function Footer() {
       <Container maxWidth="lg">
         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap" }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <Image src={logo} alt="logo" width={150} height={78} />
+            <Image src={logo} alt="logo" width={200} height={40} />
             <Box>
               
             </Box>
@@ -18,10 +18,10 @@ export default function Footer() {
           <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
             <Typography variant="body2" sx={{ color: "#333333" }}>
               <Phone sx={{ mr: 1 }} />
-              +7 (777) 961 82 53
+              +7 (708) 088 01 88
             </Typography>
             <Typography variant="body2" sx={{ color: "#333333" }}>
-              email: biolane@gmai.com
+              email: shop_totu@mail.ru
             </Typography>
           </Box>
         </Box>
