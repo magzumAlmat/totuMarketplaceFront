@@ -932,7 +932,7 @@ export default function Products() {
           
 
 {/* Biolane – специалист по детской гигиене с 1972 года */}
-      <Box mt={8} mb={6}>
+      {/* <Box mt={8} mb={6}>
       <Typography variant="h4" fontWeight="700" color="#003087" mb={4}>
         Biolane – специалист по детской гигиене с 1972 года
       </Typography>
@@ -960,7 +960,7 @@ export default function Products() {
           </DarkStyledButton>
         </Grid>
       </Grid>
-    </Box>
+    </Box> */}
 
 
       {/* Форма обратной связи */}
