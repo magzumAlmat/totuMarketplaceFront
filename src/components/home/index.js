@@ -22,10 +22,10 @@ import {
   MenuItem,
   IconButton,
   Skeleton,
-  CircularProgress,Star
+  CircularProgress
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Search, FilterList, ShoppingBagOutlined as ShoppingBagIcon, PersonOutline, PhoneOutlined } from "@mui/icons-material";
+import { Search, FilterList, ShoppingBagOutlined as ShoppingBagIcon, PersonOutline, PhoneOutlined, Star } from "@mui/icons-material";
 import Link from "next/link";
 import Slider from "react-slick";
 import { motion } from "framer-motion";
