@@ -5,7 +5,7 @@ import "/src/app/globals.css";
 import Header from "@/components/header";
 import Link from "next/link";
 import { Phone, WhatsApp, Instagram } from "@mui/icons-material";
-
+import Image from "next/image";
 export default function ContactPage() {
   return (
     <>
@@ -27,7 +27,16 @@ export default function ContactPage() {
           </div>
           <div className="hero-image">
             <div className="image-placeholder hero-placeholder">
-              <span>Изображение службы поддержки</span>
+              {/* <span>Изображение службы поддержки</span> */}
+                 <Image
+                                  src="/image/map.png"
+                                  alt="map"
+                                  width={550}
+                                  height={350}
+                                  style={{ objectFit: "cover", cursor: "pointer" }}
+                                  loading="lazy"
+                                  // onClick={() => openModal("/image/map.png")}
+                                />
             </div>
           </div>
         </div>

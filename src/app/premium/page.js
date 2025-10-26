@@ -219,7 +219,7 @@ export default function PremiumPage() {
           <div className="hero-image">
             <div className="image-placeholder hero-placeholder">
               <Image
-                src="/image/premium-hero-case.jpg"
+                src="/image/adds.jpg"
                 alt="Элитные чехлы"
                 width={600}
                 height={400}
