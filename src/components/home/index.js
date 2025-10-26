@@ -22,7 +22,7 @@ import {
   MenuItem,
   IconButton,
   Skeleton,
-  CircularProgress,
+  CircularProgress,Star
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Search, FilterList, ShoppingBagOutlined as ShoppingBagIcon, PersonOutline, PhoneOutlined } from "@mui/icons-material";
@@ -263,6 +263,39 @@ const categories = [
   "Органическая линейка",
   "Атопический дерматит",
 ];
+
+
+const reviews = [
+  {
+    id: 1,
+    name: "Анна Смирнова",
+    photo: "/image/customer1.jpg",
+    review: "Отличные продукты! Использую для своего малыша, кожа стала мягкой и без раздражений. Очень довольна!",
+    rating: 5,
+  },
+  {
+    id: 2,
+    name: "Мария Иванова",
+    photo: "/image/customer2.jpg",
+    review: "Натуральные составы и приятный аромат. Средства для купания просто находка для чувствительной кожи.",
+    rating: 4,
+  },
+  {
+    id: 3,
+    name: "Екатерина Петрова",
+    photo: "/image/customer3.jpg",
+    review: "Понравилась органическая линейка. Качество на высоте, буду заказывать ещё!",
+    rating: 5,
+  },
+  {
+    id: 4,
+    name: "Ольга Кузнецова",
+    photo: "/image/customer4.jpg",
+    review: "Средства для мамы помогли мне восстановить кожу после родов. Рекомендую всем!",
+    rating: 4,
+  },
+];
+
 
 export default function Products() {
   const dispatch = useDispatch();
@@ -916,6 +949,103 @@ export default function Products() {
         </Box>
       </Box>
 
+
+
+ {/* Секция отзывов клиентов */}
+      <Box mt={8} py={6} sx={{ backgroundColor: "#FFFFFF", borderRadius: "15px" }}>
+        <Typography
+          variant="h4"
+          fontWeight="700"
+          color="#333333"
+          sx={{ textTransform: "uppercase", textAlign: "center", mb: 4 }}
+        >
+          Отзывы наших клиентов
+        </Typography>
+        <Slider
+          dots={true}
+          infinite={true}
+          speed={500}
+          slidesToShow={3}
+          slidesToScroll={1}
+          autoplay={true}
+          autoplaySpeed={5000}
+          responsive={[
+            { breakpoint: 960, settings: { slidesToShow: 2 } },
+            { breakpoint: 600, settings: { slidesToShow: 1 } },
+          ]}
+        >
+          {reviews.map((review) => (
+            <Box key={review.id} px={2} sx={{ display: "flex", justifyContent: "center" }}>
+              <Card
+                component={motion.div}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                sx={{
+                  maxWidth: 360,
+                  mx: "auto",
+                  borderRadius: "12px",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                  backgroundColor: "#F8FAFC",
+                  p: 2,
+                }}
+              >
+                <CardContent sx={{ textAlign: "center" }}>
+                  <Box
+                    sx={{
+                      width: 80,
+                      height: 80,
+                      borderRadius: "50%",
+                      overflow: "hidden",
+                      mx: "auto",
+                      mb: 2,
+                    }}
+                  >
+                    <Image
+                      src={review.photo}
+                      alt={review.name}
+                      width={80}
+                      height={80}
+                      style={{ objectFit: "cover" }}
+                    />
+                  </Box>
+                  <Typography variant="h6" fontWeight="600" color="#333333">
+                    {review.name}
+                  </Typography>
+                  <Box sx={{ display: "flex", justifyContent: "center", my: 1 }}>
+                    {[...Array(5)].map((_, index) => (
+                      <Star
+                        key={index}
+                        sx={{
+                          color: index < review.rating ? "#FFD700" : "#E0E0E0",
+                          fontSize: "1.2rem",
+                        }}
+                      />
+                    ))}
+                  </Box>
+                  <Typography
+                    variant="body2"
+                    color="#666666"
+                    sx={{
+                      mt: 1,
+                      fontSize: "0.9rem",
+                      display: "-webkit-box",
+                      WebkitLineClamp: 3,
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {review.review}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Box>
+          ))}
+        </Slider>
+      </Box>
+
+
+      
       {/* Боковая панель фильтров */}
       <FilterDrawer anchor="right" open={filterOpen} onClose={() => setFilterOpen(false)}>
         <Typography variant="h6" gutterBottom color="#333333" fontWeight="700">
