@@ -14,13 +14,15 @@ import {
   CircularProgress,
   Chip,
   Divider,
+  Modal,
+  IconButton,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Carousel } from "rsuite";
 import "rsuite/dist/rsuite-no-reset.min.css";
 import Image from "next/image";
 import Head from "next/head";
-import { ShoppingCartOutlined } from "@mui/icons-material";
+import { ShoppingCartOutlined, Close } from "@mui/icons-material";
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -51,7 +53,33 @@ const StyledCarousel = styled(Carousel)({
   },
 });
 
-// Базовый URL для API (можно вынести в .env)
+const StyledModal = styled(Modal)({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+});
+
+const ModalImageContainer = styled(Box)({
+  position: "relative",
+  maxWidth: "90vw",
+  maxHeight: "90vh",
+  backgroundColor: "#000",
+  borderRadius: "10px",
+  overflow: "hidden",
+});
+
+const CloseButton = styled(IconButton)({
+  position: "absolute",
+  top: 10,
+  right: 10,
+  color: "#fff",
+  backgroundColor: "rgba(0, 0, 0, 0.5)",
+  "&:hover": {
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+  },
+});
+
+// Базовый URL для API
 const BASE_URL = "http://localhost:8000";
 
 export default function ProductDetailPage({ params = {} }) {
@@ -59,6 +87,8 @@ export default function ProductDetailPage({ params = {} }) {
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
   const userCart = useSelector((state) => state.usercart.userCart);
   const dispatch = useDispatch();
 
@@ -68,15 +98,15 @@ export default function ProductDetailPage({ params = {} }) {
       setIsLoading(false);
       return;
     }
-  
+
     const fetchData = async () => {
       try {
         setIsLoading(true);
         const response = await axios.get(`${BASE_URL}/api/store/product/${params.id}`);
         const productData = response.data;
-  
-        console.log("Информация о продукте:", productData); // Вывод в консоль
-  
+
+        console.log("Информация о продукте:", productData);
+
         setProduct(productData);
         const imagesData = productData.ProductImages || [];
         setImages(imagesData.sort((a, b) => (b.isPrimary ? 1 : -1)));
@@ -92,7 +122,7 @@ export default function ProductDetailPage({ params = {} }) {
         setIsLoading(false);
       }
     };
-  
+
     fetchData();
   }, [params.id]);
 
@@ -104,6 +134,16 @@ export default function ProductDetailPage({ params = {} }) {
     dispatch(addClickCountReducer());
     dispatch(addToCartProductAction(item));
     toast.success("Добавлено в корзину!");
+  };
+
+  const handleImageClick = (imageSrc) => {
+    setSelectedImage(imageSrc);
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+    setSelectedImage(null);
   };
 
   if (isLoading) {
@@ -126,8 +166,6 @@ export default function ProductDetailPage({ params = {} }) {
 
   const price = parseFloat(product.price);
 
-
-  
   return (
     <>
       <Head>
@@ -150,16 +188,20 @@ export default function ProductDetailPage({ params = {} }) {
                     ? `${BASE_URL}${img.imagePath}`
                     : "/placeholder.jpg";
                   return (
-                    <Box key={img.id || index} sx={{ display: "flex", justifyContent: "center" }}>
-                     <Image
-                          src={imageSrc}
-                          alt={`Product image ${index}`}
-                          width={600}
-                          height={400}
-                          style={{ objectFit: "contain" }}
-                          priority={index === 0}
-                          onError={() => setImages((prev) => prev.filter((_, i) => i !== index))} // Удалить изображение при ошибке
-                        />
+                    <Box
+                      key={img.id || index}
+                      sx={{ display: "flex", justifyContent: "center", cursor: "pointer" }}
+                      onClick={() => handleImageClick(imageSrc)}
+                    >
+                      <Image
+                        src={imageSrc}
+                        alt={`Product image ${index}`}
+                        width={600}
+                        height={400}
+                        style={{ objectFit: "contain" }}
+                        priority={index === 0}
+                        onError={() => setImages((prev) => prev.filter((_, i) => i !== index))}
+                      />
                     </Box>
                   );
                 })}
@@ -202,13 +244,6 @@ export default function ProductDetailPage({ params = {} }) {
             <Typography variant="h4" sx={{ fontWeight: "700", color: "#333333", mb: 1 }}>
               {product.name}
             </Typography>
-
-            {/* Объем, если есть */}
-            {product.volume && (
-              <Typography variant="body2" color="#666666" sx={{ mb: 1 }}>
-                Объем: {product.volume}
-              </Typography>
-            )}
 
             {/* Наличие */}
             <Typography variant="body2" color="#666666" sx={{ mb: 2 }}>
@@ -261,6 +296,24 @@ export default function ProductDetailPage({ params = {} }) {
           </Box>
         </Box>
       </Container>
+
+      {/* Модальное окно для полноэкранного просмотра */}
+      <StyledModal open={openModal} onClose={handleCloseModal}>
+        <ModalImageContainer>
+          {selectedImage && (
+            <Image
+              src={selectedImage}
+              alt="Full screen product image"
+              width={1200}
+              height={800}
+              style={{ objectFit: "contain", maxWidth: "100%", maxHeight: "100%" }}
+            />
+          )}
+          <CloseButton onClick={handleCloseModal}>
+            <Close />
+          </CloseButton>
+        </ModalImageContainer>
+      </StyledModal>
     </>
   );
 }
