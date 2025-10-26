@@ -118,6 +118,7 @@ const Banner = ({ bgImage, children }) => {
         style={{ objectFit: "cover" }}
         priority={true}
         quality={85}
+        
       />
       <div className="banner-content">{children}</div>
     </div>
@@ -206,6 +207,7 @@ export default function AboutPage() {
                 style={{ objectFit: "cover" }}
                 priority={true}
                 loading="eager"
+                 onClick={() => openModal("/image/accessoires.jpg")}
               />
             </div>
           </div>

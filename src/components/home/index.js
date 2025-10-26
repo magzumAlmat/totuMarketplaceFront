@@ -155,7 +155,7 @@ const BannerCarousel = styled(RsCarousel)({
   borderRadius: "15px",
   overflow: "hidden",
   width: "100%",
-  maxWidth: "1200px",
+  maxWidth: "1400px",
   margin: "0 auto",
   "& .rs-carousel-item": {
     height: "400px",
@@ -445,7 +445,7 @@ export default function Products() {
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
           >
-            <Typography
+            {/* <Typography
               variant="h4"
               fontWeight="700"
               sx={{
@@ -457,8 +457,8 @@ export default function Products() {
               }}
             >
               {banner.title}
-            </Typography>
-            <Typography
+            </Typography> */}
+            {/* <Typography
               variant="body1"
               sx={{
                 color: "#fff",
@@ -470,7 +470,7 @@ export default function Products() {
               }}
             >
               {banner.subtitle}
-            </Typography>
+            </Typography> */}
           </Banner>
         ))}
       </BannerCarousel>
@@ -522,8 +522,9 @@ export default function Products() {
                               fill
                               style={{ objectFit: "contain" }}
                               sizes="(max-width: 600px) 100vw, 280px"
-                              priority={false}
-                              loading="lazy"
+                              priority={ 8} // Предварительная загрузка для первых 8 изображений
+  l                           oading={   "lazy"}
+
                             />
                           ) : (
                             <Box

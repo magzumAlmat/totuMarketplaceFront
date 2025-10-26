@@ -1,14 +1,30 @@
 "use client";
 
+import { useState } from "react";
 import "/src/app/globals.css";
 import Header from "@/components/header";
 import Link from "next/link";
-import Image from "next/image"
-export default function promoPage() {
+import Image from "next/image";
+
+export default function PromoPage() {
+  // Modal state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  // Open modal with selected image
+  const openModal = (imageSrc) => {
+    setSelectedImage(imageSrc);
+    setIsModalOpen(true);
+  };
+
+  // Close modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedImage(null);
+  };
+
   return (
     <>
-
-
       {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-container">
@@ -25,15 +41,16 @@ export default function promoPage() {
           </div>
           <div className="hero-image">
             <div className="image-placeholder hero-placeholder">
-       <Image
-        src="/image/saleshit.jpg"
-        alt="Banner"
-        width={550}
-height={300}
-        priority={true}
-        quality={85}
-      />
-            
+              <Image
+                src="/image/saleshit.jpg"
+                alt="Хиты продаж TOTU"
+                width={550}
+                height={300}
+                style={{ objectFit: "cover", cursor: "pointer" }}
+                priority={true}
+                quality={85}
+                onClick={() => openModal("/image/saleshit.jpg")}
+              />
             </div>
           </div>
         </div>
@@ -46,122 +63,155 @@ height={300}
           <div className="products-grid">
             {/* Apple Products */}
             <div className="product-card">
-              {/* <div className="product-icon">🍎</div> */}
               <h3 className="product-title">Apple AirPods Max</h3>
               <p className="product-description">
                 Премиальные наушники с шумоподавлением и качеством звука от Apple.
               </p>
               <div className="image-placeholder product-placeholder">
-                  <Image
+                <Image
                   src="/image/airpodsmax.jpg"
-                  alt="Аксессуары TOTU"
+                  alt="Apple AirPods Max"
                   width={300}
                   height={150}
-                  style={{ objectFit: "cover" }}
+                  style={{ objectFit: "cover", cursor: "pointer" }}
                   priority={true}
                   loading="eager"
+                  onClick={() => openModal("/image/airpodsmax.jpg")}
                 />
               </div>
             </div>
             <div className="product-card">
-              {/* <div className="product-icon">🎧</div> */}
               <h3 className="product-title">Наушники Apple</h3>
               <p className="product-description">
                 Lightning или 3.5 мм — надежные и стильные наушники.
               </p>
               <div className="image-placeholder product-placeholder">
-                     <Image
+                <Image
                   src="/image/airpods.jpeg"
-                  alt="Аксессуары TOTU"
+                  alt="Наушники Apple"
                   width={300}
                   height={150}
-                  style={{ objectFit: "cover" }}
+                  style={{ objectFit: "cover", cursor: "pointer" }}
                   priority={true}
                   loading="eager"
+                  onClick={() => openModal("/image/airpods.jpeg")}
                 />
               </div>
             </div>
             <div className="product-card">
-              {/* <div className="product-icon">🔌</div> */}
               <h3 className="product-title">Адаптеры Apple</h3>
               <p className="product-description">
                 Зарядные адаптеры 5W, 20W, 30W для любых устройств Apple.
               </p>
               <div className="image-placeholder product-placeholder">
-          
-          
-               <Image
-                   src="/image/iphone-11-charger.jpg"
-                  alt="Аксессуары TOTU"
+                <Image
+                  src="/image/iphone-11-charger.jpg"
+                  alt="Адаптеры Apple"
                   width={300}
                   height={150}
-                  style={{ objectFit: "cover" }}
+                  style={{ objectFit: "cover", cursor: "pointer" }}
                   priority={true}
                   loading="eager"
+                  onClick={() => openModal("/image/iphone-11-charger.jpg")}
                 />
               </div>
             </div>
             <div className="product-card">
-              {/* <div className="product-icon">🔗</div> */}
               <h3 className="product-title">Кабели Apple</h3>
               <p className="product-description">
                 USB-C ↔ Lightning и USB-C ↔ USB-C для зарядки и передачи данных.
               </p>
               <div className="image-placeholder product-placeholder">
                 <Image
-                   src="/image/kabelapple.jpg"
-                  alt="Аксессуары TOTU"
-                  width={300}
+                  src="/image/kabelapple.jpg"
+                  alt="Кабели Apple"
+                  width={200}
                   height={150}
-                  style={{ objectFit: "cover" }}
+                  style={{ objectFit: "cover", cursor: "pointer" }}
                   priority={true}
                   loading="eager"
+                  onClick={() => openModal("/image/kabelapple.jpg")}
                 />
               </div>
             </div>
             {/* Samsung Products */}
             <div className="product-card">
-              {/* <div className="product-icon">📱</div> */}
               <h3 className="product-title">Зарядные устройства Samsung</h3>
               <p className="product-description">
                 Оригинальные зарядки для всех моделей Samsung.
               </p>
               <div className="image-placeholder product-placeholder">
-              <Image
-                   src="/image/samsungadapter.jpg"
-                  alt="Аксессуары TOTU"
+                <Image
+                  src="/image/samsungadapter.jpg"
+                  alt="Зарядные устройства Samsung"
                   width={300}
                   height={150}
-                  style={{ objectFit: "cover" }}
+                  style={{ objectFit: "cover", cursor: "pointer" }}
                   priority={true}
                   loading="eager"
+                  onClick={() => openModal("/image/samsungadapter.jpg")}
                 />
-                
               </div>
             </div>
             <div className="product-card">
-              {/* <div className="product-icon">⚡</div> */}
               <h3 className="product-title">Быстрые адаптеры Samsung</h3>
               <p className="product-description">
                 Адаптеры и кабели USB-C с поддержкой быстрой зарядки.
               </p>
               <div className="image-placeholder product-placeholder">
-                <span>Фото адаптеров</span>
+                <Image
+                  src="/image/samsungfastcharger.jpg"
+                  alt="Зарядные устройства Samsung"
+                  width={300}
+                  height={150}
+                  style={{ objectFit: "cover", cursor: "pointer" }}
+                  priority={true}
+                  loading="eager"
+                  onClick={() => openModal("/image/samsungfastcharger.jpg")}
+                />
               </div>
             </div>
             <div className="product-card">
-              {/* <div className="product-icon">🔌</div> */}
               <h3 className="product-title">Аксессуары Samsung</h3>
               <p className="product-description">
                 Поддержка быстрой зарядки и передачи данных для ваших устройств.
               </p>
               <div className="image-placeholder product-placeholder">
-                <span>Фото аксессуаров</span>
+                <Image
+                  src="/image/samsung.jpg"
+                  alt="Зарядные устройства Samsung"
+                  width={300}
+                  height={100}
+
+                  priority={true}
+                  loading="eager"
+                  onClick={() => openModal("/image/samsungadapter.jpg")}
+                />
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Full-Screen Image Modal */}
+      {isModalOpen && (
+        <div className="image-modal">
+          <div className="modal-content">
+            <button className="modal-close" onClick={closeModal}>
+              ×
+            </button>
+            {selectedImage && (
+              <Image
+                src={selectedImage}
+                alt="Full-screen preview"
+                fill
+                style={{ objectFit: "contain" }}
+                quality={90}
+              />
+            )}
+          </div>
+        </div>
+      )}
 
       {/* CTA Section */}
       <section className="cta-section">
@@ -256,6 +306,54 @@ height={300}
           align-items: center;
         }
 
+        /* Modal Styles */
+        .image-modal {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.85);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 1000;
+        }
+
+        .modal-content {
+          position: relative;
+          width: 90%;
+          max-width: 1200px;
+          height: 90vh;
+          max-height: 800px;
+          border-radius: 10px;
+          overflow: hidden;
+        }
+
+        .modal-close {
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          background: #00C4B4;
+          color: white;
+          border: none;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          font-size: 1.5rem;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s ease;
+          z-index: 1001;
+        }
+
+        .modal-close:hover {
+          background: #00A69A;
+          transform: scale(1.1);
+        }
+
         /* Image Placeholders */
         .image-placeholder {
           background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
@@ -275,15 +373,20 @@ height={300}
         }
 
         .hero-placeholder {
-          width: 350px;
-          height: 250px;
-          font-size: 1rem;
+          position: relative;
+          width: 550px;
+          height: 300px;
+          border-radius: 10px;
+          overflow: hidden;
         }
 
         .product-placeholder {
+          position: relative;
           width: 100%;
-          height: 180px;
+          height: 150px;
           margin-top: 12px;
+          border-radius: 10px;
+          overflow: hidden;
         }
 
         /* Products Section */
@@ -324,11 +427,6 @@ height={300}
         .product-card:hover {
           transform: translateY(-6px);
           box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-        }
-
-        .product-icon {
-          font-size: 2.5rem;
-          margin-bottom: 12px;
         }
 
         .product-title {
@@ -441,10 +539,17 @@ height={300}
             width: 100%;
             max-width: 280px;
           }
+
+          .modal-content {
+            width: 95%;
+            height: 80vh;
+          }
         }
 
         @media (max-width: 480px) {
-          .hero-section, .products-section, .cta-section {
+          .hero-section,
+          .products-section,
+          .cta-section {
             padding: 50px 16px;
           }
 
@@ -455,6 +560,25 @@ height={300}
           .hero-placeholder {
             width: 250px;
             height: 160px;
+          }
+
+          .section-title {
+            font-size: 1.6rem;
+          }
+
+          .product-placeholder {
+            height: 120px;
+          }
+
+          .modal-content {
+            width: 100%;
+            height: 70vh;
+          }
+
+          .modal-close {
+            width: 36px;
+            height: 36px;
+            font-size: 1.2rem;
           }
         }
       `}</style>

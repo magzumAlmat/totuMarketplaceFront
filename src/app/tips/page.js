@@ -1,14 +1,30 @@
 "use client";
 
+import { useState } from "react";
 import "/src/app/globals.css";
 import Header from "@/components/header";
 import Link from "next/link";
+import Image from "next/image";
 
-export default function tipsPage() {
+export default function TipsPage() {
+  // Modal state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  // Open modal with selected image
+  const openModal = (imageSrc) => {
+    setSelectedImage(imageSrc);
+    setIsModalOpen(true);
+  };
+
+  // Close modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedImage(null);
+  };
+
   return (
     <>
-
-
       {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-container">
@@ -25,7 +41,16 @@ export default function tipsPage() {
           </div>
           <div className="hero-image">
             <div className="image-placeholder hero-placeholder">
-              <span>Изображение товаров на распродаже</span>
+              <Image
+                src="/image/sale.jpg"
+                alt="Товары на распродаже"
+                width={580}
+                height={300}
+                style={{ objectFit: "cover", cursor: "pointer" }}
+                priority={true}
+                quality={85}
+                onClick={() => openModal("/image/sale.jpg")}
+              />
             </div>
           </div>
         </div>
@@ -78,10 +103,30 @@ export default function tipsPage() {
         </div>
       </section>
 
+      {/* Full-Screen Image Modal */}
+      {isModalOpen && (
+        <div className="image-modal">
+          <div className="modal-content">
+            <button className="modal-close" onClick={closeModal}>
+              ×
+            </button>
+            {selectedImage && (
+              <Image
+                src={selectedImage}
+                alt="Full-screen preview"
+                fill
+                style={{ objectFit: "contain" }}
+                quality={90}
+              />
+            )}
+          </div>
+        </div>
+      )}
+
       {/* CTA Section */}
       <section className="cta-section">
         <div className="container">
-          <div className='cta-content'>
+          <div className="cta-content">
             <h2 className="cta-title">Не упусти свой шанс!</h2>
             <p className="cta-description">
               Каждый товар — это 🔥. Успей забрать свой по невероятной цене!
@@ -169,6 +214,55 @@ export default function tipsPage() {
           display: flex;
           justify-content: center;
           align-items: center;
+          
+        }
+
+        /* Modal Styles */
+        .image-modal {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.85);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 1000;
+        }
+
+        .modal-content {
+          position: relative;
+          width: 90%;
+          max-width: 1200px;
+          height: 90vh;
+          max-height: 800px;
+          border-radius: 10px;
+          overflow: hidden;
+        }
+
+        .modal-close {
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          background: #00C4B4;
+          color: white;
+          border: none;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          font-size: 1.5rem;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s ease;
+          z-index: 1001;
+        }
+
+        .modal-close:hover {
+          background: #00A69A;
+          transform: scale(1.1);
         }
 
         /* Image Placeholders */
@@ -190,9 +284,11 @@ export default function tipsPage() {
         }
 
         .hero-placeholder {
-          width: 350px;
-          height: 250px;
-          font-size: 1rem;
+          position: relative;
+          width: 550px;
+          height: 300px;
+          border-radius: 10px;
+          overflow: hidden;
         }
 
         /* Sale Section */
@@ -385,7 +481,8 @@ export default function tipsPage() {
             font-size: 1.8rem;
           }
 
-          .sale-grid, .steps-grid {
+          .sale-grid,
+          .steps-grid {
             grid-template-columns: 1fr;
           }
 
@@ -398,10 +495,17 @@ export default function tipsPage() {
             width: 100%;
             max-width: 280px;
           }
+
+          .modal-content {
+            width: 95%;
+            height: 80vh;
+          }
         }
 
         @media (max-width: 480px) {
-          .hero-section, .sale-section, .cta-section {
+          .hero-section,
+          .sale-section,
+          .cta-section {
             padding: 50px 16px;
           }
 
@@ -412,6 +516,17 @@ export default function tipsPage() {
           .hero-placeholder {
             width: 250px;
             height: 160px;
+          }
+
+          .modal-content {
+            width: 100%;
+            height: 70vh;
+          }
+
+          .modal-close {
+            width: 36px;
+            height: 36px;
+            font-size: 1.2rem;
           }
         }
       `}</style>
