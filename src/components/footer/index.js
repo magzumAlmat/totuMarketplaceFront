@@ -10,7 +10,7 @@ export default function Footer() {
       <Container maxWidth="lg">
         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap" }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <Image src={logo} alt="logo" width={200} height={40} />
+            <Image src={logo} alt="logo" width={300} height={60} />
             <Box>
               
             </Box>
