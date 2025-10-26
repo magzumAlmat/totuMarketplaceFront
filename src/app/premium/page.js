@@ -5,26 +5,34 @@ import { motion } from "framer-motion";
 import { Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
-import Header from "@/components/header";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import "/src/app/globals.css";
+import { styled } from "@mui/material/styles";
+import { Carousel as RsCarousel } from "rsuite";
+import "rsuite/dist/rsuite.min.css";
 
 // Sample banner data (premium phone cases)
 const banners = [
   {
-    image: "/image/premium-case1.jpg",
+    image: "/image/hdd.webp",
     title: "Искры роскоши",
     subtitle: "Эксклюзивные чехлы ручной работы от мировых брендов",
     cta: "Открыть коллекцию",
   },
   {
-    image: "/image/premium-case2.jpg",
+    image: "/image/ygreen.png",
     title: "Итальянская кожа",
     subtitle: "Изысканные чехлы для утонченного стиля",
     cta: "Посмотреть новинки",
   },
   {
-    image: "/image/premium-case3.jpg",
+    image: "/image/kajsa.png",
+    title: "Дизайнерская элегантност333ь",
+    subtitle: "Чехлы от ведущих модн333ых домов",
+    cta: "Выбрать свой 333стиль",
+  },
+  {
+    image: "/image/yesido.png",
     title: "Дизайнерская элегантность",
     subtitle: "Чехлы от ведущих модных домов",
     cta: "Выбрать свой стиль",
@@ -59,67 +67,89 @@ const products = [
   },
 ];
 
-// Custom BannerCarousel component
-const BannerCarousel = ({ children, autoplay = true, autoplayInterval = 4000, placement = "bottom" }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const totalSlides = children.length;
-
-  // Autoplay logic
-  useState(() => {
-    if (autoplay) {
-      const interval = setInterval(() => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % totalSlides);
-      }, autoplayInterval);
-      return () => clearInterval(interval);
-    }
-  }, [autoplay, autoplayInterval, totalSlides]);
-
-  return (
-    <div className="carousel-container">
-      <motion.div
-        className="carousel-inner"
-        initial={{ x: 0 }}
-        animate={{ x: `-${currentIndex * 100}%` }}
-        transition={{ duration: 0.7, ease: "easeInOut" }}
-      >
-        {children}
-      </motion.div>
-      {placement === "bottom" && (
-        <div className="carousel-dots">
-          {children.map((_, index) => (
-            <span
-              key={index}
-              className={`dot ${index === currentIndex ? "active" : ""}`}
-              onClick={() => setCurrentIndex(index)}
-            />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
-
 // Custom Banner component
-const Banner = ({ bgImage, children }) => {
-  return (
-    <motion.div
-      className="banner"
-      initial={{ opacity: 0, scale: 1.05 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 1.2 }}
-    >
-      <Image
-        src={bgImage}
-        alt="Banner"
-        fill
-        style={{ objectFit: "cover" }}
-        priority={true}
-        quality={90}
-      />
-      <div className="banner-content">{children}</div>
-    </motion.div>
-  );
-};
+const Banner = styled(motion.div)(({ theme, bgImage }) => ({
+  backgroundImage: `url(${bgImage})`,
+  backgroundSize: "cover", // Changed to "cover" for better scaling
+  backgroundPosition: "center",
+  backgroundRepeat: "no-repeat",
+  padding: theme.spacing(6),
+  color: "#FFFFFF",
+  textAlign: "center",
+  marginBottom: theme.spacing(4),
+  position: "relative",
+  overflow: "hidden",
+  width: "100%",
+  height: "700px",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  "&:before": {
+    content: '""',
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: "rgba(0,0,0,0.5)", // Darker overlay for text contrast
+    zIndex: 1,
+  },
+  "& > *": {
+    position: "relative",
+    zIndex: 2,
+  },
+}));
+
+// Custom BannerCarousel component
+const BannerCarousel = styled(RsCarousel)({
+   height: "43rem",
+  borderRadius: "15px",
+  overflow: "hidden",
+  width: "100%",
+  maxWidth: "1536px",
+  margin: "0 auto",
+  "& .rs-carousel-item": {
+   
+    width: "100%",
+     height: "43rem",
+  },
+  "& .rs-carousel-slider": {
+    borderRadius: "15px",
+    height: "43rem",
+  },
+  "& .rs-carousel-btn-prev, & .rs-carousel-btn-next": {
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    color: "#fff",
+    "&:hover": {
+      backgroundColor: "rgba(0, 0, 0, 0.7)",
+    },
+  },
+  "& .rs-carousel-indicators button": {
+    backgroundColor: "#ADD8E6",
+    "&.rs-carousel-indicator-active": {
+      backgroundColor: "#87CEEB",
+    },
+  },
+});
+
+// Custom BannerCta button
+const BannerCta = styled("button")({
+  background: "transparent",
+  border: "2px solid #D4AF37",
+  color: "#D4AF37",
+  padding: "16px 32px",
+  fontSize: "1.2rem",
+  fontWeight: 600,
+  borderRadius: "10px",
+  cursor: "pointer",
+  transition: "all 0.3s ease",
+  "&:hover": {
+    background: "#D4AF37",
+    color: "#121212",
+    boxShadow: "0 6px 20px rgba(212, 175, 55, 0.5)",
+  },
+});
 
 export default function PremiumPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -148,40 +178,25 @@ export default function PremiumPage() {
     <>
       {/* Banner Carousel Section */}
       <section className="banner-section">
-        <BannerCarousel autoplay autoplayInterval={4000} placement="bottom">
+        <BannerCarousel autoplay autoplayInterval={3000} placement="bottom">
           {banners.map((banner, index) => (
-            <Banner key={index} bgImage={banner.image}>
-              <Typography
-                variant="h3"
-                fontWeight="700"
-                sx={{
-                  mb: 2,
-                  color: "#F5F5F5",
-                  textShadow: "2px 2px 6px rgba(0, 0, 0, 0.8)",
-                  fontSize: { xs: "2rem", sm: "2.8rem", md: "3.5rem" },
-                  textAlign: "center",
-                  fontFamily: "'Montserrat', sans-serif",
-                }}
-              >
+            <Banner
+              key={index}
+              bgImage={banner.image}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1 }}
+            
+            >
+              {/* <Typography variant="h2" sx={{ fontWeight: 900, fontSize: "2.5rem", mb: 2 }}>
                 {banner.title}
               </Typography>
-              <Typography
-                variant="body1"
-                sx={{
-                  color: "#F5F5F5",
-                  textShadow: "1px 1px 4px rgba(0, 0, 0, 0.7)",
-                  fontSize: { xs: "1.1rem", sm: "1.3rem", md: "1.5rem" },
-                  textAlign: "center",
-                  maxWidth: "80%",
-                  margin: "0 auto 20px",
-                  fontFamily: "'Montserrat', sans-serif",
-                }}
-              >
+              <Typography variant="h5" sx={{ fontWeight: 400, mb: 3 }}>
                 {banner.subtitle}
               </Typography>
               <Link href="/katalog-tovarov">
-                <button className="cta-button banner-cta">{banner.cta}</button>
-              </Link>
+                <BannerCta>{banner.cta}</BannerCta>
+              </Link> */}
             </Banner>
           ))}
         </BannerCarousel>
@@ -240,7 +255,7 @@ export default function PremiumPage() {
       </section>
 
       {/* Products Section */}
-      <section className="products-section">
+      {/* <section className="products-section">
         <div className="container">
           <h2 className="section-title">Премиальные чехлы</h2>
           <div className="products-grid">
@@ -269,7 +284,7 @@ export default function PremiumPage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Full-Screen Image Modal */}
       {isModalOpen && (
@@ -315,25 +330,21 @@ export default function PremiumPage() {
       {/* Features Section */}
       <section className="features-section">
         <div className="container">
-          <h2 className="section-title">Почему мы</h2>
+          <h2 className="section-title">Преимущества </h2>
           <div className="features-grid">
             <div className="feature-card">
-              {/* <div className="feature-icon">👑</div> */}
               <h3 className="feature-title">Элитные бренды</h3>
               <p className="feature-description">Сотрудничество с люксовыми производителями</p>
             </div>
             <div className="feature-card">
-              {/* <div className="feature-icon">💎</div> */}
               <h3 className="feature-title">Премиальные материалы</h3>
               <p className="feature-description">Кожа, карбон и металл высшего качества</p>
             </div>
             <div className="feature-card">
-              {/* <div className="feature-icon">🎨</div> */}
               <h3 className="feature-title">Уникальный дизайн</h3>
               <p className="feature-description">Чехлы, созданные для эстетики и стиля</p>
             </div>
             <div className="feature-card">
-              {/* <div className="feature-icon">🚚</div> */}
               <h3 className="feature-title">VIP-доставка</h3>
               <p className="feature-description">Быстрая и надежная доставка по Казахстану</p>
             </div>
@@ -377,70 +388,6 @@ export default function PremiumPage() {
           overflow: hidden;
           position: relative;
           background: linear-gradient(135deg, #121212 0%, #1E272E 100%);
-        }
-
-        .carousel-container {
-          width: 100%;
-          height: 100vh;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .carousel-inner {
-          display: flex;
-          width: ${banners.length * 100}%;
-          height: 100%;
-          transition: transform 0.7s ease-in-out;
-        }
-
-        .banner {
-          width: 100%;
-          height: 100vh;
-          position: relative;
-          flex: 0 0 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .banner-content {
-          position: relative;
-          z-index: 1;
-          text-align: center;
-          padding: 40px;
-          background: rgba(18, 18, 18, 0.6);
-          border: 2px solid #D4AF37;
-          border-radius: 15px;
-          box-shadow: 0 6px 25px rgba(212, 175, 55, 0.3);
-          backdrop-filter: blur(5px);
-        }
-
-        .carousel-dots {
-          position: absolute;
-          bottom: 40px;
-          left: 50%;
-          transform: translateX(-50%);
-          display: flex;
-          gap: 15px;
-          z-index: 2;
-        }
-
-        .dot {
-          width: 16px;
-          height: 16px;
-          background: rgba(245, 245, 245, 0.4);
-          border: 2px solid #D4AF37;
-          border-radius: 50%;
-          cursor: pointer;
-          transition: all 0.3s ease;
-        }
-
-        .dot.active {
-          background: #D4AF37;
-        }
-
-        .dot:hover {
-          background: #B8972E;
         }
 
         /* Hero Section */
@@ -504,18 +451,6 @@ export default function PremiumPage() {
           background: #B8972E;
           transform: translateY(-3px);
           box-shadow: 0 8px 25px rgba(212, 175, 55, 0.6);
-        }
-
-        .banner-cta {
-          background: transparent;
-          border: 2px solid #D4AF37;
-          color: #D4AF37;
-          padding: 16px 32px;
-        }
-
-        .banner-cta:hover {
-          background: #D4AF37;
-          color: #121212;
         }
 
         .hero-image {
@@ -740,12 +675,6 @@ export default function PremiumPage() {
           box-shadow: 0 8px 30px rgba(212, 175, 55, 0.4);
         }
 
-        .feature-icon {
-          font-size: 3rem;
-          margin-bottom: 15px;
-          color: #D4AF37;
-        }
-
         .feature-title {
           font-size: 1.5rem;
           font-weight: 700;
@@ -826,13 +755,11 @@ export default function PremiumPage() {
         }
 
         /* Responsive Design */
-        @media (max-width: 768px) {
-          .banner-section,
-          .carousel-container,
-          .banner {
-            height: 70vh;
-          }
+        @media (max-width: 1536px) {
+          /* Adjustments if needed */
+        }
 
+        @media (max-width: 768px) {
           .hero-container {
             grid-template-columns: 1fr;
             gap: 40px;
@@ -867,10 +794,6 @@ export default function PremiumPage() {
             max-width: 300px;
           }
 
-          .banner-content {
-            padding: 25px;
-          }
-
           .modal-content {
             width: 95%;
             height: 80vh;
@@ -878,12 +801,6 @@ export default function PremiumPage() {
         }
 
         @media (max-width: 480px) {
-          .banner-section,
-          .carousel-container,
-          .banner {
-            height: 60vh;
-          }
-
           .hero-section,
           .about-section,
           .products-section,
@@ -920,16 +837,6 @@ export default function PremiumPage() {
             width: 40px;
             height: 40px;
             font-size: 1.4rem;
-          }
-
-          .carousel-dots {
-            bottom: 20px;
-            gap: 10px;
-          }
-
-          .dot {
-            width: 12px;
-            height: 12px;
           }
         }
       `}</style>

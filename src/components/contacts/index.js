@@ -253,7 +253,7 @@ export default function ContactForm({ total, onPay, sdkLoaded }) {
               whileTap={{ scale: 0.98 }}
               aria-label="Оплатить заказ"
             >
-              Оплатить заказ
+              Заказать
             </PayButton>
           </form>
         </>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
@@ -22,6 +22,7 @@ import {
   MenuItem,
   IconButton,
   Skeleton,
+  CircularProgress,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Search, FilterList, ShoppingBagOutlined as ShoppingBagIcon, PersonOutline, PhoneOutlined } from "@mui/icons-material";
@@ -38,6 +39,7 @@ import { Carousel as RsCarousel } from "rsuite"; // Correct import alias
 import "rsuite/dist/rsuite-no-reset.min.css";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import debounce from "lodash/debounce";
 
 // Стили
 const ProductCard = styled(Card)(({ theme }) => ({
@@ -284,68 +286,74 @@ export default function Products() {
 
   useEffect(() => {
     setLoading(true);
-    dispatch(getAllProductsAction())
+    dispatch(getAllProductsAction({ page: currentPage, limit: itemsPerPage }))
       .then(() => setLoading(false))
       .catch((err) => {
         console.error("Ошибка загрузки продуктов:", err);
         setError("Не удалось загрузить продукты");
         setLoading(false);
       });
-  }, [dispatch]);
+  }, [dispatch, currentPage]);
+
+  const debouncedSearch = debounce((value) => {
+    setSearchTerm(value);
+  }, 300);
 
   const isInCart = (item) => userCart.some((cartItem) => cartItem.id === item.id);
 
-  const filteredProducts = allProducts
-    .filter((item) => {
-      if (selectedMainType && selectedMainType !== "Все товары") {
-        return item.Categories.some((cat) => cat.name === selectedMainType);
-      }
-      return true;
-    })
-    .filter((item) => {
-      if (selectedType) {
-        return item.type === selectedType;
-      }
-      return true;
-    })
-    .filter((item) => {
-      if (category) {
-        return item.Categories.some((cat) => cat.name === category);
-      }
-      return true;
-    })
-    .filter((item) => {
-      if (!searchTerm) return true;
-      const search = searchTerm.toLowerCase();
-      return (
-        (item.name && item.name.toLowerCase().includes(search)) ||
-        (item.volume && item.volume.toLowerCase().includes(search)) ||
-        (item.description && item.description.toLowerCase().includes(search)) ||
-        (item.features && item.features.toLowerCase().includes(search)) ||
-        (item.Categories &&
-          item.Categories.some((cat) => cat.name.toLowerCase().includes(search)))
-      );
-    })
-    .filter((item) => {
-      const price = parseFloat(item.price) || 0;
-      const min = minPrice ? parseFloat(minPrice) : 0;
-      const max = maxPrice ? parseFloat(maxPrice) : Infinity;
-      return price >= min && price <= max;
-    })
-    .sort((a, b) => {
-      switch (sortBy) {
-        case "price_asc":
-          return parseFloat(a.price) - parseFloat(b.price);
-        case "price_desc":
-          return parseFloat(b.price) - parseFloat(a.price);
-        case "name_asc":
-          return a.name.localeCompare(b.name);
-        case "name_desc":
-          return b.name.localeCompare(a.name);
-        default:
-          return 0;
-      }
-    });
+  const filteredProducts = useMemo(() => {
+    return allProducts
+      .filter((item) => {
+        if (selectedMainType && selectedMainType !== "Все товары") {
+          return item.Categories.some((cat) => cat.name === selectedMainType);
+        }
+        return true;
+      })
+      .filter((item) => {
+        if (selectedType) {
+          return item.type === selectedType;
+        }
+        return true;
+      })
+      .filter((item) => {
+        if (category) {
+          return item.Categories.some((cat) => cat.name === category);
+        }
+        return true;
+      })
+      .filter((item) => {
+        if (!searchTerm) return true;
+        const search = searchTerm.toLowerCase();
+        return (
+          (item.name && item.name.toLowerCase().includes(search)) ||
+          (item.volume && item.volume.toLowerCase().includes(search)) ||
+          (item.description && item.description.toLowerCase().includes(search)) ||
+          (item.features && item.features.toLowerCase().includes(search)) ||
+          (item.Categories &&
+            item.Categories.some((cat) => cat.name.toLowerCase().includes(search)))
+        );
+      })
+      .filter((item) => {
+        const price = parseFloat(item.price) || 0;
+        const min = minPrice ? parseFloat(minPrice) : 0;
+        const max = maxPrice ? parseFloat(maxPrice) : Infinity;
+        return price >= min && price <= max;
+      })
+      .sort((a, b) => {
+        switch (sortBy) {
+          case "price_asc":
+            return parseFloat(a.price) - parseFloat(b.price);
+          case "price_desc":
+            return parseFloat(b.price) - parseFloat(a.price);
+          case "name_asc":
+            return a.name.localeCompare(b.name);
+          case "name_desc":
+            return b.name.localeCompare(a.name);
+          default:
+            return 0;
+        }
+      });
+  }, [allProducts, selectedMainType, selectedType, category, searchTerm, minPrice, maxPrice, sortBy]);
 
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
   const currentItems = filteredProducts.slice(
@@ -408,7 +416,7 @@ export default function Products() {
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 1,
-    autoplay: true,
+    autoplay: !loading,
     autoplaySpeed: 3000,
     responsive: [
       { breakpoint: 960, settings: { slidesToShow: 3 } },
@@ -416,10 +424,17 @@ export default function Products() {
     ],
   };
 
+  const recentProducts = useMemo(() => {
+    return allProducts
+      .slice()
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .slice(0, 5);
+  }, [allProducts]);
+
   return (
     <Container maxWidth="lg" sx={{ py: 6, fontFamily: "Montserrat, sans-serif" }}>
       {/* Баннер-карусель */}
-      {/* <BannerCarousel autoplay autoplayInterval={3000} placement="bottom">
+      <BannerCarousel autoplay autoplayInterval={3000} placement="bottom">
         {banners.map((banner, index) => (
           <Banner
             key={index}
@@ -428,54 +443,10 @@ export default function Products() {
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
           >
-            <Typography variant="h4" fontWeight="700" sx={{ mb: 2 }}>
-              {banner.title}
-            </Typography>
-            <Typography variant="body1">{banner.subtitle}</Typography>
-          </Banner>
-        ))}
-      </BannerCarousel> */}
-
-  <BannerCarousel autoplay autoplayInterval={3000} placement="bottom">
-        {banners.map((banner, index) => (
-          <Banner
-            key={index}
-            bgImage={banner.image}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-          >
-            {/* <Typography
-              variant="h4"
-              fontWeight="700"
-              sx={{
-                mb: 2,
-                color: "#fff",
-                textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
-                fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
-                textAlign: "center",
-              }}
-            >
-              {banner.title}
-            </Typography> */}
-            {/* <Typography
-              variant="body1"
-              sx={{
-                color: "#fff",
-                textShadow: "1px 1px 3px rgba(0, 0, 0, 0.5)",
-                fontSize: { xs: "1rem", sm: "1.2rem", md: "1.4rem" },
-                textAlign: "center",
-                maxWidth: "80%",
-                margin: "0 auto",
-              }}
-            >
-              {banner.subtitle}
-            </Typography> */}
           </Banner>
         ))}
       </BannerCarousel>
 
-      
       {/* Новинки Biolane */}
       <Box mb={6}>
         <br />
@@ -497,128 +468,123 @@ export default function Products() {
           </Grid>
         ) : (
           <Slider {...sliderSettings}>
-            {allProducts
-              .slice()
-              .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-              .slice(0, 5)
-              .map((item) => {
-                const images = item.ProductImages || [];
-                const primaryImage = images.find((img) => img.isPrimary) || images[0];
-                return (
-                  <Box key={item.id} px={1} sx={{ display: "flex", justifyContent: "center" }}>
-                    <ProductCard
-                      component={motion.div}
-                      initial={{ y: 50, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{ delay: item.id * 0.1 }}
-                      sx={{ mx: "auto" }}
-                    >
-                      <Link href={`/product/${item.id}`} passHref>
-                        <Box sx={{ position: "relative", height: "260px" }}>
-                          {primaryImage ? (
-                            <Image
-                              src={`${BASE_URL}${primaryImage.imagePath}`}
-                              alt={item.name}
-                              fill
-                              style={{ objectFit: "contain" }}
-                              sizes="(max-width: 600px) 100vw, 280px"
-                              priority={ 8} // Предварительная загрузка для первых 8 изображений
-  l                           oading={   "lazy"}
-
-                            />
-                          ) : (
-                            <Box
-                              sx={{
-                                height: "100%",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                backgroundColor: "#F5F5F5",
-                              }}
-                            >
-                              <Typography variant="body1" color="#666666">
-                                Нет фото
-                              </Typography>
-                            </Box>
-                          )}
-                          {item.natural && (
-                            <NaturalBadge
-                              initial={{ opacity: 0, scale: 0.8 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              transition={{ duration: 0.3 }}
-                            >
-                              97% натуральных
-                            </NaturalBadge>
-                          )}
-                        </Box>
-                      </Link>
-                      <CardContent sx={{ flexGrow: 1, p: 2 }}>
-                        <Link href={`/product/${item.id}`} passHref>
-                          <Typography
-                            variant="h6"
+            {recentProducts.map((item, index) => {
+              const images = item.ProductImages || [];
+              const primaryImage = images.find((img) => img.isPrimary) || images[0];
+              return (
+                <Box key={item.id} px={1} sx={{ display: "flex", justifyContent: "center" }}>
+                  <ProductCard
+                    component={motion.div}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                    sx={{ mx: "auto" }}
+                  >
+                    <Link href={`/product/${item.id}`} passHref>
+                      <Box sx={{ position: "relative", height: "260px" }}>
+                        {primaryImage ? (
+                          <Image
+                            src={`${BASE_URL}${primaryImage.imagePath}`}
+                            alt={item.name}
+                            fill
+                            style={{ objectFit: "contain" }}
+                            sizes="(max-width: 600px) 100vw, 280px"
+                            priority={index < 8}
+                            loading={index >= 8 ? "lazy" : undefined}
+                          />
+                        ) : (
+                          <Box
                             sx={{
-                              textDecoration: "none",
-                              color: "#333333",
-                              fontWeight: "700",
-                              fontSize: "1rem",
-                              "&:hover": {
-                                textDecoration: "underline",
-                                color: "#ADD8E6",
-                              },
-                              display: "-webkit-box",
-                              WebkitLineClamp: 2,
-                              WebkitBoxOrient: "vertical",
-                              overflow: "hidden",
+                              height: "100%",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              backgroundColor: "#F5F5F5",
                             }}
                           >
-                            {item.name}
-                          </Typography>
-                        </Link>
+                            <Typography variant="body1" color="#666666">
+                              Нет фото
+                            </Typography>
+                          </Box>
+                        )}
+                        {item.natural && (
+                          <NaturalBadge
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            97% натуральных
+                          </NaturalBadge>
+                        )}
+                      </Box>
+                    </Link>
+                    <CardContent sx={{ flexGrow: 1, p: 2 }}>
+                      <Link href={`/product/${item.id}`} passHref>
                         <Typography
-                          variant="body2"
-                          color="#666666"
-                          sx={{ mt: 0.5, fontSize: "0.85rem" }}
-                        >
-                          {item.Categories.length > 0
-                            ? item.Categories.map((cat) => cat.name).join(", ")
-                            : "Без категории"}
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          color="#666666"
+                          variant="h6"
                           sx={{
-                            mt: 1,
-                            fontSize: "0.85rem",
+                            textDecoration: "none",
+                            color: "#333333",
+                            fontWeight: "700",
+                            fontSize: "1rem",
+                            "&:hover": {
+                              textDecoration: "underline",
+                              color: "#ADD8E6",
+                            },
                             display: "-webkit-box",
                             WebkitLineClamp: 2,
                             WebkitBoxOrient: "vertical",
                             overflow: "hidden",
                           }}
                         >
-                          {item.description.length > 100
-                            ? `${item.description.slice(0, 100)}...`
-                            : item.description}
+                          {item.name}
                         </Typography>
-                      </CardContent>
-                      <CardActions
-                        sx={{ p: 2, justifyContent: "space-between", alignItems: "center" }}
+                      </Link>
+                      <Typography
+                        variant="body2"
+                        color="#666666"
+                        sx={{ mt: 0.5, fontSize: "0.85rem" }}
                       >
-                        <PriceTypography variant="subtitle1">
-                          {parseFloat(item.price)?.toLocaleString() || "0"} ₸
-                        </PriceTypography>
-                        <CartIconButton
-                          onClick={() => dispatch(addToCartProductAction(item))}
-                          disabled={isInCart(item)}
-                          inCart={isInCart(item)}
-                          aria-label={isInCart(item) ? "Товар в корзине" : "Добавить в корзину"}
-                        >
-                          <ShoppingBagIcon sx={{ fontSize: "24px" }} />
-                        </CartIconButton>
-                      </CardActions>
-                    </ProductCard>
-                  </Box>
-                );
-              })}
+                        {item.Categories.length > 0
+                          ? item.Categories.map((cat) => cat.name).join(", ")
+                          : "Без категории"}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="#666666"
+                        sx={{
+                          mt: 1,
+                          fontSize: "0.85rem",
+                          display: "-webkit-box",
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                        }}
+                      >
+                        {item.description.length > 100
+                          ? `${item.description.slice(0, 100)}...`
+                          : item.description}
+                      </Typography>
+                    </CardContent>
+                    <CardActions
+                      sx={{ p: 2, justifyContent: "space-between", alignItems: "center" }}
+                    >
+                      <PriceTypography variant="subtitle1">
+                        {parseFloat(item.price)?.toLocaleString() || "0"} ₸
+                      </PriceTypography>
+                      <CartIconButton
+                        onClick={() => dispatch(addToCartProductAction(item))}
+                        disabled={isInCart(item)}
+                        inCart={isInCart(item)}
+                        aria-label={isInCart(item) ? "Товар в корзине" : "Добавить в корзину"}
+                      >
+                        <ShoppingBagIcon sx={{ fontSize: "24px" }} />
+                      </CartIconButton>
+                    </CardActions>
+                  </ProductCard>
+                </Box>
+              );
+            })}
           </Slider>
         )}
       </Box>
@@ -639,8 +605,7 @@ export default function Products() {
               fullWidth
               variant="outlined"
               placeholder="Поиск товаров..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => debouncedSearch(e.target.value)}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -678,6 +643,11 @@ export default function Products() {
 
       {/* Сетка продуктов */}
       <Box mb={6}>
+        {loading && (
+          <Box sx={{ display: 'flex', justifyContent: 'center', my: 4 }}>
+            <CircularProgress sx={{ color: '#ADD8E6' }} />
+          </Box>
+        )}
         {error ? (
           <Typography variant="body1" color="error" textAlign="center">
             {error}
@@ -704,7 +674,7 @@ export default function Products() {
                 </Typography>
               </Grid>
             ) : (
-              currentItems.map((item) => {
+              currentItems.map((item, index) => {
                 const images = item.ProductImages || [];
                 const primaryImage = images.find((img) => img.isPrimary) || images[0];
                 return (
@@ -718,9 +688,9 @@ export default function Products() {
                   >
                     <ProductCard
                       component={motion.div}
-                      initial={{ y: 50, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{ delay: item.id * 0.1 }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.3 }}
                     >
                       <Link href={`/product/${item.id}`} passHref>
                         <Box sx={{ position: "relative", height: "260px" }}>
@@ -731,8 +701,8 @@ export default function Products() {
                               fill
                               style={{ objectFit: "contain" }}
                               sizes="(max-width: 600px) 100vw, 280px"
-                              priority={false}
-                              loading="lazy"
+                              priority={index < 8}
+                              loading={index >= 8 ? "lazy" : undefined}
                             />
                           ) : (
                             <Box
@@ -877,61 +847,6 @@ export default function Products() {
         }}
       >
         <Box sx={{ mb: 6, position: "relative", zIndex: 2 }}>
-          {/* <Typography
-            variant="h4"
-            fontWeight="700"
-            color="#333333"
-            textAlign="center"
-            mb={4}
-            sx={{ textTransform: "uppercase" }}
-          >
-            Категории продукции
-          </Typography>
-          <Grid container spacing={3} justifyContent="center">
-            {categories.map((category) => (
-              <Grid
-                item
-                xs={12}
-                sm={6}
-                md={3}
-                key={category}
-                sx={{ display: "flex", justifyContent: "center" }}
-              >
-                <Link href={`/products?category=${encodeURIComponent(category)}`} passHref>
-                  <CategoryCard
-                    component="a"
-                    sx={{
-                      textDecoration: "none",
-                      color: "#333333",
-                      "&:hover": {
-                        textDecoration: "none",
-                      },
-                    }}
-                  >
-                    <Box sx={{ position: "relative", width: "100%", height: "120px" }}>
-                      <Image
-                        src={`/image/${category.toLowerCase().replace(/ /g, "_")}.png`}
-                        alt={category}
-                        fill
-                        style={{ objectFit: "contain" }}
-                        sizes="(max-width: 600px) 100vw, 25vw"
-                        priority={false}
-                        loading="lazy"
-                      />
-                    </Box>
-                    <Typography
-                      variant="h6"
-                      fontWeight="600"
-                      mt={2}
-                      sx={{ fontSize: "1rem", fontFamily: "Montserrat, sans-serif" }}
-                    >
-                      {category}
-                    </Typography>
-                  </CategoryCard>
-                </Link>
-              </Grid>
-            ))}
-          </Grid> */}
         </Box>
 
         <Box
