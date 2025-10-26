@@ -32,6 +32,7 @@
     "react-slick": "^0.30.3",
     "react-toastify": "^11.0.5",
     "react-window": "^1.8.11",
+    "react-zoom-pan-pinch": "^3.7.0",
     "rsuite": "^5.52.0",
     "slick-carousel": "^1.8.1"
   },

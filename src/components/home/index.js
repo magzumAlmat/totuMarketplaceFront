@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -25,7 +24,7 @@ import {
   Skeleton,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Search, FilterList, ShoppingBagOutlined as ShoppingBagIcon } from "@mui/icons-material";
+import { Search, FilterList, ShoppingBagOutlined as ShoppingBagIcon, PersonOutline, PhoneOutlined } from "@mui/icons-material";
 import Link from "next/link";
 import Slider from "react-slick";
 import { motion } from "framer-motion";
@@ -35,13 +34,12 @@ import {
 } from "@/store/slices/productSlice";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { Carousel } from "rsuite";
+import { Carousel as RsCarousel } from "rsuite"; // Correct import alias
 import "rsuite/dist/rsuite-no-reset.min.css";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import ContactSection from "../homeContactSection";
 
-// Стили (оставлены без изменений)
+// Стили
 const ProductCard = styled(Card)(({ theme }) => ({
   width: "100%",
   maxWidth: "280px",
@@ -124,16 +122,19 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
   },
 }));
 
-const Banner = styled(Box)(({ theme, bgImage }) => ({
+const Banner = styled(motion.div)(({ theme, bgImage }) => ({
   backgroundImage: `url(${bgImage})`,
-  backgroundSize: "cover",
+  backgroundSize: "contain",
   backgroundPosition: "center",
+  backgroundRepeat: "no-repeat",
   padding: theme.spacing(6),
   color: "#FFFFFF",
   textAlign: "center",
   marginBottom: theme.spacing(4),
   position: "relative",
   overflow: "hidden",
+  width: "100%",
+  height: "400px",
   "&:before": {
     content: '""',
     position: "absolute",
@@ -150,9 +151,12 @@ const Banner = styled(Box)(({ theme, bgImage }) => ({
   },
 }));
 
-const BannerCarousel = styled(Carousel)({
+const BannerCarousel = styled(RsCarousel)({
   borderRadius: "15px",
   overflow: "hidden",
+  width: "100%",
+  maxWidth: "1200px",
+  margin: "0 auto",
   "& .rs-carousel-item": {
     height: "400px",
   },
@@ -174,7 +178,7 @@ const BannerCarousel = styled(Carousel)({
   },
 });
 
-const StyledCarousel = styled(Carousel)({
+const StyledCarousel = styled(RsCarousel)({ // Changed from Carousel to RsCarousel
   borderRadius: "10px",
   overflow: "hidden",
   "& .rs-carousel-item": {
@@ -198,7 +202,26 @@ const DarkStyledButton = styled(Button)(({ theme }) => ({
   fontFamily: "Montserrat, sans-serif",
 }));
 
-// Баннеры и другие данные (оставлены без изменений)
+const CategoryCard = styled(Paper)(({ theme }) => ({
+  height: "200px",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  textAlign: "center",
+  backgroundColor: "#FFFFFF",
+  borderRadius: "12px",
+  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+  transition: "transform 0.3s ease, box-shadow 0.3s ease",
+  "&:hover": {
+    transform: "translateY(-4px)",
+    boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
+  },
+  cursor: "pointer",
+  padding: theme.spacing(2),
+}));
+
+// Баннеры и другие данные
 const banners = [
   {
     image: "/image/kupanie.png",
@@ -206,17 +229,22 @@ const banners = [
     subtitle: "Продукция Biolane — это мягкость и натуральность для нежной кожи вашего малыша.",
   },
   {
-    image: "/image/podguz.png",
+    image: "/image/baner2.png",
     title: "Нежность природы",
     subtitle: "Органические средства для ухода за всей семьёй.",
   },
   {
-    image: "/image/shampun2.png",
-    title: "Для мам и малышей",
-    subtitle: "Безопасные и натуральные продукты от Biolane.",
+    image: "/image/baner4.jpg",
+    title: "97% натуральных ингредиентов",
+    subtitle: "Доверяйте лучшее для вашего ребёнка.",
   },
   {
-    image: "/image/uhod.png",
+    image: "/image/baner5.jpg",
+    title: "97% натуральных ингредиентов",
+    subtitle: "Доверяйте лучшее для вашего ребёнка.",
+  },
+  {
+    image: "/image/baner6.jpg",
     title: "97% натуральных ингредиентов",
     subtitle: "Доверяйте лучшее для вашего ребёнка.",
   },
@@ -249,7 +277,6 @@ export default function Products() {
   const [category, setCategory] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  // Новые состояния для формы обратной связи
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [formErrors, setFormErrors] = useState({ name: "", phone: "" });
@@ -261,14 +288,13 @@ export default function Products() {
       .then(() => setLoading(false))
       .catch((err) => {
         console.error("Ошибка загрузки продуктов:", err);
-        setError("Не удалось загрузки продукты");
+        setError("Не удалось загрузить продукты");
         setLoading(false);
       });
   }, [dispatch]);
 
   const isInCart = (item) => userCart.some((cartItem) => cartItem.id === item.id);
 
-  // Фильтрация и сортировка продуктов (без изменений)
   const filteredProducts = allProducts
     .filter((item) => {
       if (selectedMainType && selectedMainType !== "Все товары") {
@@ -330,15 +356,11 @@ export default function Products() {
   const handleSortChange = (event) => setSortBy(event.target.value);
   const handleCategoryChange = (event) => setCategory(event.target.value);
 
-  // Обработчик для формы обратной связи
   const handleFormChange = (e) => {
     const { name, value } = e.target;
     setFormErrors((prev) => ({ ...prev, [name]: "" }));
-    if (name === "name") {
-      setName(value);
-    } else if (name === "phone") {
-      setPhone(value);
-    }
+    if (name === "name") setName(value);
+    else if (name === "phone") setPhone(value);
   };
 
   const validateForm = () => {
@@ -368,9 +390,7 @@ export default function Products() {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
 
     const message = `Новая заявка на консультацию:\nИмя: ${name}\nТелефон: ${phone}`;
     const encodedMessage = encodeURIComponent(message);
@@ -391,39 +411,73 @@ export default function Products() {
     autoplay: true,
     autoplaySpeed: 3000,
     responsive: [
-      {
-        breakpoint: 960,
-        settings: { slidesToShow: 3 },
-      },
-      {
-        breakpoint: 600,
-        settings: { slidesToShow: 1 },
-      },
+      { breakpoint: 960, settings: { slidesToShow: 3 } },
+      { breakpoint: 600, settings: { slidesToShow: 1 } },
     ],
   };
 
   return (
     <Container maxWidth="lg" sx={{ py: 6, fontFamily: "Montserrat, sans-serif" }}>
-      {/* Баннер-карусель (без изменений) */}
-      <BannerCarousel autoplay autoplayInterval={3000} placement="bottom">
+      {/* Баннер-карусель */}
+      {/* <BannerCarousel autoplay autoplayInterval={3000} placement="bottom">
         {banners.map((banner, index) => (
           <Banner
             key={index}
             bgImage={banner.image}
-            component={motion.div}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
           >
+            <Typography variant="h4" fontWeight="700" sx={{ mb: 2 }}>
+              {banner.title}
+            </Typography>
+            <Typography variant="body1">{banner.subtitle}</Typography>
+          </Banner>
+        ))}
+      </BannerCarousel> */}
+
+  <BannerCarousel autoplay autoplayInterval={3000} placement="bottom">
+        {banners.map((banner, index) => (
+          <Banner
+            key={index}
+            bgImage={banner.image}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+          >
+            <Typography
+              variant="h4"
+              fontWeight="700"
+              sx={{
+                mb: 2,
+                color: "#fff",
+                textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
+                fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
+                textAlign: "center",
+              }}
+            >
+              {banner.title}
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                color: "#fff",
+                textShadow: "1px 1px 3px rgba(0, 0, 0, 0.5)",
+                fontSize: { xs: "1rem", sm: "1.2rem", md: "1.4rem" },
+                textAlign: "center",
+                maxWidth: "80%",
+                margin: "0 auto",
+              }}
+            >
+              {banner.subtitle}
+            </Typography>
           </Banner>
         ))}
       </BannerCarousel>
 
+      
       {/* Новинки Biolane */}
       <Box mb={6}>
-        {/* <Typography variant="h5" fontWeight="700" color="#333333" mb={3}>
-          Новинки Biolane
-        </Typography> */}
         <br />
         <br />
         {loading ? (
@@ -800,50 +854,151 @@ export default function Products() {
         </Stack>
       )}
 
-      {/* Форма обратной связи */}
-  <Box mt={8} p={4} bgcolor="#F8FAFC" borderRadius="15px" textAlign="center">
-  <Typography variant="h5" fontWeight="700" color="#333333" mb={2}>
-    Нужна консультация специалиста?
-  </Typography>
-  <Typography variant="body1" color="#666666" mb={3}>
-    Оставьте заявку, и наши специалисты свяжутся с вами в ближайшее время.
-  </Typography>
-  <form onSubmit={handleFormSubmit}>
-    <Stack
-      direction={{ xs: "column", sm: "row" }}
-      spacing={2}
-      justifyContent="center"
-      maxWidth="600px"
-      mx="auto"
-    >
-      <StyledTextField
-        fullWidth
-        variant="outlined"
-        placeholder="Ваше имя"
-        name="name"
-        value={name}
-        onChange={handleFormChange}
-        error={!!formErrors.name}
-        helperText={formErrors.name}
-        sx={{ backgroundColor: "#FFFFFF" }}
-        aria-label="Введите ваше имя"
-      />
-      <StyledTextField
-        fullWidth
-        variant="outlined"
-        placeholder="Ваш телефон"
-        name="phone"
-        value={phone}
-        onChange={handleFormChange} // Fixed typo: changed handleHandleFormChange to handleFormChange
-        error={!!formErrors.phone}
-        helperText={formErrors.phone}
-        sx={{ backgroundColor: "#FFFFFF" }}
-        aria-label="Введите ваш номер телефона"
-      />
-      <StyledButton type="submit">Оставить заявку</StyledButton>
-    </Stack>
-  </form>
-</Box>
+      {/* Секция контактов */}
+      <Box
+        mt={8}
+        py={6}
+        sx={{
+          backgroundColor: "#F8FAFC",
+          position: "relative",
+          "&:before": {
+            content: '""',
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: "radial-gradient(circle, rgba(255,255,255,0.2) 2px, transparent 2px)",
+            backgroundSize: "10px 10px",
+            opacity: 0.5,
+            zIndex: 1,
+          },
+        }}
+      >
+        <Box sx={{ mb: 6, position: "relative", zIndex: 2 }}>
+          {/* <Typography
+            variant="h4"
+            fontWeight="700"
+            color="#333333"
+            textAlign="center"
+            mb={4}
+            sx={{ textTransform: "uppercase" }}
+          >
+            Категории продукции
+          </Typography>
+          <Grid container spacing={3} justifyContent="center">
+            {categories.map((category) => (
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={3}
+                key={category}
+                sx={{ display: "flex", justifyContent: "center" }}
+              >
+                <Link href={`/products?category=${encodeURIComponent(category)}`} passHref>
+                  <CategoryCard
+                    component="a"
+                    sx={{
+                      textDecoration: "none",
+                      color: "#333333",
+                      "&:hover": {
+                        textDecoration: "none",
+                      },
+                    }}
+                  >
+                    <Box sx={{ position: "relative", width: "100%", height: "120px" }}>
+                      <Image
+                        src={`/image/${category.toLowerCase().replace(/ /g, "_")}.png`}
+                        alt={category}
+                        fill
+                        style={{ objectFit: "contain" }}
+                        sizes="(max-width: 600px) 100vw, 25vw"
+                        priority={false}
+                        loading="lazy"
+                      />
+                    </Box>
+                    <Typography
+                      variant="h6"
+                      fontWeight="600"
+                      mt={2}
+                      sx={{ fontSize: "1rem", fontFamily: "Montserrat, sans-serif" }}
+                    >
+                      {category}
+                    </Typography>
+                  </CategoryCard>
+                </Link>
+              </Grid>
+            ))}
+          </Grid> */}
+        </Box>
+
+        <Box
+          component={Paper}
+          elevation={0}
+          sx={{
+            p: 4,
+            maxWidth: "800px",
+            mx: "auto",
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+            borderRadius: "15px",
+            position: "relative",
+            zIndex: 2,
+          }}
+        >
+          <Typography variant="h5" fontWeight="700" color="#333333" mb={2}>
+            Нужна консультация специалиста?
+          </Typography>
+          <Typography variant="body1" color="#666666" mb={3}>
+            Оставьте заявку, и наши специалисты свяжутся с вами в ближайшее время.
+          </Typography>
+          <form onSubmit={handleFormSubmit}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <StyledTextField
+                  fullWidth
+                  variant="outlined"
+                  placeholder="Ваше имя"
+                  name="name"
+                  value={name}
+                  onChange={handleFormChange}
+                  error={!!formErrors.name}
+                  helperText={formErrors.name}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <PersonOutline sx={{ color: "#ADD8E6" }} />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <StyledTextField
+                  fullWidth
+                  variant="outlined"
+                  placeholder="Ваш телефон"
+                  name="phone"
+                  value={phone}
+                  onChange={handleFormChange}
+                  error={!!formErrors.phone}
+                  helperText={formErrors.phone}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <PhoneOutlined sx={{ color: "#ADD8E6" }} />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <DarkStyledButton type="submit">Оставить заявку</DarkStyledButton>
+              </Grid>
+            </Grid>
+          </form>
+        </Box>
+      </Box>
 
       {/* Боковая панель фильтров */}
       <FilterDrawer anchor="right" open={filterOpen} onClose={() => setFilterOpen(false)}>
@@ -899,8 +1054,6 @@ export default function Products() {
           Применить
         </StyledButton>
       </FilterDrawer>
-
-      <ContactSection />
     </Container>
   );
 }

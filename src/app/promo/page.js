@@ -3,7 +3,7 @@
 import "/src/app/globals.css";
 import Header from "@/components/header";
 import Link from "next/link";
-
+import Image from "next/image"
 export default function promoPage() {
   return (
     <>
@@ -25,7 +25,15 @@ export default function promoPage() {
           </div>
           <div className="hero-image">
             <div className="image-placeholder hero-placeholder">
-              <span>Изображение хитов продаж</span>
+       <Image
+        src="/image/saleshit.jpg"
+        alt="Banner"
+        width={550}
+height={300}
+        priority={true}
+        quality={85}
+      />
+            
             </div>
           </div>
         </div>
@@ -38,58 +46,101 @@ export default function promoPage() {
           <div className="products-grid">
             {/* Apple Products */}
             <div className="product-card">
-              <div className="product-icon">🍎</div>
+              {/* <div className="product-icon">🍎</div> */}
               <h3 className="product-title">Apple AirPods Max</h3>
               <p className="product-description">
                 Премиальные наушники с шумоподавлением и качеством звука от Apple.
               </p>
               <div className="image-placeholder product-placeholder">
-                <span>Фото AirPods Max</span>
+                  <Image
+                  src="/image/airpodsmax.jpg"
+                  alt="Аксессуары TOTU"
+                  width={300}
+                  height={150}
+                  style={{ objectFit: "cover" }}
+                  priority={true}
+                  loading="eager"
+                />
               </div>
             </div>
             <div className="product-card">
-              <div className="product-icon">🎧</div>
+              {/* <div className="product-icon">🎧</div> */}
               <h3 className="product-title">Наушники Apple</h3>
               <p className="product-description">
                 Lightning или 3.5 мм — надежные и стильные наушники.
               </p>
               <div className="image-placeholder product-placeholder">
-                <span>Фото наушников</span>
+                     <Image
+                  src="/image/airpods.jpeg"
+                  alt="Аксессуары TOTU"
+                  width={300}
+                  height={150}
+                  style={{ objectFit: "cover" }}
+                  priority={true}
+                  loading="eager"
+                />
               </div>
             </div>
             <div className="product-card">
-              <div className="product-icon">🔌</div>
+              {/* <div className="product-icon">🔌</div> */}
               <h3 className="product-title">Адаптеры Apple</h3>
               <p className="product-description">
                 Зарядные адаптеры 5W, 20W, 30W для любых устройств Apple.
               </p>
               <div className="image-placeholder product-placeholder">
-                <span>Фото адаптеров</span>
+          
+          
+               <Image
+                   src="/image/iphone-11-charger.jpg"
+                  alt="Аксессуары TOTU"
+                  width={300}
+                  height={150}
+                  style={{ objectFit: "cover" }}
+                  priority={true}
+                  loading="eager"
+                />
               </div>
             </div>
             <div className="product-card">
-              <div className="product-icon">🔗</div>
+              {/* <div className="product-icon">🔗</div> */}
               <h3 className="product-title">Кабели Apple</h3>
               <p className="product-description">
                 USB-C ↔ Lightning и USB-C ↔ USB-C для зарядки и передачи данных.
               </p>
               <div className="image-placeholder product-placeholder">
-                <span>Фото кабелей</span>
+                <Image
+                   src="/image/kabelapple.jpg"
+                  alt="Аксессуары TOTU"
+                  width={300}
+                  height={150}
+                  style={{ objectFit: "cover" }}
+                  priority={true}
+                  loading="eager"
+                />
               </div>
             </div>
             {/* Samsung Products */}
             <div className="product-card">
-              <div className="product-icon">📱</div>
+              {/* <div className="product-icon">📱</div> */}
               <h3 className="product-title">Зарядные устройства Samsung</h3>
               <p className="product-description">
                 Оригинальные зарядки для всех моделей Samsung.
               </p>
               <div className="image-placeholder product-placeholder">
-                <span>Фото зарядок</span>
+              <Image
+                   src="/image/samsungadapter.jpg"
+                  alt="Аксессуары TOTU"
+                  width={300}
+                  height={150}
+                  style={{ objectFit: "cover" }}
+                  priority={true}
+                  loading="eager"
+                />
+                
               </div>
             </div>
             <div className="product-card">
-              <div className="product-icon">⚡</div>
+              {/* <div className="product-icon">⚡</div> */}
               <h3 className="product-title">Быстрые адаптеры Samsung</h3>
               <p className="product-description">
                 Адаптеры и кабели USB-C с поддержкой быстрой зарядки.
@@ -99,7 +150,7 @@ export default function promoPage() {
               </div>
             </div>
             <div className="product-card">
-              <div className="product-icon">🔌</div>
+              {/* <div className="product-icon">🔌</div> */}
               <h3 className="product-title">Аксессуары Samsung</h3>
               <p className="product-description">
                 Поддержка быстрой зарядки и передачи данных для ваших устройств.

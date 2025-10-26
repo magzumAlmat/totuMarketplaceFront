@@ -191,6 +191,11 @@ export default function Header() {
         <ListItem button key="tips" onClick={() => { router.push("/tips"); setMobileOpen(false); }}>
           <ListItemText primary="Скидочные товары" />
         </ListItem>
+
+         <ListItem button key="premium" onClick={() => { router.push("/premium"); setMobileOpen(false); }}>
+          <ListItemText primary="Премиум" />
+        </ListItem>
+
         <ListItem button key="promo" onClick={() => { router.push("/promo"); setMobileOpen(false); }}>
           <ListItemText primary="Распродажа" />
         </ListItem>
@@ -238,6 +243,11 @@ export default function Header() {
               <CategoryButton onClick={() => router.push("/tips")}>
                 Скидочные товары
               </CategoryButton>
+
+               <CategoryButton onClick={() => router.push("/premium")}>
+Премиум
+              </CategoryButton>
+
               <CategoryButton onClick={() => router.push("/contactpage")}>
                 Контакты
               </CategoryButton>
