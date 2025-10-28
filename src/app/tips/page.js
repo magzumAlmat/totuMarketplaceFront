@@ -62,21 +62,21 @@ export default function TipsPage() {
           <h2 className="section-title">Охота за скидками</h2>
           <div className="sale-grid">
             <div className="sale-card">
-              <div className="sale-icon">🔹</div>
+              {/* <div className="sale-icon">🔹</div> */}
               <h3 className="sale-title">Оригинальные товары</h3>
               <p className="sale-description">
                 Только подлинные аксессуары от проверенных брендов.
               </p>
             </div>
             <div className="sale-card">
-              <div className="sale-icon">🔹</div>
+              {/* <div className="sale-icon">🔹</div> */}
               <h3 className="sale-title">Новые, в упаковке</h3>
               <p className="sale-description">
                 Товары в заводской упаковке, готовые к использованию.
               </p>
             </div>
             <div className="sale-card">
-              <div className="sale-icon">🔹</div>
+              {/* <div className="sale-icon">🔹</div> */}
               <h3 className="sale-title">Цены ниже оптовых</h3>
               <p className="sale-description">
                 Скидки, которых нет даже у оптовиков — лови момент!
