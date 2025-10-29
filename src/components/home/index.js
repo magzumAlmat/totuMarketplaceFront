@@ -282,7 +282,7 @@ const ProductCardWithImages = memo(({ item, isInCart, dispatch }) => {
         <Link href={`/product/${item.id}`} passHref>
           <Box sx={{ position: "relative", height: "260px" }}>
             {imageUrls.length > 0 ? (
-              <StyledCarousel autoplay={imageUrls.length > 1} autoplayInterval={3000}>
+              <StyledCarousel autoplay={imageUrls.length > 1} autoplayInterval={12000}>
                 {imageUrls.map((src, idx) => (
                   <Box
                     key={idx}
