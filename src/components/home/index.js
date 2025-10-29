@@ -47,7 +47,7 @@ const ProductCard = styled(Card)(({ theme }) => ({
   width: "100%",
   maxWidth: "280px",
   minWidth: "240px",
-  height: "100%",
+  height: "15rem",
   display: "flex",
   flexDirection: "column",
   borderRadius: "12px",
