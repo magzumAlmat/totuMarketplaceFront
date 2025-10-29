@@ -102,7 +102,7 @@ export default function ProductDetailPage({ params = {} }) {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(`${BASE_URL}store/product/${params.id}`);
+        const response = await axios.get(`${BASE_URL}/store/product/${params.id}`);
         const productData = response.data;
 
         console.log("Информация о продукте:", productData);
