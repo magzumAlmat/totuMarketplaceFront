@@ -15,7 +15,7 @@ let initialState = {
   selectedMainType: "Все товары",
   selectedType: "",
   clickCount: 0,
-  host: '/api/api/store',
+  host: '/api/',
   filters: {
     searchTerm: "",
     sortBy: "",
@@ -200,7 +200,7 @@ export const getAllProductsAction = () => async (dispatch) => {
   const host = initialState.host;
   try {
     dispatch(setLoadingStateReducer());
-    const response = await axios.get(`${host}allproducts`);
+    const response = await axios.get(`https://totu.kz/api/api/store/allproducts`);
     dispatch(getAllProductsReducer(response.data));
   } catch (error) {
     console.error('Ошибка API:', error.response?.data || error.message);
