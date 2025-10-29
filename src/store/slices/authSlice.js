@@ -17,7 +17,6 @@ const initialState = {
   
 };
 const host = "http://89.207.250.180:8000"
-
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
