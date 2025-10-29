@@ -66,7 +66,7 @@ export const loginAction = createAsyncThunk(
     try {
       console.log('loginAction: Starting with', { username, password });
       
-      const response = await axios.post(`http://localhost:8000/api/auth/login`, {
+      const response = await axios.post(`http://89.207.250.180:8000/api/auth/login`, {
         username,
         password,
       });
