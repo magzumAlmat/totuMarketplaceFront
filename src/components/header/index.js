@@ -173,9 +173,9 @@ export default function Header() {
           <ListItemText primary="Главная" />
         </ListItem>
         <ListItem button key="categories">
-          <ListItemText primary="Категории" />
+          <ListItemText primary="Каталог товаров"  onClick={() => { router.push("/katalog-tovarov"); setMobileOpen(false); }}/>
         </ListItem>
-        {uniqueCategories.map((category) => (
+        {/* {uniqueCategories.map((category) => (
           <ListItem
             button
             key={category}
@@ -184,7 +184,7 @@ export default function Header() {
           >
             <ListItemText primary={category} />
           </ListItem>
-        ))}
+        ))} */}
         <ListItem button key="about" onClick={() => { router.push("/about"); setMobileOpen(false); }}>
           <ListItemText primary="О бренде" />
         </ListItem>

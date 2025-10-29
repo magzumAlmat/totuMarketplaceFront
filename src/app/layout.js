@@ -80,15 +80,15 @@ const LoggedDataDisplay = dynamic(() => import('@/components/LoggedDataDisplay')
 // Импортируем клиентский RootLayout
 import RootLayout from './RootLayout';
 
-export const viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  minimumScale: 1,
-  maximumScale: 1,
-};
+// export const viewport = {
+//   width: 'device-width',
+//   initialScale: 1,
+//   minimumScale: 1,
+//   maximumScale: 1,
+// };
 
 export const metadata = {
-  title: 'Купить опто-волоконный кабель',
+  title: 'Купить Чехол',
   description:
     'Купить волконно-оптический кабель, Купить телекоммуникационные шкафы, Купить силовые кабеля Купить электрический провод Купить оптические кросы Купить оптические муфты',
   verification: {
@@ -100,10 +100,8 @@ export default function ServerLayout({ children }) {
   return (
     <html lang="en">
       <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"
-        />
+        {/* <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/> */}
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <script
           async
           src="https://www.googletagmanager.com/gtag/js?id=AW-16464823771"
@@ -118,7 +116,7 @@ export default function ServerLayout({ children }) {
             `,
           }}
         />
-        <script src="https://widget.tiptoppay.kz/bundles/widget.js"></script>
+        {/* <script src="https://widget.tiptoppay.kz/bundles/widget.js"></script> */}
       </Head>
       <body>
         <ThemeProviderWrapper>

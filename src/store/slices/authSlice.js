@@ -17,6 +17,8 @@ const initialState = {
   
 };
 const host = "http://89.207.250.180:8000"
+
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -66,7 +68,7 @@ export const loginAction = createAsyncThunk(
     try {
       console.log('loginAction: Starting with', { username, password });
       
-      const response = await axios.post(`http://89.207.250.180:8000/api/auth/login`, {
+      const response = await axios.post(`http://89.207.250.180/:8000/api/auth/login`, {
         username,
         password,
       });
@@ -99,6 +101,10 @@ export const loginAction = createAsyncThunk(
     }
   }
 );
+
+
+
+
 export const checkAuth = () => async (dispatch) => {
   if (typeof window === 'undefined') {
     console.log('checkAuth: Skipping on server-side');
