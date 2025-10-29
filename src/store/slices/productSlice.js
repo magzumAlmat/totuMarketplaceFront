@@ -15,7 +15,7 @@ let initialState = {
   selectedMainType: "Все товары",
   selectedType: "",
   clickCount: 0,
-  host: '/api/',
+  host: '/api/api/store',
   filters: {
     searchTerm: "",
     sortBy: "",
