@@ -248,8 +248,8 @@ const reviews = [
 ];
 
 // === КОНФИГ ===
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/store";
-
+//const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/store";
+const BASE_URL='/api/'
 // === КАРТОЧКА С ФОТО И МОДАЛКОЙ ===
 const ProductCardWithImages = memo(({ item, isInCart, dispatch }) => {
   const [openModal, setOpenModal] = useState(false);
