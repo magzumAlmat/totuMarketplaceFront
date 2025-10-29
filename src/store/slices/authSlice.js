@@ -16,7 +16,7 @@ const initialState = {
   uploadProgress: 0,
   
 };
-const host = "http://89.207.250.180:8000"
+const host = "http://localhost:8000"
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -66,7 +66,7 @@ export const loginAction = createAsyncThunk(
     try {
       console.log('loginAction: Starting with', { username, password });
       
-      const response = await axios.post(`api/auth/login`, {
+      const response = await axios.post(`http://localhost:8000/api/auth/login`, {
         username,
         password,
       });
