@@ -461,7 +461,7 @@ export default function Products() {
       <Box sx={{ borderRadius: "16px", overflow: "hidden", mb: 6 }}>
         <RsCarousel autoplay autoplayInterval={9000}>
           {banners.map((b, i) => (
-            <Box key={i} sx={{ position: "relative", height: { xs: 200, md: 400 } }}>
+            <Box key={i} sx={{ position: "relative", height: { xs: 300, md: 400 } }}>
               <Image src={b.image} alt={b.title} fill style={{ objectFit: "cover" }} />
               <Box sx={{ position: "absolute", inset: 0, bgcolor: "rgba(0,0,0,0.3)", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", color: "#fff", p: 3 }}>
                 <Typography variant="h4" fontWeight={700} sx={{ fontSize: { xs: "1.5rem", md: "2.2rem" } }}>
@@ -477,7 +477,7 @@ export default function Products() {
       </Box>
 
       {/* Новинки */}
-      <Box mb={6}>
+      <Box mb={4}>
         <Typography variant="h5" fontWeight={700} mb={3}>Новинки</Typography>
         {loading ? (
           <Grid container spacing={2}>
@@ -504,7 +504,7 @@ export default function Products() {
       </Box>
 
       {/* Заголовок + поиск */}
-      <Stack spacing={3} mb={4}>
+      <Stack spacing={3} mb={2}>
         <Typography variant="h4" fontWeight={700} color="#333" sx={{ textTransform: "uppercase" }}>
           {selectedMainType || "Каталог продукции"}
         </Typography>
