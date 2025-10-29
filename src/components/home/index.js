@@ -280,13 +280,13 @@ const ProductCardWithImages = memo(({ item, isInCart, dispatch }) => {
         transition={{ duration: 0.3 }}
       >
         <Link href={`/product/${item.id}`} passHref>
-          <Box sx={{ position: "relative", height: "260px" }}>
+          <Box sx={{ position: "relative", height: "16rem" }}>
             {imageUrls.length > 0 ? (
-              <StyledCarousel autoplay={imageUrls.length > 1} autoplayInterval={3000}>
+              <StyledCarousel autoplay={imageUrls.length > 1} autoplayInterval={7000}>
                 {imageUrls.map((src, idx) => (
                   <Box
                     key={idx}
-                    sx={{ cursor: "pointer", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}
+                    sx={{ cursor: "pointer", height: "15rem", display: "flex", justifyContent: "center", alignItems: "center" }}
                     onClick={(e) => { e.preventDefault(); handleImageClick(src); }}
                   >
                     <Image
@@ -294,7 +294,7 @@ const ProductCardWithImages = memo(({ item, isInCart, dispatch }) => {
                       alt={`${item.name} - ${idx + 1}`}
                       fill
                       style={{ objectFit: "contain" }}
-                      sizes="(max-width: 600px) 100vw, 280px"
+                      sizes="(max-width: 600px) 100vw, 80px"
                       priority={idx === 0}
                       unoptimized
                       onError={() => setImageErrors(prev => ({ ...prev, [`${item.id}-${idx}`]: true }))}
@@ -309,7 +309,7 @@ const ProductCardWithImages = memo(({ item, isInCart, dispatch }) => {
             )}
             {item.natural && (
               <NaturalBadge initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }}>
-                97% натуральных
+                {/* 97% натуральных */}
               </NaturalBadge>
             )}
           </Box>
@@ -368,7 +368,7 @@ const ProductCardWithImages = memo(({ item, isInCart, dispatch }) => {
       </ProductCard>
 
       {/* Модальное окно */}
-      <StyledModal open={openModal} onClose={handleCloseModal}>
+      {/* <StyledModal open={openModal} onClose={handleCloseModal}>
         <ModalImageContainer>
           {selectedImage && (
             <Image
@@ -384,7 +384,7 @@ const ProductCardWithImages = memo(({ item, isInCart, dispatch }) => {
             <Close fontSize="large" />
           </CloseButton>
         </ModalImageContainer>
-      </StyledModal>
+      </StyledModal> */}
     </>
   );
 });
