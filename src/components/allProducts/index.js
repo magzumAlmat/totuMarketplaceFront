@@ -164,7 +164,8 @@ export default function AllProducts() {
             <ProductCard>
               <Box sx={{ position: "relative", height: 200, p: 2 }}>
                 <Image
-                  src={getPrimaryImage(product.ProductImages)}
+                  // src={getPrimaryImage(product.ProductImages)}
+                  src={imageUrl}
                   alt={product.name}
                   fill
                   style={{ objectFit: "contain" }}
