@@ -80,7 +80,7 @@ const CloseButton = styled(IconButton)({
 });
 
 // Базовый URL для API
-const BASE_URL = "";
+const BASE_URL = "/api";
 
 export default function ProductDetailPage({ params = {} }) {
   const [product, setProduct] = useState(null);

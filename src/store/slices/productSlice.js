@@ -15,7 +15,7 @@ let initialState = {
   selectedMainType: "Все товары",
   selectedType: "",
   clickCount: 0,
-  host: 'https://totu.kz/api/store/',
+  host: '/api/store/',
   filters: {
     searchTerm: "",
     sortBy: "",

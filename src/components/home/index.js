@@ -252,7 +252,7 @@ const banners = [
   },
 ];
 
-const BASE_URL = "";
+const BASE_URL = "/api";
 
 // const categories = [
 //   "Все товары",
