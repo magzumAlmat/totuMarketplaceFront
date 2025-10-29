@@ -170,7 +170,7 @@ export default function ProductDetailPage({ params = {} }) {
   return (
     <>
       <Head>
-        <title>{product.name} - SCVolokno.kz</title>
+        <title>{product.name} - totu.kz</title>
         <meta
           name="description"
           content={
@@ -185,8 +185,8 @@ export default function ProductDetailPage({ params = {} }) {
             {images.length > 0 ? (
               <StyledCarousel autoplay>
                 {images.map((img, index) => {
-                const imageSrc = img.imagePath
-                  ? `/api/Uploads/${img.imagePath.replace(/^\/Uploads\//, '')}`
+                  const imageSrc = img.imagePath
+                  ? `/api/uploads/${img.imagePath.split('/').pop()}`
                   : "/placeholder.jpg";
                   return (
                     <Box
