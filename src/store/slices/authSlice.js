@@ -11,8 +11,8 @@ console.log('1 API_BASE= ',API_BASE)
 // ---------------------------------------------------------------------
 // 2. Путь к логину – меняйте только здесь, если у вас другой эндпоинт
 // ---------------------------------------------------------------------
-const LOGIN_ENDPOINT = '/api/auth/login';   // <-- проверьте в Swagger/Postman
-console.log('2 LOGIN_ENDPOINT= ',LOGIN_ENDPOINT)
+const LOGIN_ENDPOINT = '/auth/login';   // <-- проверьте в Swagger/Postman
+console.log('2LOGIN_ENDPOINT= ',LOGIN_ENDPOINT)
 export const loginAction = createAsyncThunk(
   'auth/login',
   async ({ username, password }, { dispatch, rejectWithValue }) => {
