@@ -14,7 +14,7 @@ let initialState = {
   selectedMainType: "Все товары",
   selectedType: "",
   clickCount: 0,
-  host: 'http://localhost:8000/api/store/',
+  host: 'http://89.207.250.180:8000/api/store/',
   filters: {
     searchTerm: "",
     sortBy: "",

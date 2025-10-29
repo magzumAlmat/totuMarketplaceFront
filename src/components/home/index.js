@@ -252,7 +252,7 @@ const banners = [
   },
 ];
 
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = "http://89.207.250.180:8000";
 
 const categories = [
   "Все товары",
