@@ -107,7 +107,8 @@ export default function AllProducts() {
       return "/placeholder-image.jpg";
     }
     const primaryImage = images.find((img) => img.isPrimary);
-    const baseUrl = host.replace(/\/api\/store\/?$/, "");
+    // const baseUrl = host.replace(/\/api\/store\/?$/, "");
+    const baseUrl='/api/'
     const imagePath = primaryImage ? primaryImage.imagePath : images[0].imagePath;
 
     const imageUrl = `${baseUrl}${imagePath.startsWith("/") ? "" : "/"}${imagePath}`;
