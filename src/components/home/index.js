@@ -153,7 +153,7 @@ const BannerCarousel = styled(RsCarousel)({
   width: "100%",
   maxWidth: "1400px",
   margin: "0 auto",
-  "& .rs-carousel-item": { height: "400px" },
+  "& .rs-carousel-item": { height: "16rem" },
 });
 
 const StyledCarousel = styled(RsCarousel)({
