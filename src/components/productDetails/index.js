@@ -80,7 +80,8 @@ const CloseButton = styled(IconButton)({
 });
 
 // Базовый URL для API
-const BASE_URL = "/api";
+// const BASE_URL = "/api";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/store";
 
 export default function ProductDetailPage({ params = {} }) {
   const [product, setProduct] = useState(null);
@@ -185,9 +186,15 @@ export default function ProductDetailPage({ params = {} }) {
             {images.length > 0 ? (
               <StyledCarousel autoplay>
                 {images.map((img, index) => {
-                  const imageSrc = img.imagePath
-                  ? `/api/uploads/${img.imagePath.split('/').pop()}`
-                  : "/placeholder.jpg";
+                  // const imageSrc = img.imagePath
+                  // ? `/api/uploads/${img.imagePath.split('/').pop()}`
+                  // : "/placeholder.jpg";
+                      const images = item.ProductImages || [];
+                const imageUrl = images.length > 0
+                  ? `${BASE_URL.replace(/\/api\/store$/, "")}${images[0].imagePath.replace(/^\/api\/store/, "")}`
+                  : "/placeholder-image.jpg";
+
+                  
                   return (
                     <Box
                       key={img.id || index}
