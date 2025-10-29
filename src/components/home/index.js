@@ -315,11 +315,7 @@ const ProductCardWithImages = memo(({ item, isInCart, dispatch }) => {
                   </Typography>
                 </Box>
               )}
-              {item.natural && (
-                <NaturalBadge initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                  97% натуральных
-                </NaturalBadge>
-              )}
+           
             </ProductCardHover>
           </ImageContainer>
         </Link>
@@ -380,7 +376,7 @@ const ProductCardWithImages = memo(({ item, isInCart, dispatch }) => {
       </ProductCard>
 
       {/* Модальное окно */}
-      <StyledModal open={openModal} onClose={handleCloseModal}>
+      {/* <StyledModal open={openModal} onClose={handleCloseModal}>
         <ModalImageContainer>
           {selectedImage && (
             <Image
@@ -395,7 +391,7 @@ const ProductCardWithImages = memo(({ item, isInCart, dispatch }) => {
             <Close fontSize="large" />
           </CloseButton>
         </ModalImageContainer>
-      </StyledModal>
+      </StyledModal> */}
     </>
   );
 });
@@ -463,9 +459,9 @@ export default function Products() {
     <Container maxWidth="lg" sx={{ py: { xs: 3, md: 6 }, fontFamily: "Montserrat, sans-serif" }}>
       {/* Баннеры */}
       <Box sx={{ borderRadius: "16px", overflow: "hidden", mb: 6 }}>
-        <RsCarousel autoplay autoplayInterval={4000}>
+        <RsCarousel autoplay autoplayInterval={9000}>
           {banners.map((b, i) => (
-            <Box key={i} sx={{ position: "relative", height: { xs: 300, md: 400 } }}>
+            <Box key={i} sx={{ position: "relative", height: { xs: 200, md: 400 } }}>
               <Image src={b.image} alt={b.title} fill style={{ objectFit: "cover" }} />
               <Box sx={{ position: "absolute", inset: 0, bgcolor: "rgba(0,0,0,0.3)", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", color: "#fff", p: 3 }}>
                 <Typography variant="h4" fontWeight={700} sx={{ fontSize: { xs: "1.5rem", md: "2.2rem" } }}>
