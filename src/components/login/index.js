@@ -23,6 +23,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    console.log('Login attempt:', { username }); // Для дебага
     
     try {
       await dispatch(loginAction({ username, password })).unwrap();
@@ -32,7 +33,21 @@ export default function Login() {
     } finally {
       setLoading(false);
     }
-  };
+  }
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+    
+  //   try {
+  //     await dispatch(loginAction({ username, password })).unwrap();
+  //     router.push('/admin');
+  //   } catch (err) {
+  //     console.error('Login failed:', err);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <Box
