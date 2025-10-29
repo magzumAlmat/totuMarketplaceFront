@@ -3,22 +3,20 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 
-// ---------------------------------------------------------------------
-// 1. БАЗОВЫЙ URL – берём из .env (NEXT_PUBLIC_…)
-// ---------------------------------------------------------------------
-const API_BASE = process.env.NEXT_PUBLIC_API_URL?.replace(/\/+$/, '') || 'https://totu.kz';
-console.log('1 API_BASE= ',API_BASE)
-// ---------------------------------------------------------------------
-// 2. Путь к логину – меняйте только здесь, если у вас другой эндпоинт
-// ---------------------------------------------------------------------
-const LOGIN_ENDPOINT = '/auth/login';   // <-- проверьте в Swagger/Postman
-console.log('2LOGIN_ENDPOINT= ',LOGIN_ENDPOINT)
+// Базовый URL из .env
+const API_BASE = process.env.NEXT_PUBLIC_API_URL?.replace(/\/+$/, '') || 'https://totu.kz/api/store';
+console.log('API_BASE:', API_BASE); // Для дебага
+
+// Путь к логину (относительно API_BASE)
+const LOGIN_ENDPOINT = '/auth/login'; // <-- Это даст https://totu.kz/api/store/auth/login
+console.log('LOGIN_ENDPOINT:', LOGIN_ENDPOINT);
+
 export const loginAction = createAsyncThunk(
   'auth/login',
   async ({ username, password }, { dispatch, rejectWithValue }) => {
     try {
       const url = `${API_BASE}${LOGIN_ENDPOINT}`;
-      console.log('loginAction →', url, { username });
+      console.log('Полный URL для логина:', url); // Проверьте в консоли
 
       const response = await axios.post(url, { username, password });
 
@@ -33,27 +31,19 @@ export const loginAction = createAsyncThunk(
 
       return response.data;
     } catch (err) {
-      const msg =
-        err.response?.data?.error ||
-        err.response?.data?.message ||
-        err.message ||
-        'Ошибка входа';
-
-      console.error('loginAction error →', {
+      const msg = err.response?.data?.error || err.response?.data?.message || err.message || 'Ошибка входа';
+      console.error('Ошибка логина:', {
         message: msg,
         status: err.response?.status,
         details: err.response?.data,
       });
-
       dispatch(setError(msg));
       return rejectWithValue(msg);
     }
   }
 );
 
-// ---------------------------------------------------------------------
-// Остальная часть слайса (setAuth, logout, checkAuth …) без изменений
-// ---------------------------------------------------------------------
+// Остальной код без изменений...
 const initialState = {
   isAuth: false,
   currentUser: null,
@@ -98,31 +88,18 @@ export const authSlice = createSlice({
   },
 });
 
-export const {
-  setAuth,
-  setError,
-  clearError,
-  setUploadProgress,
-  clearUploadProgress,
-  logout,
-} = authSlice.actions;
+export const { setAuth, setError, clearError, setUploadProgress, clearUploadProgress, logout } = authSlice.actions;
 
-// ---------------------------------------------------------------------
-// checkAuth – без изменений, только используем тот же API_BASE
-// ---------------------------------------------------------------------
 export const checkAuth = () => async (dispatch) => {
   if (typeof window === 'undefined') return;
-
   const token = localStorage.getItem('token');
   if (!token) {
     dispatch(logout());
     return;
   }
-
   try {
     const decoded = jwtDecode(token);
     if (decoded.exp * 1000 < Date.now()) throw new Error('expired');
-
     const user = { id: decoded.id, username: decoded.username };
     dispatch(setAuth({ token, user }));
   } catch {
