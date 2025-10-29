@@ -87,7 +87,8 @@ const CloseButton = styled(IconButton)({
 });
 
 // === КОНФИГ ===
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/store";
+// const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/store";
+const BASE_URL='/api/'
 
 export default function ProductDetailPage({ params = {} }) {
   const [product, setProduct] = useState(null);

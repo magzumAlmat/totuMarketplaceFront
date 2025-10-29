@@ -198,7 +198,8 @@ const CategoryButton = styled(Button)(({ theme, active }) => ({
   },
 }));
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/store";
+// const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/store";
+const BASE_URL='/api/'
 
 export default function KatalogComponent() {
   const dispatch = useDispatch();
