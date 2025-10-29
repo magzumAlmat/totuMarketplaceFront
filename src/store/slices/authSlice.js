@@ -5,7 +5,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { END_POINT } from '../../components/config';
 // import { setAuth, setError } from './authSlice';
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://totu.kz';
+
 import jwtDecode from 'jwt-decode';
 
 const initialState = {
@@ -68,8 +68,7 @@ export const loginAction = createAsyncThunk(
     try {
       console.log('loginAction: Starting with', { username, password });
       
-      const response = await axios.post(`/api/auth/login`, {
-      // const response = await axios.post(`${API_BASE}/login`,  {
+      const response = await axios.post(`http://localhost:8000/api/auth/login`, {
         username,
         password,
       });
