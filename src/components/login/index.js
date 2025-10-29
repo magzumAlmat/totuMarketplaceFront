@@ -16,7 +16,7 @@ export default function Login() {
   const { error, isAuth } = useSelector((state) => state.auth);
 
   if (isAuth) {
-    router.push("/admin");
+    router.push("https://totu.kz/admin");
     return null;
   }
 
