@@ -223,8 +223,8 @@ export default function Header() {
                 <Image 
                   src={logo} 
                   alt="logo" 
-                  width={280} // Уменьшенная ширина для реальной высоты
-                  height={180} // Высота логотипа синхронизирована с AppBar
+                  width={180} // Уменьшенная ширина для реальной высоты
+                  height={90} // Высота логотипа синхронизирована с AppBar
                   style={{ objectFit: "contain" }}
                 />
               </Button>

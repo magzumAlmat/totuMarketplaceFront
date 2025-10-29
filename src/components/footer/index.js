@@ -9,8 +9,8 @@ export default function Footer() {
     <Box sx={{ backgroundColor: "#F5F5F5", py: 4 }}>
       <Container maxWidth="lg">
         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap" }}>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <Image src={logo} alt="logo" width={300} height={60} />
+          <Box sx={{ display: "flex",  gap: 2 }}>
+            <Image src={logo} alt="logo" width={180} height={40}    style={{ objectFit: "contain" }}/>
             <Box>
               
             </Box>
