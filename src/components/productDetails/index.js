@@ -185,9 +185,9 @@ export default function ProductDetailPage({ params = {} }) {
             {images.length > 0 ? (
               <StyledCarousel autoplay>
                 {images.map((img, index) => {
-                  const imageSrc = img.imagePath
-                    ? `${BASE_URL}${img.imagePath}`
-                    : "/placeholder.jpg";
+                const imageSrc = img.imagePath
+                  ? `/api/Uploads/${img.imagePath.replace(/^\/Uploads\//, '')}`
+                  : "/placeholder.jpg";
                   return (
                     <Box
                       key={img.id || index}
