@@ -66,7 +66,7 @@ export const loginAction = createAsyncThunk(
     try {
       console.log('loginAction: Starting with', { username, password });
       
-      const response = await axios.post(`https://totu.kz/api/auth/login`, {
+      const response = await axios.post(`api/auth/login`, {
         username,
         password,
       });
