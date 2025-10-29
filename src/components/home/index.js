@@ -227,9 +227,9 @@ const CloseButton = styled(IconButton)({
 
 // === ДАННЫЕ ===
 const banners = [
-  { image: "/image/kupanie.png", title: "Забота с первых дней", subtitle: "Натуральность и мягкость для малыша." },
-  { image: "/image/baner2.png", title: "Нежность природы", subtitle: "Органические средства для всей семьи." },
-  { image: "/image/baner4.jpg", title: "97% натуральных ингредиентов", subtitle: "Доверяйте лучшее для вашего ребёнка." },
+  { image: "/image/kupanie.png" },
+  { image: "/image/baner2.png",},
+  { image: "/image/baner4.jpg",},
 ];
 
 const categories = [
@@ -464,12 +464,12 @@ export default function Products() {
             <Box key={i} sx={{ position: "relative", height: { xs: 300, md: 400 } }}>
               <Image src={b.image} alt={b.title} fill style={{ objectFit: "cover" }} />
               <Box sx={{ position: "absolute", inset: 0, bgcolor: "rgba(0,0,0,0.3)", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", color: "#fff", p: 3 }}>
-                <Typography variant="h4" fontWeight={700} sx={{ fontSize: { xs: "1.5rem", md: "2.2rem" } }}>
+                {/* <Typography variant="h4" fontWeight={700} sx={{ fontSize: { xs: "1.5rem", md: "2.2rem" } }}>
                   {b.title}
                 </Typography>
                 <Typography variant="h6" sx={{ mt: 1, fontSize: { xs: "1rem", md: "1.3rem" } }}>
                   {b.subtitle}
-                </Typography>
+                </Typography> */}
               </Box>
             </Box>
           ))}
