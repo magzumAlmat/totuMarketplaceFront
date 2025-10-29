@@ -283,7 +283,7 @@ const ProductCardWithImages = memo(({ item, isInCart, dispatch }) => {
                     <Box
                       key={idx}
                       sx={{ position: "relative", height: "100%", width: "100%" }}
-                      onClick={(e) => handleImageClick(e, src)}
+                      // onClick={(e) => handleImageClick(e, src)}
                     >
                       <Image
                         src={src}
