@@ -438,8 +438,8 @@ export default function KatalogComponent() {
                   <MenuItem value="price_desc">Цена: по убыванию</MenuItem>
                   <MenuItem value="name_asc">Название: А-Я</MenuItem>
                   <MenuItem value="name_desc">Название: Я-А</MenuItem>
-                  <MenuItem value="volume_asc">Объем: по возрастанию</MenuItem>
-                  <MenuItem value="volume_desc">Объем: по убыванию</MenuItem>
+                  {/* <MenuItem value="volume_asc">Объем: по возрастанию</MenuItem>
+                  <MenuItem value="volume_desc">Объем: по убыванию</MenuItem> */}
                   <MenuItem value="stock_asc">Наличие: по возрастанию</MenuItem>
                   <MenuItem value="stock_desc">Наличие: по убыванию</MenuItem>
                 </Select>
@@ -619,9 +619,9 @@ export default function KatalogComponent() {
                         >
                           {item.description}
                         </Typography>
-                        <Typography variant="body2" mt={1}>
+                        {/* <Typography variant="body2" mt={1}>
                           Объем: {item.volume}
-                        </Typography>
+                        </Typography> */}
                         <Typography variant="body2" mt={1}>
                           Наличие: {item.stock} шт.
                         </Typography>
@@ -716,8 +716,8 @@ export default function KatalogComponent() {
               onChange={(e) => debouncedSetFilters({ ...filters, maxPrice: e.target.value, page: 1 })}
               sx={{ mt: 2 }}
             />
-            <Typography variant="subtitle1" mt={2}>Объем</Typography>
-            <TextField
+            {/* <Typography variant="subtitle1" mt={2}>Объем</Typography> */}
+            {/* <TextField
               label="Минимальный объем"
               type="number"
               fullWidth
@@ -732,7 +732,7 @@ export default function KatalogComponent() {
               value={filters.maxVolume}
               onChange={(e) => debouncedSetFilters({ ...filters, maxVolume: e.target.value, page: 1 })}
               sx={{ mt: 2 }}
-            />
+            /> */}
             <Typography variant="subtitle1" mt={2}>Наличие</Typography>
             <TextField
               label="Минимальное наличие"
