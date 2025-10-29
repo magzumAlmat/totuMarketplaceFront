@@ -150,7 +150,7 @@ export default function ContactForm({ total, onPay, sdkLoaded }) {
         products,
       };
 
-      const response = await fetch("http://89.207.250.180:8000/api/store/orders", {
+      const response = await fetch("/api/store/orders", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
