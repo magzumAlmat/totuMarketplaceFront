@@ -968,10 +968,9 @@ const ProductCard = styled(Card)(({ theme }) => ({
 
 const ProductItem = memo(({ item, imageErrors, setImageErrors, isInCart, dispatch }) => {
   const images = item.ProductImages || [];
-const imageUrl = images.length > 0
-  ? `/api/uploads/${images[0].imagePath.split('/').pop()}`
-  : "/placeholder-image.jpg";
-
+const imageUrl = images.length > 0.  ? `/api/uploads/${images[0].imagePath.split('/').pop()}` : "/placeholder-image.jpg";
+console.log('IMAGEURL=', imageUrl)
+// http://89.207.250.180:8000/Uploads/1761719526522-943581731.jpg
   return (
     <ProductCard>
       {images.length > 0 ? (
