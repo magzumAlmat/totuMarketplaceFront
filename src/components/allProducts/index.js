@@ -77,7 +77,7 @@ const ModalButton = styled(Button)(({ theme }) => ({
 export default function AllProducts() {
   const dispatch = useDispatch();
   const { allProducts} = useSelector((state) => state.usercart);
-  const   host= '';
+  const   host= 'https://totu.kz/';
   const router = useRouter();
   const [openModal, setOpenModal] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState(null);
@@ -107,13 +107,12 @@ export default function AllProducts() {
       return "/placeholder-image.jpg";
     }
     const primaryImage = images.find((img) => img.isPrimary);
-    // const baseUrl = host.replace(/\/api\/store\/?$/, "");
-    const baseUrl='/api/'
+    const baseUrl = host.replace(/\/api\/store\/?$/, "");
     const imagePath = primaryImage ? primaryImage.imagePath : images[0].imagePath;
 
     const imageUrl = `${baseUrl}${imagePath.startsWith("/") ? "" : "/"}${imagePath}`;
     
-    console.log("Выбрано изображение:", imageUrl);
+    console.log("!! Выбрано изображение:", imageUrl);
     return imageUrl;
   };
 
