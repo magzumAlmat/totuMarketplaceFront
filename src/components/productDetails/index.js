@@ -186,15 +186,9 @@ export default function ProductDetailPage({ params = {} }) {
             {images.length > 0 ? (
               <StyledCarousel autoplay>
                 {images.map((img, index) => {
-                  // const imageSrc = img.imagePath
-                  // ? `/api/uploads/${img.imagePath.split('/').pop()}`
-                  // : "/placeholder.jpg";
-                      const images = item.ProductImages || [];
-                const imageSrc = images.length > 0
-                  ? `${BASE_URL.replace(/\/api\/store$/, "")}${images[0].imagePath.replace(/^\/api\/store/, "")}`
-                  : "/placeholder-image.jpg";
-
-
+                  const imageSrc = img.imagePath
+                  ? `/api/uploads/${img.imagePath.split('/').pop()}`
+                  : "/placeholder.jpg";
                   return (
                     <Box
                       key={img.id || index}
