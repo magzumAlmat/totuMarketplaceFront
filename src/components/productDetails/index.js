@@ -190,11 +190,11 @@ export default function ProductDetailPage({ params = {} }) {
                   // ? `/api/uploads/${img.imagePath.split('/').pop()}`
                   // : "/placeholder.jpg";
                       const images = item.ProductImages || [];
-                const imageUrl = images.length > 0
+                const imageSrc = images.length > 0
                   ? `${BASE_URL.replace(/\/api\/store$/, "")}${images[0].imagePath.replace(/^\/api\/store/, "")}`
                   : "/placeholder-image.jpg";
 
-                  
+
                   return (
                     <Box
                       key={img.id || index}
