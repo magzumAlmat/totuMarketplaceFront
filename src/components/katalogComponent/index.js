@@ -821,7 +821,7 @@ import Image from "next/image";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "/api/store";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "/api";
 
 // В начале файла Products.js добавим утилиту для группировки
 const chunkArray = (array, size) => {
@@ -968,9 +968,9 @@ const ProductCard = styled(Card)(({ theme }) => ({
 
 const ProductItem = memo(({ item, imageErrors, setImageErrors, isInCart, dispatch }) => {
   const images = item.ProductImages || [];
-  const imageUrl = images.length > 0
-    ? `${BASE_URL.replace(/\/api\/store$/, "")}${images[0].imagePath.replace(/^\/api\/store/, "")}`
-    : "/placeholder-image.jpg";
+const imageUrl = images.length > 0
+  ? `/api/uploads/${images[0].imagePath.split('/').pop()}`
+  : "/placeholder-image.jpg";
 
   return (
     <ProductCard>
