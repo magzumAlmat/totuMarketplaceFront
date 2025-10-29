@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import END_POINT from "@/components/config";
-axios.defaults.timeout = 10000; // 10 секунд
+axios.defaults.timeout = 5000; // 10 секунд
+
 
 let initialState = {
   userCart: [],
