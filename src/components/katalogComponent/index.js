@@ -821,7 +821,7 @@ import Image from "next/image";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/store";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://89.207.250.180:8000/api/store";
 
 // В начале файла Products.js добавим утилиту для группировки
 const chunkArray = (array, size) => {
