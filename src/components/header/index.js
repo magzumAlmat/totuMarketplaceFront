@@ -203,7 +203,7 @@ export default function Header() {
           <ListItemText primary="Контакты" />
         </ListItem>
         <ListItem button key="logout" onClick={() => { handleLogout(); setMobileOpen(false); }}>
-          <ListItemText primary="Выход" />
+          <ListItemText primary="Вход" />
         </ListItem>
       </List>
     </Box>
