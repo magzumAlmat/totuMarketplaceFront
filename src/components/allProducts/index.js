@@ -146,7 +146,7 @@ export default function AllProducts() {
   const handleDelete = async () => {
     console.log("Удаление продукта, ID:", selectedProductId);
     try {
-      const response = await axios.delete(`${host}product/${selectedProductId}`);
+      const response = await axios.delete(`${host}store/product/${selectedProductId}`);
       console.log("Ответ API на удаление:", response.data);
       alert("Продукт успешно удалён!");
       // Перезагружаем продукты
