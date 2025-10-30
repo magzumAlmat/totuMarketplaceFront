@@ -150,7 +150,7 @@ export default function ContactForm({ total, onPay, sdkLoaded }) {
         products,
       };
 
-      const response = await fetch(`${END_POINT}/store/createorder`, {
+      const response = await fetch(`${END_POINT}/api/store/createorder`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
