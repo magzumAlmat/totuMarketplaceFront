@@ -92,13 +92,55 @@ export default function AddProductForm() {
     setImages(images.filter((_, i) => i !== index));
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (!name || !price) {
+  //     toast.error("Название и цена обязательны");
+  //     return;
+  //   }
+
+  //   setIsLoading(true);
+  //   const formData = new FormData();
+  //   formData.append("name", name);
+  //   formData.append("volume", volume || null);
+  //   formData.append("description", description || "");
+  //   formData.append("features", features || "");
+  //   formData.append("price", parseFloat(price));
+  //   formData.append("stock", parseInt(stock) || 0);
+  //   formData.append("categoryIds", JSON.stringify(categoryIds));
+  //   images.forEach((image) => formData.append("image", image));
+
+  //   try {
+  //     const response = await axios.post(`${END_POINT}/createproduct`, formData, {
+  //       headers: {
+  //         Authorization: `Bearer ${authToken}`,
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     });
+  //     toast.success("Продукт успешно добавлен!");
+  //     setName("");
+  //     setVolume("");
+  //     setDescription("");
+  //     setFeatures("");
+  //     setPrice("");
+  //     setStock("");
+  //     setCategoryIds([]);
+  //     setImages([]);
+  //     return response.data; // Возвращаем данные для возможной обработки
+  //   } catch (error) {
+  //     toast.error(error.response?.data?.message || "Ошибка добавления продукта");
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name || !price) {
       toast.error("Название и цена обязательны");
       return;
     }
-
+  
     setIsLoading(true);
     const formData = new FormData();
     formData.append("name", name);
@@ -109,15 +151,18 @@ export default function AddProductForm() {
     formData.append("stock", parseInt(stock) || 0);
     formData.append("categoryIds", JSON.stringify(categoryIds));
     images.forEach((image) => formData.append("image", image));
-
+  
     try {
-      const response = await axios.post(`${END_POINT}/store/createproduct`, formData, {
+      // ИСПРАВЛЕНО: УБРАЛИ /store
+      const response = await axios.post(`${END_POINT}/createproduct`, formData, {
         headers: {
           Authorization: `Bearer ${authToken}`,
-          "Content-Type": "multipart/form-data",
+          // "Content-Type": "multipart/form-data" — НЕ УКАЗЫВАЙТЕ, axios сам добавит с boundary
         },
       });
+  
       toast.success("Продукт успешно добавлен!");
+      // Сброс формы
       setName("");
       setVolume("");
       setDescription("");
@@ -126,14 +171,18 @@ export default function AddProductForm() {
       setStock("");
       setCategoryIds([]);
       setImages([]);
-      return response.data; // Возвращаем данные для возможной обработки
     } catch (error) {
-      toast.error(error.response?.data?.message || "Ошибка добавления продукта");
+      const msg = error.response?.data?.message || "Ошибка добавления продукта";
+      toast.error(msg);
+      console.error("Create product error:", error.response?.data);
     } finally {
       setIsLoading(false);
     }
   };
 
+
+
+  
   return (
     <Box
       component="form"
