@@ -1,4 +1,4 @@
 // export default 'http://localhost:8000'; 
 
 
-export default '/api';
+export default 'https://totu.kz/api';
