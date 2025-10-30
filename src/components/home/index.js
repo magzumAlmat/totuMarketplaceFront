@@ -539,7 +539,7 @@ export default function Products() {
       </Stack>
 
       {/* Сетка товаров */}
-      <Grid container spacing={{ xs: 2, md: 3 }} mb={6}>
+      <Grid container spacing={1} mb={6}>
         {loading ? [...Array(8)].map((_, i) => (
           <Grid item xs={6} sm={6} md={3} key={i}>
             <Skeleton variant="rectangular" width="100%" height={380} sx={{ borderRadius: "16px" }} />
@@ -553,7 +553,6 @@ export default function Products() {
             <ProductCardWithImages item={item} isInCart={isInCart} dispatch={dispatch} />
           </Grid>
         ))}
-      </Grid>
 
       {/* Пагинация */}
       {totalPages > 1 && (
