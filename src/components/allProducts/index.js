@@ -77,7 +77,7 @@ const ModalButton = styled(Button)(({ theme }) => ({
 export default function AllProducts() {
   const dispatch = useDispatch();
   const { allProducts} = useSelector((state) => state.usercart);
-  const   host= 'https://totu.kz/api/api/';
+  const   host= 'https://totu.kz/api/api';
   const router = useRouter();
   const [openModal, setOpenModal] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState(null);
