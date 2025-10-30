@@ -119,20 +119,15 @@ export default function AllProducts() {
 
 
   const getPrimaryImage = (images) => {
-  if (!images || images.length === 0) {
-    return "/placeholder-image.jpg";
-  }
-
-  const primaryImage = images.find((img) => img.isPrimary);
-  const imagePath = primaryImage ? primaryImage.imagePath : images[0].imagePath;
-
-  // Убираем лишние слеши и дублирование
-  const cleanPath = imagePath.replace(/^\/+/, ""); // убираем начальные слеши
-  const imageUrl = `${host}/${cleanPath}`;
-
-  console.log("Изображение:", imageUrl);
-  return imageUrl;
-};
+    if (!images || images.length === 0) {
+      return "/placeholder-image.jpg";
+    }
+    const primaryImage = images.find((img) => img.isPrimary);
+    const imagePath = primaryImage
+      ? primaryImage.imagePath
+      : images[0].imagePath;
+    return imagePath;
+  };
 
 
 
