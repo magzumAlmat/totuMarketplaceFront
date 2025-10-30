@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Button, TextField, Stack, Alert, Typography, Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { motion } from "framer-motion";
-
+import END_POINT from "@/components/config";
 // Стилизованные компоненты
 const StyledTextField = styled(TextField)(({ theme }) => ({
   "& .MuiOutlinedInput-root": {
@@ -150,7 +150,7 @@ export default function ContactForm({ total, onPay, sdkLoaded }) {
         products,
       };
 
-      const response = await fetch("/api/store/orders", {
+      const response = await fetch(`${END_POINT}/api/store/orders`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
