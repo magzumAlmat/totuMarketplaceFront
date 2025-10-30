@@ -52,10 +52,9 @@ import debounce from "lodash/debounce";
 
 // === СТИЛИ ===
 const ProductCard = styled(Card)(({ theme }) => ({
-  width: "100%",
-  height: "100%",
   display: "flex",
   flexDirection: "column",
+  height: "100%",
   borderRadius: "16px",
   overflow: "hidden",
   boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
@@ -65,13 +64,12 @@ const ProductCard = styled(Card)(({ theme }) => ({
     transform: "translateY(-6px)",
     boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
   },
-  padding: theme.spacing(1),
 }));
 
 const ImageContainer = styled(Box)({
   position: "relative",
-  height: "220px",
   width: "100%",
+  paddingTop: "100%", // 1:1 Aspect Ratio
   overflow: "hidden",
   backgroundColor: "#f8f9fa",
   borderRadius: "16px 16px 0 0",
@@ -282,14 +280,13 @@ const ProductCardWithImages = memo(({ item, isInCart, dispatch }) => {
                     <Box
                       key={idx}
                       sx={{ position: "relative", height: "100%", width: "100%" }}
-                      // onClick={(e) => handleImageClick(e, src)}
                     >
                       <Image
                         src={src}
                         alt={`${item.name} - ${idx + 1}`}
-                        fill
-                        style={{ objectFit: "contain" }}
-                        sizes="(max-width: 600px) 100vw, 280px"
+                        layout="fill"
+                        objectFit="contain"
+                        sizes="(max-width: 600px) 50vw, 280px"
                         priority={idx === 0}
                         unoptimized
                       />
@@ -314,7 +311,6 @@ const ProductCardWithImages = memo(({ item, isInCart, dispatch }) => {
                   </Typography>
                 </Box>
               )}
-           
             </ProductCardHover>
           </ImageContainer>
         </Link>
@@ -535,9 +531,9 @@ export default function Products() {
                 <MenuItem value="name_desc">Название: Я-А</MenuItem>
               </Select>
             </FormControl>
-            <IconButton onClick={() => setFilterOpen(true)} sx={{ bgcolor: "#ADD8E6", color: "#333", "&:hover": { bgcolor: "#87CEEB" } }}>
+            {/* <IconButton onClick={() => setFilterOpen(true)} sx={{ bgcolor: "#ADD8E6", color: "#333", "&:hover": { bgcolor: "#87CEEB" } }}>
               <FilterList />
-            </IconButton>
+            </IconButton> */}
           </Stack>
         </Paper>
       </Stack>
