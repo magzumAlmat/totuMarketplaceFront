@@ -213,7 +213,7 @@ export default function AddProductForm() {
             sx={{ backgroundColor: "#F5F5F5", borderRadius: "5px" }}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        {/* <Grid item xs={12} md={6}>
           <TextField
             fullWidth
             label="Объем"
@@ -222,7 +222,7 @@ export default function AddProductForm() {
             margin="normal"
             sx={{ backgroundColor: "#F5F5F5", borderRadius: "5px" }}
           />
-        </Grid>
+        </Grid> */}
         <Grid item xs={12}>
           <TextField
             fullWidth

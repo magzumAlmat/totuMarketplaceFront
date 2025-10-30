@@ -357,9 +357,8 @@ export const getAllOrdersAction = () => async (dispatch) => {
 
 export const getProductByIdAction = (id) => async (dispatch) => {
   console.log('getProductByIdAction called with id:', id);
-  const host = initialState.host;
   try {
-    const response = await axios.get(`${host}product/${id}`);
+    const response = await axios.get(`https://totu.kz/api/api/store/product/${id}`);
     dispatch(getProductByIdReducer(response.data));
   } catch (error) {
     throw error;
