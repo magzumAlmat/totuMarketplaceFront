@@ -539,8 +539,8 @@ export default function Products() {
       </Stack>
 
       {/* Сетка товаров */}
-      <Box mb={6}>
-               <Grid container spacing={3} justifyContent="center">
+      <Box mb={3}>
+               <Grid container spacing={1} justifyContent="between">
         {loading ? [...Array(8)].map((_, i) => (
           <Grid item xs={6} sm={6} md={3} key={i}>
             <Skeleton variant="rectangular" width="100%" height={380} sx={{ borderRadius: "16px" }} />
