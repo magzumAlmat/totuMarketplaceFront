@@ -111,7 +111,7 @@ export default function AddProductForm() {
     images.forEach((image) => formData.append("image", image));
 
     try {
-      const response = await axios.post(`${END_POINT}/api/store/createproduct`, formData, {
+      const response = await axios.post(`${END_POINT}/store/createproduct`, formData, {
         headers: {
           Authorization: `Bearer ${authToken}`,
           "Content-Type": "multipart/form-data",
