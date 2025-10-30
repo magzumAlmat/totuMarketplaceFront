@@ -188,6 +188,7 @@ export default function AllProducts() {
                   loading="lazy"
                   placeholder="blur"
                   blurDataURL="/placeholder-image.jpg"
+                  unoptimized
                 />
               </Box>
               <CardContent sx={{ flexGrow: 1 }}>
