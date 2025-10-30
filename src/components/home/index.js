@@ -53,8 +53,6 @@ import debounce from "lodash/debounce";
 // === СТИЛИ ===
 const ProductCard = styled(Card)(({ theme }) => ({
   width: "100%",
-  maxWidth: "280px",
-  minWidth: "240px",
   height: "100%",
   display: "flex",
   flexDirection: "column",
@@ -67,6 +65,7 @@ const ProductCard = styled(Card)(({ theme }) => ({
     transform: "translateY(-6px)",
     boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
   },
+  padding: theme.spacing(1),
 }));
 
 const ImageContainer = styled(Box)({
