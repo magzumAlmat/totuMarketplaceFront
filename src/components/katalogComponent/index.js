@@ -409,8 +409,8 @@ export default function KatalogComponent() {
             zIndex: 10,
           }}
         >
-          <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12} sm>
+          <Stack spacing={3}>
+            <Stack direction={{ xs: "column", sm: "row" }} spacing={2} alignItems="center">
               <TextField
                 fullWidth
                 placeholder="Поиск по названию..."
@@ -431,9 +431,7 @@ export default function KatalogComponent() {
                   ),
                 }}
               />
-            </Grid>
-            <Grid item xs={12} sm="auto">
-              <FormControl sx={{ minWidth: 200 }}>
+              <FormControl fullWidth={{ xs: true, sm: false }} sx={{ minWidth: { sm: 200 } }}>
                 <Select
                   value={filters.sortBy}
                   onChange={handleSortChange}
@@ -451,9 +449,7 @@ export default function KatalogComponent() {
                   <MenuItem value="stock_desc">Наличие: по убыванию</MenuItem>
                 </Select>
               </FormControl>
-            </Grid>
-            <Grid item xs={12} sm="auto">
-              <IconButton
+              {/* <IconButton
                 onClick={() => setFilterOpen(true)}
                 sx={{
                   bgcolor: "primary.main",
@@ -467,10 +463,9 @@ export default function KatalogComponent() {
                 }}
               >
                 <FilterList />
-              </IconButton>
-            </Grid>
-          </Grid>
-            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, justifyContent: "center" }}>
+              </IconButton> */}
+            </Stack>
+            {/* <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, justifyContent: "center" }}>
               {categories.map((cat) => (
                 <CategoryButton
                   key={cat}
@@ -489,7 +484,7 @@ export default function KatalogComponent() {
                   {cat}
                 </CategoryButton>
               ))}
-            </Box>
+            </Box> */}
             {(filters.searchTerm ||
               filters.sortBy ||
               filters.minPrice ||
