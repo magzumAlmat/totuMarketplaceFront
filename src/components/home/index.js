@@ -553,7 +553,7 @@ export default function Products() {
             <ProductCardWithImages item={item} isInCart={isInCart} dispatch={dispatch} />
           </Grid>
         ))}
-
+</Grid>
       {/* Пагинация */}
       {totalPages > 1 && (
         <Stack spacing={2} alignItems="center" mt={4}>
