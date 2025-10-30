@@ -539,7 +539,8 @@ export default function Products() {
       </Stack>
 
       {/* Сетка товаров */}
-      <Grid container spacing={1} mb={6}>
+      <Box mb={6}>
+               <Grid container spacing={3} justifyContent="center">
         {loading ? [...Array(8)].map((_, i) => (
           <Grid item xs={6} sm={6} md={3} key={i}>
             <Skeleton variant="rectangular" width="100%" height={380} sx={{ borderRadius: "16px" }} />
@@ -549,11 +550,13 @@ export default function Products() {
             <Typography textAlign="center" color="#666">Товары не найдены.</Typography>
           </Grid>
         ) : currentItems.map(item => (
-          <Grid item xs={6} sm={6} md={3} key={item.id}>
+          <Grid item xs={2} sm={2} md={3} key={item.id}>
             <ProductCardWithImages item={item} isInCart={isInCart} dispatch={dispatch} />
           </Grid>
         ))}
 </Grid>
+</Box>
+
       {/* Пагинация */}
       {totalPages > 1 && (
         <Stack spacing={2} alignItems="center" mt={4}>
