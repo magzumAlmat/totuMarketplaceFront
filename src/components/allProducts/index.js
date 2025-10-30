@@ -77,7 +77,8 @@ const ModalButton = styled(Button)(({ theme }) => ({
 export default function AllProducts() {
   const dispatch = useDispatch();
   const { allProducts} = useSelector((state) => state.usercart);
-  const   host= 'https://totu.kz/api/api';
+  // const   host= 'https://totu.kz/api/api';
+  const host = 'https://totu.kz';
   const router = useRouter();
   const [openModal, setOpenModal] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState(null);
@@ -101,20 +102,39 @@ export default function AllProducts() {
     console.log("AllProducts: Хост:", host);
   }, [allProducts, host]);
 
-  const getPrimaryImage = (images) => {
-    if (!images || images.length === 0) {
-      console.log("Изображения отсутствуют, используется заглушка");
-      return "/placeholder-image.jpg";
-    }
-    const primaryImage = images.find((img) => img.isPrimary);
-    const baseUrl = host.replace(/\/api\/store\/?$/, "");
-    const imagePath = primaryImage ? primaryImage.imagePath : images[0].imagePath;
+  // const getPrimaryImage = (images) => {
+  //   if (!images || images.length === 0) {
+  //     console.log("Изображения отсутствуют, используется заглушка");
+  //     return "/placeholder-image.jpg";
+  //   }
+  //   const primaryImage = images.find((img) => img.isPrimary);
+  //   const baseUrl = host.replace(/\/api\/store\/?$/, "");
+  //   const imagePath = primaryImage ? primaryImage.imagePath : images[0].imagePath;
 
-    const imageUrl = `${baseUrl}${imagePath.startsWith("/") ? "" : "/"}${imagePath}`;
+  //   const imageUrl = `${baseUrl}${imagePath.startsWith("/") ? "" : "/"}${imagePath}`;
     
-    console.log("!! Выбрано изображение:", imageUrl);
-    return imageUrl;
-  };
+  //   console.log("!! Выбрано изображение:", imageUrl);
+  //   return imageUrl;
+  // };
+
+
+  const getPrimaryImage = (images) => {
+  if (!images || images.length === 0) {
+    return "/placeholder-image.jpg";
+  }
+
+  const primaryImage = images.find((img) => img.isPrimary);
+  const imagePath = primaryImage ? primaryImage.imagePath : images[0].imagePath;
+
+  // Убираем лишние слеши и дублирование
+  const cleanPath = imagePath.replace(/^\/+/, ""); // убираем начальные слеши
+  const imageUrl = `${host}/${cleanPath}`;
+
+  console.log("Изображение:", imageUrl);
+  return imageUrl;
+};
+
+
 
   const handleOpenModal = (productId) => {
     console.log("Открытие модального окна для продукта:", productId);
