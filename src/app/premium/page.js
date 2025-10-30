@@ -382,7 +382,7 @@ export default function PremiumPage() {
         /* Banner Section */
         .banner-section {
           width: 100%;
-          min-height: 100vh;
+          min-height: 40vh;
           display: flex;
           align-items: center;
           justify-content: center;
