@@ -354,21 +354,21 @@ export default function ContactPage() {
         @media (max-width: 768px) {
           .hero-container {
             grid-template-columns: 1fr;
-            gap: 30px;
+            gap: 20px;
             text-align: center;
           }
 
           .hero-title {
-            font-size: 2.2rem;
+            font-size: 2rem;
           }
 
           .hero-placeholder {
-            width: 300px;
-            height: 200px;
+            width: 250px;
+            height: 180px;
           }
 
           .section-title {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
           }
 
           .contact-grid {
@@ -388,16 +388,16 @@ export default function ContactPage() {
 
         @media (max-width: 480px) {
           .hero-section, .contact-section, .cta-section {
-            padding: 50px 16px;
+            padding: 40px 16px;
           }
 
           .hero-title {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
           }
 
           .hero-placeholder {
-            width: 250px;
-            height: 160px;
+            width: 200px;
+            height: 140px;
           }
         }
       `}</style>

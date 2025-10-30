@@ -2,506 +2,692 @@
 
 
 
-// "use client";
-
-// import { useEffect, useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { useRouter, useSearchParams } from "next/navigation";
-// import ContactForm from "@/components/contacts";
-// import {
-//   Box,
-//   Container,
-//   Table,
-//   TableHead,
-//   TableBody,
-//   TableRow,
-//   TableCell,
-//   Typography,
-//   Paper,
-//   Grid,
-//   Alert,
-// } from "@mui/material";
-// import { styled } from "@mui/material/styles";
-// import { motion } from "framer-motion";
-
-
-
-// // Стилизованные компоненты
-// const OrderContainer = styled(Container)(({ theme }) => ({
-//   padding: theme.spacing(6, 2),
-  
-//   borderRadius: "24px",
-//   marginTop: theme.spacing(4),
-//   fontFamily: "'Mulish', sans-serif",
-//   [theme.breakpoints.down("sm")]: {
-//     padding: theme.spacing(4, 1),
-//   },
-// }));
-
-// const StyledTable = styled(Table)(({ theme }) => ({
-//   backgroundColor: "#FFFFFF",
-//   borderRadius: "16px",
-//   boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-//   "& th, & td": {
-//     fontFamily: "'Mulish', sans-serif",
-//     color: "#1F2937",
-//   },
-//   "& th": {
-//     fontWeight: 700,
-//     backgroundColor: "#F3E8FF",
-//     color: "#1F2937",
-//   },
-//   "& td": {
-//     fontWeight: 400,
-//     borderBottom: "1px solid #E5E7EB",
-//   },
-//   [theme.breakpoints.down("sm")]: {
-//     display: "none",
-//   },
-// }));
-
-// const MobileCard = styled(Paper)(({ theme }) => ({
-//   borderRadius: "16px",
-//   padding: theme.spacing(3),
-//   marginBottom: theme.spacing(2),
-//   background: "linear-gradient(180deg, #FFFFFF 0%, #F9FAFB 100%)",
-//   boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-//   fontFamily: "'Mulish', sans-serif",
-//   display: "none",
-//   [theme.breakpoints.down("sm")]: {
-//     display: "block",
-//   },
-// }));
-
-// const WidgetBox = styled(Paper)(({ theme }) => ({
-//   padding: theme.spacing(4),
-//   background: "linear-gradient(180deg, #FFFFFF 0%, #F9FAFB 100%)",
-//   borderRadius: "16px",
-//   boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-//   fontFamily: "'Mulish', sans-serif",
-//   height: "fit-content",
-//   [theme.breakpoints.down("md")]: {
-//     marginTop: theme.spacing(4),
-//   },
-// }));
-
-// const TotalBox = styled(Box)(({ theme }) => ({
-//   fontFamily: "'Mulish', sans-serif",
-//   fontWeight: 700,
-//   fontSize: "1.25rem",
-//   color: "#1F2937",
-//   marginTop: theme.spacing(2),
-//   padding: theme.spacing(2),
-//   backgroundColor: "#F3E8FF",
-//   borderRadius: "12px",
-//   textAlign: "center",
-// }));
-
-// export default function Order() {
-//   const data = useSelector((state) => state.usercart.userCart);
-//   const dispatch = useDispatch();
-//   const router = useRouter();
-//   const searchParams = useSearchParams();
-//   const [orderId] = useState(`ORD-${Date.now()}`); // Уникальный ID заказа
-//   const [sdkLoaded, setSdkLoaded] = useState(false); // Статус загрузки SDK
-//   const [sdkError, setSdkError] = useState(""); // Ошибка загрузки SDK
-
-//   let total = 0;
-//   data.forEach((item) => {
-//     total += item.count * item.price;
-//   });
-
-//   // Логирование данных корзины
-//   useEffect(() => {
-//     console.log("Данные корзины:", data);
-//     data.forEach((item, index) => {
-//       console.log(`Товар ${index + 1}:`, {
-//         id: item.id,
-//         name: item.name,
-//         type: item.type,
-//         price: item.price,
-//         count: item.count,
-//         total: item.price * item.count,
-//       });
-//     });
-//   }, [data]);
-
-//   // Обработка статуса оплаты
-//   useEffect(() => {
-//     if (searchParams.get("status") === "success") {
-//       alert("Всё готово! Ваш заказ успешно оплачен.");
-//       router.push("/confirmation");
-//     } else if (searchParams.get("status") === "fail") {
-//       alert("Оплата не удалась. Пожалуйста, попробуйте снова.");
-//     }
-//   }, [searchParams, router]);
-
-//   // Подгрузка скрипта Tiptop SDK
-//   useEffect(() => {
-//     const script = document.createElement("script");
-//     script.src = "https://widget.tiptoppay.kz/bundles/widget.js";
-//     script.async = true;
-//     script.onload = () => {
-//       console.log("Tiptop SDK loaded successfully");
-//       setSdkLoaded(true);
-//     };
-//     script.onerror = () => {
-//       console.error("Failed to load Tiptop SDK");
-//       setSdkError("Не удалось загрузить модуль оплаты. Попробуйте позже.");
-//       setSdkLoaded(false);
-//     };
-//     document.body.appendChild(script);
-//     return () => {
-//       document.body.removeChild(script);
-//     };
-//   }, []);
-
-//   // Функция оплаты через Tiptop
-//     // Функция оплаты через Tiptop
-//   const handlePay = () => {
-//     if (!sdkLoaded) {
-//       alert("Модуль оплаты не загружен. Попробуйте позже.");
-//       return;
-//     }
-
-//     if (typeof window !== "undefined" && window.tiptop) {
-//       const widget = new window.tiptop.Widget({
-//         language: "kk",
-//       });
-//       widget.pay(
-//         "auth",
-//         {
-//           publicId: "pk_161f53c5cd0549ea828fa83f11200",
-//           description: "Оплата товаров в Biolane",
-//           amount: total,
-//           currency: "KZT",
-//           accountId: "almat.magzum@gmail.com",
-//           invoiceId: orderId,
-//           skin: "classic",
-//           autoClose: 3,
-//         },
-//         {
-//           onSuccess: (options) => {
-//             router.push("/order?status=success");
-//           },
-//           onFail: (reason, options) => {
-//             router.push("/order?status=fail");
-//           },
-//           onComplete: (paymentResult, options) => {
-//             console.log("Payment completed:", paymentResult);
-//           },
-//         }
-//       );
-//     } else {
-//       console.error("Tiptop SDK not available");
-//       alert("Ошибка: Модуль оплаты недоступен. Попробуйте позже.");
-//     }
-//   };
-
-//   return (
-//     <>
-
-//       <style jsx global>{`
-//         @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700&display=swap');
-//         body {
-//           font-family: 'Mulish', sans-serif;
-//         }
-//       `}</style>
-      
-//       <OrderContainer maxWidth="xl">
-//         <Typography
-//           variant="h4"
-//           sx={{
-//             fontFamily: "'Mulish', sans-serif",
-//             fontWeight: 700,
-//             color: "#1F2937",
-//             mb: 4,
-//             textAlign: "center",
-//             textTransform: "uppercase",
-//           }}
-//           component={motion.div}
-//           initial={{ opacity: 0, y: -20 }}
-//           animate={{ opacity: 1, y: 0 }}
-//           transition={{ duration: 0.6 }}
-//         >
-//          Оформление заказа
-//         </Typography>
-
-//         <Grid container spacing={3}>
-//             {/* Левая колонка: Таблица товаров */}
-
-//             <Grid size={{ xs: 12, md: 8 }}>
-//             <Box sx={{ overflow: "auto" }}>
-//               <StyledTable>
-//                 <TableHead>
-//                   <TableRow>
-//                     <TableCell>Название</TableCell>
-
-//                     <TableCell>Цена</TableCell>
-//                     <TableCell align="center">Количество</TableCell>
-//                     <TableCell>Сумма</TableCell>
-//                   </TableRow>
-//                 </TableHead>
-//                 <TableBody>
-//                   {data.map((item) => (
-//                     <TableRow
-//                       key={item.id}
-//                       component={motion.tr}
-//                       initial={{ opacity: 0 }}
-//                       animate={{ opacity: 1 }}
-//                       transition={{ duration: 0.5 }}
-//                     >
-//                       <TableCell>{item.name}</TableCell>
-                      
-//                       <TableCell>{parseFloat(item.price).toLocaleString()} ₸</TableCell>
-//                       <TableCell align="center">{item.count}</TableCell>
-//                       <TableCell>{(item.price * item.count).toLocaleString()} ₸</TableCell>
-//                     </TableRow>
-//                   ))}
-//                 </TableBody>
-//               </StyledTable>
-
-//               {/* Карточки для мобильных */}
-//               {data.map((item) => (
-//                 <MobileCard
-//                   key={item.id}
-//                   component={motion.div}
-//                   initial={{ opacity: 0, y: 20 }}
-//                   animate={{ opacity: 1, y: 0 }}
-//                   transition={{ duration: 0.5 }}
-//                 >
-//                   <Typography variant="subtitle1" fontWeight={600} color="#1F2937">
-//                     {item.name}
-//                   </Typography>
-//                   <Typography variant="body2" color="#6B7280" mt={1}>
-//                     Тип: {item.type || "Не указан"}
-//                   </Typography>
-//                   <Typography variant="body2" color="#6B7280" mt={1}>
-//                     Цена: {parseFloat(item.price).toLocaleString()} ₸
-//                   </Typography>
-//                   <Typography variant="body2" color="#6B7280" mt={1}>
-//                     Количество: {item.count}
-//                   </Typography>
-//                   <Typography variant="body2" color="#1F2937" mt={1} fontWeight={600}>
-//                     Сумма: {(item.price * item.count).toLocaleString()} ₸
-//                   </Typography>
-//                 </MobileCard>
-//               ))}
-//             </Box>
-//           </Grid>
-
-//           {/* Правая колонка: Виджет оплаты */}
-//           <Grid size={{ xs: 12, md: 4 }}>
-//             <WidgetBox
-//               component={motion.div}
-//               initial={{ opacity: 0, x: 20 }}
-//               animate={{ opacity: 1, x: 0 }}
-//               transition={{ duration: 0.6 }}
-//             >
-//               <Typography
-//                 variant="subtitle1"
-//                 fontWeight={600}
-//                 color="#1F2937"
-//                 mb={2}
-//               >
-//                 Итоговая сумма
-//               </Typography>
-//               <TotalBox>
-//                 {total.toLocaleString()} ₸
-//               </TotalBox>
-
-//               {/* Форма с валидацией через ContactForm */}
-//               {sdkError && (
-//                 <Alert severity="error" sx={{ mb: 2 }}>
-//                   {sdkError}
-//                 </Alert>
-//               )}
-//               <ContactForm total={total} onPay={handlePay} sdkLoaded={sdkLoaded} />
-//             </WidgetBox>
-//           </Grid>
-//         </Grid>
-//       </OrderContainer>
-//     </>
-//   );
-// }
-
-
-
-
-// import { useDispatch, useSelector } from "react-redux";
-// import Header from "@/components/header";
-// import "bootstrap/dist/css/bootstrap.min.css";
-// import { useRouter } from "next/navigation";
-// import ContactForm from "@/components/contacts";
-// import {
-//   Box,
-//   Container,
-//   Table,
-//   TableHead,
-//   TableBody,
-//   TableRow,
-//   TableCell,
-// } from "@mui/material";
-
-// export default function Order() {
-//   const data = useSelector((state) => state.usercart.userCart);
-//   const dispatch = useDispatch();
-//   const router = useRouter();
-//   let total = 0;
-
-//   data.forEach((item) => {
-//     total += item.count * item.price;
-//   });
-
-//   return (
-//     <>
-//       <Container
-//         className="order__container_mobile"
-//         sx={{ display: "flex", gap: "5" }}
-//       >
-//         <Box sx={{ overflow: "auto" }}>
-//           <Box
-//             className="dropdown__onmobile"
-//             sx={{ width: "100%", display: "table", tableLayout: "fixed" }}
-//           >
-//             <Table>
-//               <TableHead>
-//                 <TableRow>
-//                   <TableCell className="mobile__fs_10">Название</TableCell>
-//                   <TableCell className="mobile__fs_10">Тип</TableCell>
-//                   <TableCell className="mobile__fs_10">Цена</TableCell>
-//                   <TableCell className="mobile__fs_10">Количество</TableCell>
-//                   <TableCell className="mobile__fs_10">Сумма</TableCell>
-//                 </TableRow>
-//               </TableHead>
-//               <TableBody>
-//                 {data.map((item, index) => (
-//                   <TableRow key={item.id}>
-//                     <TableCell className="mobile__fs_10">{item.name}</TableCell>
-//                     <TableCell className="mobile__fs_10">{item.type}</TableCell>
-//                     <TableCell className="mobile__fs_10">
-//                       {item.price.toLocaleString()}₸
-//                     </TableCell>
-//                     <TableCell align="center">{item.count}</TableCell>
-//                     <TableCell className="mobile__fs_10">
-//                       {(item.price * item.count).toLocaleString()}₸
-//                     </TableCell>
-//                   </TableRow>
-//                 ))}
-//               </TableBody>
-//               <div className="mt-5">Итог: {total.toLocaleString()}₸</div>
-//             </Table>
-//           </Box>
-//         </Box>
-//         <br></br>
-
-//         <ContactForm
-//           className="contact-form__mobile contact__form"
-//           total={total}
-//         />
-//       </Container>
-//     </>
-//   );
-// }
-
-
 "use client";
 
+
+
+
+
+
+
+
+
 import { useEffect } from "react";
+
+
+
+
 import { useDispatch, useSelector } from "react-redux";
+
+
+
+
 import { useRouter, useSearchParams } from "next/navigation";
+
+
+
+
 import ContactForm from "@/components/contacts";
+
+
+
+
 import {
+
+
+
+
   Box,
+
+
+
+
   Container,
+
+
+
+
   Table,
+
+
+
+
   TableHead,
+
+
+
+
   TableBody,
+
+
+
+
   TableRow,
+
+
+
+
   TableCell,
+
+
+
+
+  Typography,
+
+
+
+
+  Paper,
+
+
+
+
+  Grid,
+
+
+
+
 } from "@mui/material";
+
+
+
+
+import { styled } from "@mui/material/styles";
+
+
+
+
 import "bootstrap/dist/css/bootstrap.min.css";
 
+
+
+
+
+
+
+
+
+const StyledContainer = styled(Container)(({ theme }) => ({
+
+
+
+
+  paddingTop: theme.spacing(6),
+
+
+
+
+  paddingBottom: theme.spacing(6),
+
+
+
+
+}));
+
+
+
+
+
+
+
+
+
+const StyledTable = styled(Table)(({ theme }) => ({
+
+
+
+
+  borderRadius: "15px",
+
+
+
+
+  overflow: "hidden",
+
+
+
+
+  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+
+
+
+
+  backgroundColor: "#FFFFFF",
+
+
+
+
+  "& .MuiTableCell-head": {
+
+
+
+
+    backgroundColor: "#ADD8E6",
+
+
+
+
+    color: "#333333",
+
+
+
+
+    fontWeight: "700",
+
+
+
+
+  },
+
+
+
+
+}));
+
+
+
+
+
+
+
+
+
+const MobileOrderCard = styled(Paper)(({ theme }) => ({
+
+
+
+
+  padding: theme.spacing(2),
+
+
+
+
+  marginBottom: theme.spacing(2),
+
+
+
+
+  borderRadius: "15px",
+
+
+
+
+  backgroundColor: "#FFFFFF",
+
+
+
+
+  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+
+
+
+
+}));
+
+
+
+
+
+
+
+
+
 export default function Order() {
+
+
+
+
   const data = useSelector((state) => state.usercart.userCart);
+
+
+
+
   const dispatch = useDispatch();
+
+
+
+
   const router = useRouter();
+
+
+
+
   const searchParams = useSearchParams();
 
+
+
+
+
+
+
+
+
   let total = 0;
+
+
+
+
   data.forEach((item) => {
+
+
+
+
     total += item.count * item.price;
+
+
+
+
   });
 
-  // Логирование данных корзины
-  useEffect(() => {
-    console.log("Данные корзины:", data);
-    data.forEach((item, index) => {
-      console.log(`Товар ${index + 1}:`, {
-        id: item.id,
-        name: item.name,
-        type: item.type,
-        price: item.price,
-        count: item.count,
-        total: item.price * item.count,
-      });
-    });
-  }, [data]);
 
-  // Проверка query-параметров (на случай редиректа)
+
+
+
+
+
+
+
   useEffect(() => {
+
+
+
+
     if (searchParams.get("status") === "success") {
+
+
+
+
       alert("Всё готово! Ваш заказ успешно оплачен.");
-      // Опционально: очистка корзины или редирект
-      // dispatch(clearCart());
-      // router.push("/order/confirmation");
+
+
+
+
+      router.push("/confirmation");
+
+
+
+
     } else if (searchParams.get("status") === "fail") {
+
+
+
+
       alert("Оплата не удалась. Пожалуйста, попробуйте снова.");
+
+
+
+
     }
-  }, [searchParams, dispatch, router]);
+
+
+
+
+  }, [searchParams, router]);
+
+
+
+
+
+
+
+
 
   return (
-    <Container
-      className="order__container_mobile"
-      sx={{ display: "flex", gap: "5", flexDirection: "column" }}
-    >
-      <Box sx={{ overflow: "auto" }}>
-        <Box
-          className="dropdown__onmobile"
-          sx={{ width: "100%", display: "table", tableLayout: "fixed" }}
-        >
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell className="mobile__fs_10">Название</TableCell>
-                <TableCell className="mobile__fs_10">Тип</TableCell>
-                <TableCell className="mobile__fs_10">Цена</TableCell>
-                <TableCell className="mobile__fs_10">Количество</TableCell>
-                <TableCell className="mobile__fs_10">Сумма</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell className="mobile__fs_10">{item.name}</TableCell>
-                  <TableCell className="mobile__fs_10">{item.type || "Не указан"}</TableCell>
-                  <TableCell className="mobile__fs_10">
-                    {parseFloat(item.price).toLocaleString()} ₸
-                  </TableCell>
-                  <TableCell align="center">{item.count}</TableCell>
-                  <TableCell className="mobile__fs_10">
-                    {(item.price * item.count).toLocaleString()} ₸
-                  </TableCell>
+
+
+
+
+    <StyledContainer>
+
+
+
+
+      <Typography
+
+
+
+
+        variant="h4"
+
+
+
+
+        fontWeight="700"
+
+
+
+
+        color="#333333"
+
+
+
+
+        sx={{ textTransform: "uppercase", mb: 4, fontSize: { xs: "1.8rem", sm: "2.5rem" } }}
+
+
+
+
+      >
+
+
+
+
+        Оформление заказа
+
+
+
+
+      </Typography>
+
+
+
+
+      <Grid container spacing={4}>
+
+
+
+
+        <Grid item xs={12} md={7}>
+
+
+
+
+          <Box sx={{ display: { xs: "none", sm: "block" } }}>
+
+
+
+
+            <StyledTable>
+
+
+
+
+              <TableHead>
+
+
+
+
+                <TableRow>
+
+
+
+
+                  <TableCell>Название</TableCell>
+
+
+
+
+                  <TableCell>Тип</TableCell>
+
+
+
+
+                  <TableCell>Цена</TableCell>
+
+
+
+
+                  <TableCell align="center">Количество</TableCell>
+
+
+
+
+                  <TableCell>Сумма</TableCell>
+
+
+
+
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          <Box sx={{ mt: 5, fontWeight: "bold" }}>
-            Итог: {total.toLocaleString()} ₸
+
+
+
+
+              </TableHead>
+
+
+
+
+              <TableBody>
+
+
+
+
+                {data.map((item) => (
+
+
+
+
+                  <TableRow key={item.id}>
+
+
+
+
+                    <TableCell>{item.name}</TableCell>
+
+
+
+
+                    <TableCell>{item.type || "Не указан"}</TableCell>
+
+
+
+
+                    <TableCell>
+
+
+
+
+                      {parseFloat(item.price).toLocaleString()} ₸
+
+
+
+
+                    </TableCell>
+
+
+
+
+                    <TableCell align="center">{item.count}</TableCell>
+
+
+
+
+                    <TableCell>
+
+
+
+
+                      {(item.price * item.count).toLocaleString()} ₸
+
+
+
+
+                    </TableCell>
+
+
+
+
+                  </TableRow>
+
+
+
+
+                ))}
+
+
+
+
+              </TableBody>
+
+
+
+
+            </StyledTable>
+
+
+
+
           </Box>
-        </Box>
-      </Box>
-      <ContactForm className="contact-form__mobile contact__form" total={total} />
-    </Container>
+
+
+
+
+          <Box sx={{ display: { xs: "block", sm: "none" } }}>
+
+
+
+
+            {data.map((item) => (
+
+
+
+
+              <MobileOrderCard key={item.id}>
+
+
+
+
+                <Typography variant="h6" sx={{ fontSize: "1rem", fontWeight: 600 }}>
+
+
+
+
+                  {item.name}
+
+
+
+
+                </Typography>
+
+
+
+
+                <Typography variant="body2" sx={{ my: 1 }}>
+
+
+
+
+                  Тип: {item.type || "Не указан"}
+
+
+
+
+                </Typography>
+
+
+
+
+                <Typography variant="body2" sx={{ my: 1 }}>
+
+
+
+
+                  Цена: {parseFloat(item.price).toLocaleString()} ₸
+
+
+
+
+                </Typography>
+
+
+
+
+                <Typography variant="body2" sx={{ my: 1 }}>
+
+
+
+
+                  Количество: {item.count}
+
+
+
+
+                </Typography>
+
+
+
+
+                <Typography variant="body1" sx={{ fontWeight: 600 }}>
+
+
+
+
+                  Сумма: {(item.price * item.count).toLocaleString()} ₸
+
+
+
+
+                </Typography>
+
+
+
+
+              </MobileOrderCard>
+
+
+
+
+            ))}
+
+
+
+
+          </Box>
+
+
+
+
+          <Box sx={{ mt: 3, fontWeight: "bold", textAlign: "right" }}>
+
+
+
+
+            Итог: {total.toLocaleString()} ₸
+
+
+
+
+          </Box>
+
+
+
+
+        </Grid>
+
+
+
+
+        <Grid item xs={12} md={5}>
+
+
+
+
+          <ContactForm total={total} />
+
+
+
+
+        </Grid>
+
+
+
+
+      </Grid>
+
+
+
+
+    </StyledContainer>
+
+
+
+
   );
+
+
+
+
 }
+
+
+

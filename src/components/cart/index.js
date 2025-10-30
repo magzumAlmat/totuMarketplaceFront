@@ -99,6 +99,14 @@ const EmptyCartContainer = styled(Box)(({ theme }) => ({
   boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
 }));
 
+const MobileCartCard = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(2),
+  marginBottom: theme.spacing(2),
+  borderRadius: "15px",
+  backgroundColor: "#FFFFFF",
+  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+}));
+
 const AnimatedImage = styled(motion(Image))({
   width: "80px !important",
   height: "80px !important",
@@ -195,107 +203,161 @@ export default function Cart() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <Typography
-            variant="h4"
-            fontWeight="700"
-            color="#333333"
-            sx={{ textTransform: "uppercase", mb: 4 }}
-          >
-            Корзина
-          </Typography>
-          <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
-            <ClearButton onClick={clearCart} variant="contained">
-              Очистить
-            </ClearButton>
-          </Box>
-          <Paper elevation={0}>
-            <StyledTable>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Название</TableCell>
-                  <TableCell>Цена</TableCell>
-                  <TableCell align="center">Количество</TableCell>
-                  <TableCell>Действия</TableCell>
-                  <TableCell>Сумма</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {updatedData.map((item) => (
-                  <TableRow key={item.id}>
-                    <TableCell>
-                      {item.name}
-                      {errorMessages[item.id] && (
-                        <ErrorMessage>{errorMessages[item.id]}</ErrorMessage>
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      {parseFloat(item.price || 0).toLocaleString("ru-KZ", {
-                        style: "currency",
-                        currency: "KZT",
-                      })}
-                    </TableCell>
-                    <TableCell align="center">{item.count || 0}</TableCell>
-                    <TableCell>
-                      <ActionButton onClick={() => clickUpCount(item.id)}>
-                        <AddOutlined />
-                      </ActionButton>
-                      <ActionButton onClick={() => clickDownCount(item.id)}>
-                        <RemoveOutlined />
-                      </ActionButton>
-                    </TableCell>
-                    <TableCell>
-                      {(item.totalPrice || parseFloat(item.price) * (item.count || 0)).toLocaleString("ru-KZ", {
-                        style: "currency",
-                        currency: "KZT",
-                      })}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </StyledTable>
-          </Paper>
-          <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 3, alignItems: "center" }}>
-            <Typography
-              variant="h6"
-              fontWeight="700"
-              color="#333333"
-              sx={{ mr: 4 }}
-            >
-              Итого: {totalCartPrice.toLocaleString("ru-KZ", { style: "currency", currency: "KZT" })}
-            </Typography>
-            <OrderButton onClick={nextClick} variant="contained">
-              Оформить заказ
-            </OrderButton>
-          </Box>
-        </motion.div>
-      ) : (
-        <EmptyCartContainer
-          component={motion.div}
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <AnimatedImage
-            src={cartLogo}
-            alt="cart logo"
-            animate={{ scale: [1, 1.1, 1] }}
-            transition={{ repeat: Infinity, duration: 2 }}
-          />
-          <Typography variant="h5" fontWeight="700" color="#333333" mt={2}>
-            В корзине нет товаров
-          </Typography>
-          <Typography variant="body1" color="#666666" mt={1}>
-            Добавьте товары из каталога, чтобы начать покупки!
-          </Typography>
-          <OrderButton
-            variant="contained"
-            onClick={() => router.push("/")}
-            sx={{ mt: 3 }}
-          >
-            Перейти в каталог
-          </OrderButton>
-        </EmptyCartContainer>
-      )}
-    </StyledContainer>
-  );
-}
+                    <Typography
+                      variant="h4"
+                      fontWeight="700"
+                      color="#333333"
+                      sx={{ textTransform: "uppercase", mb: 4, fontSize: { xs: "1.8rem", sm: "2.5rem" } }}
+                    >
+                      Корзина
+                    </Typography>
+                    <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
+                      <ClearButton onClick={clearCart} variant="contained">
+                        Очистить
+                      </ClearButton>
+                    </Box>
+                    <Paper elevation={0} sx={{ display: { xs: "none", sm: "block" } }}>
+                      <StyledTable>
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>Название</TableCell>
+                            <TableCell>Цена</TableCell>
+                            <TableCell align="center">Количество</TableCell>
+                            <TableCell>Действия</TableCell>
+                            <TableCell>Сумма</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {updatedData.map((item) => (
+                            <TableRow key={item.id}>
+                              <TableCell>
+                                {item.name}
+                                {errorMessages[item.id] && (
+                                  <ErrorMessage>{errorMessages[item.id]}</ErrorMessage>
+                                )}
+                              </TableCell>
+                              <TableCell>
+                                {parseFloat(item.price || 0).toLocaleString("ru-KZ", {
+                                  style: "currency",
+                                  currency: "KZT",
+                                })}
+                              </TableCell>
+                              <TableCell align="center">{item.count || 0}</TableCell>
+                              <TableCell>
+                                <ActionButton onClick={() => clickUpCount(item.id)}>
+                                  <AddOutlined />
+                                </ActionButton>
+                                <ActionButton onClick={() => clickDownCount(item.id)}>
+                                  <RemoveOutlined />
+                                </ActionButton>
+                              </TableCell>
+                              <TableCell>
+                                {(item.totalPrice || parseFloat(item.price) * (item.count || 0)).toLocaleString("ru-KZ", {
+                                  style: "currency",
+                                  currency: "KZT",
+                                })}
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </StyledTable>
+                    </Paper>
+          
+                    <Box sx={{ display: { xs: "block", sm: "none" } }}>
+                      {updatedData.map((item) => (
+                        <MobileCartCard key={item.id}>
+                          <Typography variant="h6" sx={{ fontSize: "1rem", fontWeight: 600 }}>
+                            {item.name}
+                          </Typography>
+                          {errorMessages[item.id] && (
+                            <ErrorMessage>{errorMessages[item.id]}</ErrorMessage>
+                          )}
+                          <Typography variant="body2" sx={{ my: 1 }}>
+                            Цена: {parseFloat(item.price || 0).toLocaleString("ru-KZ", {
+                              style: "currency",
+                              currency: "KZT",
+                            })}
+                          </Typography>
+                          <Box sx={{ display: "flex", alignItems: "center", my: 1 }}>
+                            <Typography variant="body2">Количество:</Typography>
+                            <ActionButton onClick={() => clickDownCount(item.id)}>
+                              <RemoveOutlined />
+                            </ActionButton>
+                            <Typography sx={{ mx: 1 }}>{item.count || 0}</Typography>
+                            <ActionButton onClick={() => clickUpCount(item.id)}>
+                              <AddOutlined />
+                            </ActionButton>
+                          </Box>
+                          <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                            Сумма: {(item.totalPrice || parseFloat(item.price) * (item.count || 0)).toLocaleString("ru-KZ", {
+                              style: "currency",
+                              currency: "KZT",
+                            })}
+                          </Typography>
+                        </MobileCartCard>
+                      ))}
+                    </Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        mt: 3,
+                        alignItems: "center",
+                        flexDirection: { xs: "column", sm: "row" },
+                      }}
+                    >
+                      <Typography
+                        variant="h6"
+                        fontWeight="700"
+                        color="#333333"
+                        sx={{ mr: { sm: 4 }, mb: { xs: 2, sm: 0 }, fontSize: { xs: "1.2rem", sm: "1.5rem" } }}
+                      >
+                        Итого: {totalCartPrice.toLocaleString("ru-KZ", { style: "currency", currency: "KZT" })}
+                      </Typography>
+                      <OrderButton onClick={nextClick} variant="contained" fullWidth={{ xs: true, sm: false }}>
+                        Оформить заказ
+                      </OrderButton>
+                    </Box>                    </motion.div>
+                  ) : (
+                    <EmptyCartContainer
+                      component={motion.div}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <AnimatedImage
+                        src={cartLogo}
+                        alt="cart logo"
+                        animate={{ scale: [1, 1.1, 1] }}
+                        transition={{ repeat: Infinity, duration: 2 }}
+                      />
+                      <Typography
+                        variant="h5"
+                        fontWeight="700"
+                        color="#333333"
+                        mt={2}
+                        sx={{ fontSize: { xs: "1.2rem", sm: "1.5rem" } }}
+                      >
+                        В корзине нет товаров
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        color="#666666"
+                        mt={1}
+                        sx={{ fontSize: { xs: "0.9rem", sm: "1rem" } }}
+                      >
+                        Добавьте товары из каталога, чтобы начать покупки!
+                      </Typography>
+                      <OrderButton
+                        variant="contained"
+                        onClick={() => router.push("/")}
+                        sx={{ mt: 3 }}
+                      >
+                        Перейти в каталог
+                      </OrderButton>
+                    </EmptyCartContainer>
+                  )}
+                </StyledContainer>
+              );
+              }
+              

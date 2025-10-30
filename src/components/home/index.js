@@ -326,7 +326,7 @@ const ProductCardWithImages = memo(({ item, isInCart, dispatch }) => {
               variant="h6"
               sx={{
                 fontWeight: 600,
-                fontSize: "1rem",
+                fontSize: { xs: "0.9rem", sm: "1rem" },
                 color: "#333",
                 "&:hover": { color: "#ADD8E6" },
                 display: "-webkit-box",
@@ -338,14 +338,20 @@ const ProductCardWithImages = memo(({ item, isInCart, dispatch }) => {
               {item.name}
             </Typography>
           </Link>
-          <Typography variant="body2" color="#666" sx={{ fontSize: "0.85rem", mt: 0.5 }}>
-            {item.Categories?.length > 0 ? item.Categories.map(c => c.name).join(", ") : "Без категории"}
+          <Typography
+            variant="body2"
+            color="#666"
+            sx={{ fontSize: { xs: "0.75rem", sm: "0.85rem" }, mt: 0.5 }}
+          >
+            {item.Categories?.length > 0
+              ? item.Categories.map((c) => c.name).join(", ")
+              : "Без категории"}
           </Typography>
           <Typography
             variant="body2"
             color="#666"
             sx={{
-              fontSize: "0.8rem",
+              fontSize: { xs: "0.7rem", sm: "0.8rem" },
               mt: 1,
               display: "-webkit-box",
               WebkitLineClamp: 2,
@@ -353,12 +359,14 @@ const ProductCardWithImages = memo(({ item, isInCart, dispatch }) => {
               overflow: "hidden",
             }}
           >
-            {item.description?.length > 70 ? `${item.description.slice(0, 70)}...` : item.description}
+            {item.description?.length > 70
+              ? `${item.description.slice(0, 70)}...`
+              : item.description}
           </Typography>
         </CardContent>
 
         <CardActions sx={{ p: 2, justifyContent: "space-between", alignItems: "center" }}>
-          <PriceTypography>
+          <PriceTypography sx={{ fontSize: { xs: "1rem", sm: "1.1rem" } }}>
             {parseFloat(item.price)?.toLocaleString() || "0"} ₸
           </PriceTypography>
           <CartIconButton
@@ -478,7 +486,9 @@ export default function Products() {
 
       {/* Новинки */}
       <Box mb={4}>
-        <Typography variant="h5" fontWeight={700} mb={3}>Новинки</Typography>
+        <Typography variant="h5" fontWeight={700} mb={3} sx={{ fontSize: { xs: "1.5rem", md: "2rem" } }}>
+          Новинки
+        </Typography>
         {loading ? (
           <Grid container spacing={2}>
             {[...Array(4)].map((_, i) => (
@@ -505,7 +515,12 @@ export default function Products() {
 
       {/* Заголовок + поиск */}
       <Stack spacing={3} mb={2}>
-        <Typography variant="h4" fontWeight={700} color="#333" sx={{ textTransform: "uppercase" }}>
+        <Typography
+          variant="h4"
+          fontWeight={700}
+          color="#333"
+          sx={{ textTransform: "uppercase", fontSize: { xs: "1.8rem", md: "2.5rem" } }}
+        >
           {selectedMainType || "Каталог продукции"}
         </Typography>
         <Paper elevation={0} sx={{ p: 2, backgroundColor: "#F8FAFC", borderRadius: "16px" }}>
@@ -558,9 +573,18 @@ export default function Products() {
 
       {/* Форма */}
       <Box mt={8} py={6} sx={{ bgcolor: "#F8FAFC", borderRadius: "16px" }}>
-        <Box component={Paper} elevation={0} sx={{ p: 4, maxWidth: 800, mx: "auto", borderRadius: "16px" }}>
-          <Typography variant="h5" fontWeight={700} mb={2}>Нужна консультация?</Typography>
-          <Typography color="#666" mb={3}>Оставьте заявку — мы свяжемся с вами.</Typography>
+        <Box component={Paper} elevation={0} sx={{ p: { xs: 2, sm: 4 }, maxWidth: 800, mx: "auto", borderRadius: "16px" }}>
+          <Typography
+            variant="h5"
+            fontWeight={700}
+            mb={2}
+            sx={{ fontSize: { xs: "1.2rem", md: "1.5rem" } }}
+          >
+            Нужна консультация?
+          </Typography>
+          <Typography color="#666" mb={3} sx={{ fontSize: { xs: "0.9rem", sm: "1rem" } }}>
+            Оставьте заявку — мы свяжемся с вами.
+          </Typography>
           <form onSubmit={e => { e.preventDefault(); /* ваш код */ }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
@@ -581,7 +605,13 @@ export default function Products() {
 
       {/* Отзывы */}
       <Box mt={8} py={6} sx={{ bgcolor: "#fff", borderRadius: "16px" }}>
-        <Typography variant="h4" fontWeight={700} textAlign="center" mb={4} sx={{ textTransform: "uppercase" }}>
+        <Typography
+          variant="h4"
+          fontWeight={700}
+          textAlign="center"
+          mb={4}
+          sx={{ textTransform: "uppercase", fontSize: { xs: "1.8rem", md: "2.5rem" } }}
+        >
           Отзывы клиентов
         </Typography>
         <Slider dots infinite speed={500} slidesToShow={3} slidesToScroll={1} autoplay autoplaySpeed={5000}
@@ -593,11 +623,27 @@ export default function Products() {
                   <Box sx={{ width: 80, height: 80, borderRadius: "50%", overflow: "hidden", mx: "auto", mb: 2 }}>
                     <Image src={r.photo} alt={r.name} width={80} height={80} style={{ objectFit: "cover" }} />
                   </Box>
-                  <Typography variant="h6" fontWeight={600}>{r.name}</Typography>
+                  <Typography variant="h6" fontWeight={600} sx={{ fontSize: { xs: "1rem", sm: "1.1rem" } }}>
+                    {r.name}
+                  </Typography>
                   <Box sx={{ display: "flex", justifyContent: "center", my: 1 }}>
-                    {[...Array(5)].map((_, i) => <Star key={i} sx={{ color: i < r.rating ? "#FFD700" : "#E0E0E0", fontSize: "1.2rem" }} />)}
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        sx={{
+                          color: i < r.rating ? "#FFD700" : "#E0E0E0",
+                          fontSize: { xs: "1rem", sm: "1.2rem" },
+                        }}
+                      />
+                    ))}
                   </Box>
-                  <Typography variant="body2" color="#666" sx={{ fontSize: "0.9rem" }}>{r.review}</Typography>
+                  <Typography
+                    variant="body2"
+                    color="#666"
+                    sx={{ fontSize: { xs: "0.8rem", sm: "0.9rem" } }}
+                  >
+                    {r.review}
+                  </Typography>
                 </CardContent>
               </Card>
             </Box>

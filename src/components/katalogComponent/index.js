@@ -161,9 +161,8 @@ const theme = createTheme({
 
 // Styled Components
 const ProductCard = styled(Card)(({ theme }) => ({
-  width: "300px", // Фиксированная ширина карточки
+  width: "100%",
   maxWidth: "300px",
-  minWidth: "300px",
   height: "100%",
   display: "flex",
   flexDirection: "column",
@@ -176,6 +175,9 @@ const FilterDrawer = styled(Drawer)(({ theme }) => ({
     width: 320,
     padding: theme.spacing(3),
     background: "linear-gradient(135deg, #F8FAFC 0%, #E6F0FA 100%)",
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+    },
   },
 }));
 
@@ -386,7 +388,10 @@ export default function KatalogComponent() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <Typography variant="h4" sx={{ mb: 4, textAlign: "left" }}>
+          <Typography
+            variant="h4"
+            sx={{ mb: 4, textAlign: "left", fontSize: { xs: "1.8rem", md: "2.5rem" } }}
+          >
             {selectedMainType || "Каталог товаров"}
           </Typography>
         </motion.div>
@@ -405,7 +410,7 @@ export default function KatalogComponent() {
           }}
         >
           <Stack spacing={3}>
-            <Stack direction="row" spacing={2} alignItems="center">
+            <Stack direction={{ xs: "column", sm: "row" }} spacing={2} alignItems="center">
               <TextField
                 fullWidth
                 placeholder="Поиск по названию..."
@@ -426,7 +431,7 @@ export default function KatalogComponent() {
                   ),
                 }}
               />
-              <FormControl sx={{ minWidth: 200 }}>
+              <FormControl fullWidth={{ xs: true, sm: false }} sx={{ minWidth: { sm: 200 } }}>
                 <Select
                   value={filters.sortBy}
                   onChange={handleSortChange}

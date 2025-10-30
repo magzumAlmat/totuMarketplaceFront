@@ -220,12 +220,16 @@ export default function Header() {
           <StyledToolbar>
             <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
               <Button onClick={() => router.push("/")} sx={{ p: 0 }}>
-                <Image 
-                  src={logo} 
-                  alt="logo" 
+                <Image
+                  src={logo}
+                  alt="logo"
                   width={180} // Уменьшенная ширина для реальной высоты
                   height={90} // Высота логотипа синхронизирована с AppBar
-                  style={{ objectFit: "contain" }}
+                  style={{ 
+                    objectFit: "contain",
+                    width: { xs: 120, sm: 180 },
+                    height: { xs: 60, sm: 90 },
+                  }}
                 />
               </Button>
             </Box>

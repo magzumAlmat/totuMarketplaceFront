@@ -43,7 +43,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const StyledCarousel = styled(Carousel)({
+const StyledCarousel = styled(Carousel)(({ theme }) => ({
   borderRadius: "12px",
   overflow: "hidden",
   "& .rs-carousel-item": {
@@ -51,11 +51,14 @@ const StyledCarousel = styled(Carousel)({
     justifyContent: "center",
     alignItems: "center",
     height: "400px",
+    [theme.breakpoints.down("sm")]: {
+      height: "300px",
+    },
   },
   "& .rs-carousel-bar": {
     bottom: 12,
   },
-});
+}));
 
 const StyledModal = styled(Modal)({
   display: "flex",
@@ -278,6 +281,7 @@ export default function ProductDetailPage({ params = {} }) {
                 color: "#333",
                 mb: 1,
                 lineHeight: 1.2,
+                fontSize: { xs: "1.8rem", md: "2.5rem" },
               }}
             >
               {product.name}
@@ -296,8 +300,19 @@ export default function ProductDetailPage({ params = {} }) {
             </Typography>
 
             {/* Цена + кнопка */}
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
-              <Typography variant="h5" sx={{ fontWeight: 700, color: "#333" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+                mb: 3,
+                flexDirection: { xs: "column", sm: "row" },
+              }}
+            >
+              <Typography
+                variant="h5"
+                sx={{ fontWeight: 700, color: "#333", fontSize: { xs: "1.5rem", sm: "2rem" } }}
+              >
                 {price.toLocaleString()} ₸
               </Typography>
               <StyledButton
@@ -318,13 +333,21 @@ export default function ProductDetailPage({ params = {} }) {
 
             {/* Описание */}
             <Box sx={{ mb: 3 }}>
-              <Typography variant="h6" sx={{ fontWeight: 600, mb: 1, color: "#333" }}>
+              <Typography
+                variant="h6"
+                sx={{
+                  fontWeight: 600,
+                  mb: 1,
+                  color: "#333",
+                  fontSize: { xs: "1.2rem", sm: "1.5rem" },
+                }}
+              >
                 Описание
               </Typography>
               <Typography
                 variant="body1"
                 color="text.secondary"
-                sx={{ lineHeight: 1.7 }}
+                sx={{ lineHeight: 1.7, fontSize: { xs: "0.9rem", sm: "1rem" } }}
                 dangerouslySetInnerHTML={{
                   __html:
                     product.description?.replace(/\n/g, "<br />") ||
@@ -336,13 +359,21 @@ export default function ProductDetailPage({ params = {} }) {
             {/* Характеристики */}
             {product.features && (
               <Box>
-                <Typography variant="h6" sx={{ fontWeight: 600, mb: 1, color: "#333" }}>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: 600,
+                    mb: 1,
+                    color: "#333",
+                    fontSize: { xs: "1.2rem", sm: "1.5rem" },
+                  }}
+                >
                   Характеристики
                 </Typography>
                 <Typography
                   variant="body1"
                   color="text.secondary"
-                  sx={{ lineHeight: 1.7 }}
+                  sx={{ lineHeight: 1.7, fontSize: { xs: "0.9rem", sm: "1rem" } }}
                   dangerouslySetInnerHTML={{
                     __html: product.features.replace(/\n/g, "<br />"),
                   }}

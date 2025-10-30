@@ -430,7 +430,7 @@ export default function AboutPage() {
         }
 
         .hero-title {
-          font-size: 3rem;
+          font-size: 2.5rem;
           font-weight: 700;
           line-height: 1.3;
           margin-bottom: 20px;
@@ -441,7 +441,7 @@ export default function AboutPage() {
         }
 
         .hero-description {
-          font-size: 1.2rem;
+          font-size: 1.1rem;
           line-height: 1.7;
           margin-bottom: 30px;
           color: #d0d0d0;
@@ -541,7 +541,7 @@ export default function AboutPage() {
         }
 
         .about-text {
-          font-size: 1.1rem;
+          font-size: 1rem;
           line-height: 1.8;
           margin-bottom: 20px;
           color: #4a4a4a;
@@ -556,14 +556,14 @@ export default function AboutPage() {
         }
 
         .mission-title {
-          font-size: 1.4rem;
+          font-size: 1.3rem;
           font-weight: 500;
           margin-bottom: 12px;
           color: #00C4B4;
         }
 
         .mission-text {
-          font-size: 1.1rem;
+          font-size: 1rem;
           line-height: 1.7;
           color: #4a4a4a;
         }
@@ -580,7 +580,7 @@ export default function AboutPage() {
         }
 
         .section-title {
-          font-size: 2.2rem;
+          font-size: 2rem;
           font-weight: 700;
           text-align: center;
           margin-bottom: 40px;
@@ -609,14 +609,14 @@ export default function AboutPage() {
         }
 
         .product-title {
-          font-size: 1.4rem;
+          font-size: 1.3rem;
           font-weight: 500;
           margin-bottom: 10px;
           color: #1a1a1a;
         }
 
         .product-description {
-          font-size: 0.95rem;
+          font-size: 0.9rem;
           line-height: 1.6;
           color: #6c757d;
           margin-bottom: 12px;

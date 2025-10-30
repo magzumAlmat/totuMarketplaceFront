@@ -1,4 +1,4 @@
-import { Box, Typography ,Container} from "@mui/material";
+import { Box, Typography, Container } from "@mui/material";
 import Image from "next/image";
 import logo from "/public/image/cable/logo.png";
 import Link from "next/link";
@@ -8,14 +8,32 @@ export default function Footer() {
   return (
     <Box sx={{ backgroundColor: "#F5F5F5", py: 4 }}>
       <Container maxWidth="lg">
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap" }}>
-          <Box sx={{ display: "flex",  gap: 2 }}>
-            <Image src={logo} alt="logo" width={180} height={40}    style={{ objectFit: "contain" }}/>
-            <Box>
-              
-            </Box>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexDirection: { xs: "column", sm: "row" },
+            gap: { xs: 2, sm: 0 },
+          }}
+        >
+          <Box sx={{ display: "flex", gap: 2 }}>
+            <Image
+              src={logo}
+              alt="logo"
+              width={180}
+              height={40}
+              style={{ objectFit: "contain" }}
+            />
+            <Box></Box>
           </Box>
-          <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: { xs: "center", sm: "flex-end" },
+            }}
+          >
             <Typography variant="body2" sx={{ color: "#333333" }}>
               <Phone sx={{ mr: 1 }} />
               +7 (708) 088 01 88
