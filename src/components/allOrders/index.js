@@ -261,6 +261,7 @@ export default function AllOrders() {
     "shipped",
     "delivered",
     "cancelled",
+    
   ];
 
   useEffect(() => {

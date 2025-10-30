@@ -195,9 +195,9 @@ export default function AllProducts() {
                 <Typography variant="h6" color="#333333" fontWeight="600">
                   {product.name}
                 </Typography>
-                <Typography variant="body2" color="#666666">
+                {/* <Typography variant="body2" color="#666666">
                   {product.type || "Тип не указан"}
-                </Typography>
+                </Typography> */}
                 <Typography variant="body2" color="#666666" mt={1}>
                   {product.description?.slice(0, 100) || "Описание отсутствует"}...
                 </Typography>
