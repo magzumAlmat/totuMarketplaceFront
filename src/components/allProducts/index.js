@@ -126,7 +126,7 @@ export default function AllProducts() {
     const imagePath = primaryImage
       ? primaryImage.imagePath
       : images[0].imagePath;
-    return imagePath;
+    return `/api${imagePath}`;
   };
 
 
