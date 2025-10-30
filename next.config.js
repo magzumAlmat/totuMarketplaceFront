@@ -36,6 +36,11 @@ const nextConfig = {
         hostname: 'widget.tiptoppay.kz',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'totu.kz',
+        pathname: '/**',
+      },
     ],
   },
 };
