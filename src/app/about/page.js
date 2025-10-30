@@ -208,6 +208,7 @@ export default function AboutPage() {
                 priority={true}
                 loading="eager"
                  onClick={() => openModal("/image/accessoires.jpg")}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </div>
           </div>

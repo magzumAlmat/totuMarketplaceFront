@@ -187,7 +187,7 @@ export default function PremiumPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1 }}
-            
+             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             >
               {/* <Typography variant="h2" sx={{ fontWeight: 900, fontSize: "2.5rem", mb: 2 }}>
                 {banner.title}
