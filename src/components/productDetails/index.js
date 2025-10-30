@@ -88,7 +88,7 @@ const CloseButton = styled(IconButton)({
 
 // === КОНФИГ ===
 // const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/store";
-const BASE_URL='/api/'
+const BASE_URL='/api'
 
 export default function ProductDetailPage({ params = {} }) {
   const [product, setProduct] = useState(null);
@@ -114,6 +114,7 @@ export default function ProductDetailPage({ params = {} }) {
       try {
         setIsLoading(true);
         const response = await axios.get(`${BASE_URL}/product/${params.id}`);
+        console.log('response= ',response)
         const data = response.data;
 
         setProduct(data);
