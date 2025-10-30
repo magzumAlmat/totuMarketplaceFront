@@ -113,7 +113,7 @@ export default function ProductDetailPage({ params = {} }) {
     const fetchProduct = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(`${BASE_URL}/product/${params.id}`);
+        const response = await axios.get(`https://totu.kz/api/api/store/product/${params.id}`);
         console.log('response= ',response)
         const data = response.data;
 
