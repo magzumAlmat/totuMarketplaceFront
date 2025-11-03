@@ -334,6 +334,7 @@ export default function AboutPage() {
 
         * {
           font-family: 'Roboto', sans-serif;
+          overflow-x: hidden;
         }
 
         /* Banner Section */
