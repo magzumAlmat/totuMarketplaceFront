@@ -49,7 +49,7 @@ import "rsuite/dist/rsuite-no-reset.min.css";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import debounce from "lodash/debounce";
-
+import axios from "axios";
 // === СТИЛИ ===
 const ProductCard = styled(Card)(({ theme }) => ({
   display: "flex",

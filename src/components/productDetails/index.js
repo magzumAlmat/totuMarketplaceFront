@@ -21,6 +21,10 @@ import { styled } from "@mui/material/styles";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import axios from "axios";
+import Head from "next/head";
+import Image from "next/image";
+import { ShoppingCartOutlined, Close } from "@mui/icons-material";
 
 // === СТИЛИ ===
 const StyledButton = styled(Button)(({ theme }) => ({
