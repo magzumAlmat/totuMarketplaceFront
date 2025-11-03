@@ -375,7 +375,7 @@ export default function Products() {
       <Box sx={{ borderRadius: "16px", overflow: "hidden", mb: 4 }}>
         <RsCarousel autoplay autoplayInterval={9000}>
           {banners.map((b, i) => (
-            <Box key={i} sx={{ position: "relative", height: { xs: 200, md:auto }, overflow: "hidden" }}>
+            <Box key={i} sx={{ position: "relative", height: { xs: "auto", md:"auto" }, overflow: "hidden" }}>
               <Image src={b.image} alt="" fill style={{ objectFit: "cover" }} />
             </Box>
           ))}
