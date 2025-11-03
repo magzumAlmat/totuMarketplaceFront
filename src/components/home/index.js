@@ -385,7 +385,7 @@ export default function Products() {
       </Box>
 
       {/* Новинки */}
-      <Box mb={1} sx={1} lg={4}>
+      <Box mb={2} sx={2} lg={1}>
         <Typography variant="h5" fontWeight={600} mb={1} sx={{ fontSize: { xs: "1rem", md: "1.2rem" } }}>
           Новинки
         </Typography>
@@ -393,7 +393,7 @@ export default function Products() {
           <Grid container spacing={2}>
             {[...Array(4)].map((_, i) => (
               <Grid item xs={1} sm={1} md={2} key={i}>
-                <Skeleton variant="rectangular" width="100%" height={380} sx={{ borderRadius: "16px" }} />
+                <Skeleton variant="rectangular" width="100%" height={280} sx={{ borderRadius: "16px" }} />
               </Grid>
             ))}
           </Grid>
@@ -401,9 +401,9 @@ export default function Products() {
           <Slider
             dots
             infinite
-            speed={500}
-            slidesToShow={4}
-            slidesToScroll={1}
+            speed={800}
+            slidesToShow={2}
+            slidesToScroll={3}
             autoplay
             autoplaySpeed={3000}
             variableWidth={false}
@@ -422,6 +422,10 @@ export default function Products() {
           </Slider>
         )}
       </Box>
+
+
+
+      
 
       {/* Заголовок + поиск */}
       <Stack spacing={3} mb={3}>
