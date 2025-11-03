@@ -2,14 +2,15 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Typography } from "@mui/material";
+import { Typography , Box} from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import "/src/app/globals.css";
 import { styled } from "@mui/material/styles";
-import { Carousel as RsCarousel } from "rsuite";
-import "rsuite/dist/rsuite.min.css";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 // Sample banner data (premium phone cases)
 const banners = [
@@ -69,19 +70,18 @@ const products = [
 ];
 
 // Custom Banner component
-const Banner = styled(motion.div)(({ theme, bgImage }) => ({
-  backgroundImage: `url(${bgImage})`,
-  backgroundSize: "cover", // Changed to "cover" for better scaling
-  backgroundPosition: "center",
-  backgroundRepeat: "no-repeat",
-  padding: theme.spacing(6),
-  color: "#FFFFFF",
-  textAlign: "center",
-  marginBottom: theme.spacing(4),
+const Banner = styled(motion.div)(({ theme }) => ({
   position: "relative",
-  overflow: "hidden",
   width: "100%",
   height: "700px",
+  [theme.breakpoints.down("sm")]: {
+    height: "500px",
+  },
+  [theme.breakpoints.down("xs")]: {
+    height: "400px",
+  },
+  color: "#FFFFFF",
+  textAlign: "center",
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
@@ -93,7 +93,7 @@ const Banner = styled(motion.div)(({ theme, bgImage }) => ({
     left: 0,
     right: 0,
     bottom: 0,
-    background: "rgba(0,0,0,0.5)", // Darker overlay for text contrast
+    background: "rgba(0,0,0,0.5)",
     zIndex: 1,
   },
   "& > *": {
@@ -102,37 +102,7 @@ const Banner = styled(motion.div)(({ theme, bgImage }) => ({
   },
 }));
 
-// Custom BannerCarousel component
-const BannerCarousel = styled(RsCarousel)({
-  height: "100%",
-  borderRadius: "15px",
-  overflow: "hidden",
-  width: "100%",
-  maxWidth: "1920px",
-  margin: "0 auto",
-  "& .rs-carousel-item": {
-   
-    width: "100%",
-     height: "100%",
-  },
-  "& .rs-carousel-slider": {
-    borderRadius: "15px",
-    height: "43rem",
-  },
-  "& .rs-carousel-btn-prev, & .rs-carousel-btn-next": {
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    color: "#fff",
-    "&:hover": {
-      backgroundColor: "rgba(0, 0, 0, 0.7)",
-    },
-  },
-  "& .rs-carousel-indicators button": {
-    backgroundColor: "#ADD8E6",
-    "&.rs-carousel-indicator-active": {
-      backgroundColor: "#87CEEB",
-    },
-  },
-});
+
 
 // Custom BannerCta button
 const BannerCta = styled("button")({
@@ -179,19 +149,21 @@ export default function PremiumPage() {
     <>
       {/* Banner Carousel Section */}
       <section className="banner-section">
-        <BannerCarousel autoplay autoplayInterval={3000} placement="bottom">
-          {banners.map((banner, index) => (
-            <Banner
-              key={index}
-              bgImage={banner.image}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1 }}
-            
->
-            </Banner>
-          ))}
-        </BannerCarousel>
+        <Box sx={{ position: "relative", height: { xs: "400px", sm: "500px", md: "700px" }, width: "100%" }}>
+          <Slider dots infinite speed={500} slidesToShow={1} slidesToScroll={1} autoplay autoplaySpeed={1500}>
+            {banners.map((banner, index) => (
+              <Box key={index} sx={{ position: "relative", height: { xs: "400px", sm: "500px", md: "700px" }, width: "100%" }}>
+                <Image
+                  src={banner.image}
+                  alt={banner.title}
+                  layout="fill"
+                  objectFit="cover"
+                  priority={index === 0}
+                />
+              </Box>
+            ))}
+          </Slider>
+        </Box>
       </section>
 
       {/* Hero Section */}

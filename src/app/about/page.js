@@ -202,9 +202,9 @@ export default function AboutPage() {
               <Image
                 src="/image/accessoires.jpg"
                 alt="Аксессуары TOTU"
-                width={500}
-                height={350}
-                style={{ objectFit: "cover" }}
+                width={0}
+                height={0}
+                style={{ width: '100%', height: 'auto', objectFit: "cover" }}
                 priority={true}
                 loading="eager"
                  onClick={() => openModal("/image/accessoires.jpg")}
@@ -475,8 +475,8 @@ export default function AboutPage() {
 
         .hero-placeholder {
           position: relative;
-          width: 500px;
-          height: 350px;
+          width: 100%;
+          height: auto;
           border-radius: 10px;
           overflow: hidden;
         }
@@ -758,8 +758,8 @@ export default function AboutPage() {
           }
 
           .hero-placeholder {
-            width: 300px;
-            height: 200px;
+            width: auto;
+            
           }
 
           .section-title {

@@ -26,10 +26,6 @@ import {
   FormControlLabel,
   FormGroup,
   CircularProgress,
-  FavoriteBorder,
-  ShoppingCart,
-  Check,
-  LocalShipping,
 } from "@mui/material";
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import { Search, FilterList, Clear } from "@mui/icons-material";
@@ -385,36 +381,19 @@ export default function KatalogComponent() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container maxWidth="lg" sx={{ py: 6, bgcolor: "transparent" }}>
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <Typography
-            variant="h4"
-            sx={{ mb: 4, textAlign: "left", fontSize: { xs: "1.8rem", md: "2.5rem" } }}
-          >
-            {selectedMainType || "Каталог товаров"}
-          </Typography>
-        </motion.div>
-
+      <Container maxWidth="lg" sx={{ py: 2, bgcolor: "transparent" }}>
         {/* Search and Filters */}
         <Paper
           elevation={0}
           sx={{
-            p: 3,
+            p: 0,
             bgcolor: "background.paper",
             borderRadius: "20px",
-            mb: 4,
-            position: "sticky",
-            top: 0,
-            zIndex: 10,
+            mb: 2,
           }}
         >
-          <Stack spacing={3}>
-            <Stack direction={{ xs: "column", sm: "row" }} spacing={2} alignItems="center">
+          <Stack spacing={0}>
+            <Stack direction={{ xs: "column", sm: "row" }} spacing={0} alignItems="center">
               <TextField
                 fullWidth
                 placeholder="Поиск по названию..."
@@ -435,7 +414,7 @@ export default function KatalogComponent() {
                   ),
                 }}
               />
-              <FormControl fullWidth={{ xs: true, sm: false }} sx={{ minWidth: { sm: 200 } }}>
+              <FormControl fullWidth={{ xs: true, sm: false }} sx={{ minWidth: { sm: 200 }, display: { xs: "none", sm: "block" } }}>
                 <Select
                   value={filters.sortBy}
                   onChange={handleSortChange}
@@ -509,6 +488,30 @@ export default function KatalogComponent() {
           </Stack>
         </Paper>
 
+        <style jsx>{`
+          @media (max-width: 600px) {
+            .katalog-title {
+              display: none!important;
+            }
+          }
+        `}</style>
+        {/* Header */}
+        <Box sx={{ display: { xs: "none", sm: "block" } }}>
+          <motion.div
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+          <Typography
+            variant="h4"
+            className="katalog-title"
+            sx={{ mb: 4, textAlign: "left", fontSize: { xs: "1.8rem", md: "2.5rem" } }}
+          >
+            {selectedMainType || "Каталог товаров"}
+          </Typography>
+          </motion.div>
+        </Box>
+
         {/* Error Message */}
         {error && (
           <Box textAlign="center" mb={2}>
@@ -525,186 +528,134 @@ export default function KatalogComponent() {
         )}
 
         {/* Product Grid */}
-       {/* Product Grid */}
-<Box mb={6}>
-  <Grid container spacing={2} justifyContent="center">
-    {isLoading ? (
-      [...Array(8)].map((_, idx) => (
-        <Grid item xs={6} sm={6} md={4} lg={3} key={idx}>
-          <Skeleton
-            variant="rectangular"
-            height={380}
-            sx={{
-              borderRadius: "16px",
-              bgcolor: "rgba(255,255,255,0.1)",
-            }}
-          />
-        </Grid>
-      ))
-    ) : currentItems.length === 0 ? (
-      <Grid item xs={12}>
-        <Typography variant="body1" color="text.secondary" textAlign="center">
-          Товары не найдены.
-        </Typography>
-      </Grid>
-    ) : (
-      currentItems.map((item) => {
-        const images = item.ProductImages || [];
-        const imageUrl = images.length > 0
-          ? `${BASE_URL.replace(/\/api\/store$/, "")}${images[0].imagePath.replace(/^\/api\/store/, "")}`
-          : "/placeholder-image.jpg";
-
-        return (
-          <Grid item xs={6} sm={6} md={4} lg={3} key={item.id}>
-            <Box
-              component={motion.div}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              whileHover={{ y: -4 }}
-              sx={{
-                position: "relative",
-                borderRadius: "16px",
-                overflow: "hidden",
-                bgcolor: "#1A1A1A",
-                color: "white",
-                height: "100%",
-                minHeight: { xs: 360, md: 400 },
-                boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
-                transition: "all 0.3s ease",
-              }}
-            >
-              {/* Иконка сердца */}
-              <IconButton
-                sx={{
-                  position: "absolute",
-                  top: 12,
-                  right: 12,
-                  bgcolor: "rgba(0,0,0,0.3)",
-                  color: "white",
-                  "&:hover": { bgcolor: "rgba(0,0,0,0.5)" },
-                  zIndex: 2,
-                }}
-              >
-                <FavoriteBorder />
-              </IconButton>
-
-              {/* Фото */}
-              <Box
-                sx={{
-                  position: "relative",
-                  height: { xs: 200, md: 220 },
-                  bgcolor: "#2D2D2D",
-                  p: 2,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Image
-                  src={imageErrors[item.id] ? "/placeholder-image.jpg" : imageUrl}
-                  alt={item.name}
-                  fill
-                  style={{
-                    objectFit: "contain",
-                    maxWidth: "90%",
-                    maxHeight: "90%",
-                  }}
-                  onError={() => setImageErrors((prev) => ({ ...prev, [item.id]: true }))}
-                  unoptimized
-                />
-              </Box>
-
-              {/* Контент */}
-              <Box sx={{ p: 2, flexGrow: 1, display: "flex", flexDirection: "column" }}>
-                {/* Название */}
-                <Typography
-                  variant="h6"
-                  component={Link}
-                  href={`/product/${item.id}`}
-                  sx={{
-                    fontWeight: 600,
-                    fontSize: { xs: "1rem", md: "1.1rem" },
-                    lineHeight: 1.3,
-                    display: "-webkit-box",
-                    WebkitLineClamp: 2,
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    color: "white",
-                    textDecoration: "none",
-                    mb: 1,
-                    "&:hover": { color: "#ADD8E6" },
-                  }}
-                >
-                  {item.name}
+        <Box mb={6}>
+          <Grid container spacing={{ xs: 1, sm: 2, md: 3 }} justifyContent="center">
+            {isLoading ? (
+              [...Array(8)].map((_, idx) => (
+                <Grid item xs={12} sm={6} md={3} key={idx}>
+                  <Skeleton variant="rectangular" height={400} sx={{ borderRadius: "15px", width: "300px", margin: "0 auto" }} />
+                </Grid>
+              ))
+            ) : currentItems.length === 0 ? (
+              <Grid item xs={12}>
+                <Typography variant="body1" color="text.secondary" textAlign="center">
+                  Товары не найдены.
                 </Typography>
+              </Grid>
+            ) : (
+              currentItems.map((item) => {
+                const images = item.ProductImages || [];
+                const imageUrl = images.length > 0
+                  ? `${BASE_URL.replace(/\/api\/store$/, "")}${images[0].imagePath.replace(/^\/api\/store/, "")}`
+                  : "/placeholder-image.jpg";
 
-                {/* Доставка */}
-                <Typography
-                  variant="caption"
-                  sx={{
-                    color: "#4ADE80",
-                    fontWeight: 500,
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 0.5,
-                    mb: 1.5,
-                  }}
-                >
-                  <LocalShipping fontSize="small" />
-                  Отправим завтра
-                </Typography>
-
-                {/* Нижняя часть: цена + кнопка */}
-                <Box
-                  sx={{
-                    mt: "auto",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      fontWeight: 700,
-                      color: "white",
-                      fontSize: { xs: "1.4rem", md: "1.6rem" },
-                    }}
-                  >
-                    {parseFloat(item.price)?.toLocaleString() || "0"} ₸
-                  </Typography>
-
-                  <Button
-                    onClick={() => dispatch(addToCartProductAction(item))}
-                    disabled={isInCart(item)}
-                    sx={{
-                      bgcolor: "#ADD8E6",
-                      color: "#1A1A1A",
-                      fontWeight: 600,
-                      borderRadius: "12px",
-                      px: 2,
-                      py: 1,
-                      minWidth: "auto",
-                      "&:hover": { bgcolor: "#87CEEB" },
-                      "&:disabled": {
-                        bgcolor: "#666",
-                        color: "#999",
-                      },
-                    }}
-                    startIcon={isInCart(item) ? <Check /> : <ShoppingCart />}
-                  >
-                    {isInCart(item) ? "" : "Добавить"}
-                  </Button>
-                </Box>
-              </Box>
-            </Box>
+                return (
+                  <Grid item xs={6} sm={6} md={3} key={item.id}>
+                    <ProductCard
+                      component={motion.div}
+                      initial={{ opacity: 0, y: 50 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: item.id * 0.1 }}
+                    >
+                      {images.length > 0 ? (
+                        <Box sx={{ height: "200px", width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                          <Image
+                            src={imageErrors[item.id] ? "/placeholder-image.jpg" : imageUrl}
+                            alt={item.name}
+                            width={280}
+                            height={180}
+                            style={{ objectFit: "contain", maxWidth: "100%", maxHeight: "100%" }}
+                            onError={() => setImageErrors((prev) => ({ ...prev, [item.id]: true }))}
+                            unoptimized
+                          />
+                        </Box>
+                      ) : (
+                        <Box
+                          sx={{
+                            height: "200px",
+                            width: "100%",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            bgcolor: "#F5F5F5",
+                            borderRadius: "10px",
+                          }}
+                        >
+                          <Typography variant="body1" color="text.secondary">
+                            Нет фото
+                          </Typography>
+                        </Box>
+                      )}
+                      <CardContent sx={{ flexGrow: 1, padding: "16px" }}>
+                        <Typography
+                          variant="h6"
+                          component={Link}
+                          href={`/product/${item.id}`}
+                          sx={{
+                            textDecoration: "none",
+                            color: "text.primary",
+                            "&:hover": { color: "primary.main" },
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          {item.name}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            display: "-webkit-box",
+                            WebkitLineClamp: 1,
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          {item.Categories.length > 0
+                            ? item.Categories.map((cat) => cat.name).join(", ")
+                            : "Без категории"}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          mt={1}
+                          sx={{
+                            display: "-webkit-box",
+                            WebkitLineClamp: 3,
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          {item.description}
+                        </Typography>
+                        {/* <Typography variant="body2" mt={1}>
+                          Объем: {item.volume}
+                        </Typography> */}
+                        <Typography variant="body2" mt={1}>
+                          Наличие: {item.stock} шт.
+                        </Typography>
+                      </CardContent>
+                      <CardActions sx={{ p: 2, justifyContent: "space-between" }}>
+                        <Typography variant="subtitle1" fontWeight={700}>
+                          {parseFloat(item.price)?.toLocaleString() || "0"} ₸
+                        </Typography>
+                        <Button
+                          onClick={() => dispatch(addToCartProductAction(item))}
+                          disabled={isInCart(item)}
+                        >
+                          {isInCart(item) ? "В корзине" : "Добавить"}
+                        </Button>
+                      </CardActions>
+                    </ProductCard>
+                  </Grid>
+                );
+              })
+            )}
           </Grid>
-        );
-      })
-    )}
-  </Grid>
-</Box>
+        </Box>
 
         {/* Pagination */}
         {totalPages > 1 && (
@@ -836,7 +787,3 @@ export default function KatalogComponent() {
     </ThemeProvider>
   );
 }
-
-
-
-

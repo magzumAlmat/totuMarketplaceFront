@@ -44,8 +44,7 @@ import {
 } from "@/store/slices/productSlice";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { Carousel as RsCarousel } from "rsuite";
-import "rsuite/dist/rsuite-no-reset.min.css";
+
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import debounce from "lodash/debounce";
@@ -77,21 +76,7 @@ const ImageContainer = styled(Box)({
   borderRadius: "16px 16px 0 0",
 });
 
-const StyledCarousel = styled(RsCarousel)({
-  height: "100%",
-  width: "100%",
-  "& .rs-carousel-item": {
-    height: "100%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  "& img": {
-    maxHeight: "100%",
-    maxWidth: "100%",
-    objectFit: "contain",
-  },
-});
+
 
 const ZoomOverlay = styled(Box)(({ theme }) => ({
   position: "absolute",
@@ -219,7 +204,7 @@ const ProductCardWithImages = memo(({ item, isInCart, dispatch }) => {
         <ImageContainer>
           <ProductCardHover>
             {imageUrls.length > 0 ? (
-              <StyledCarousel autoplay={imageUrls.length > 1} autoplayInterval={8000}>
+              <Slider dots infinite speed={500} slidesToShow={1} slidesToScroll={1}>
                 {imageUrls.map((src, idx) => (
                   <Box key={idx} sx={{ position: "relative", height: "100%", width: "100%" }}>
                     <Image
@@ -236,7 +221,7 @@ const ProductCardWithImages = memo(({ item, isInCart, dispatch }) => {
                     </ZoomOverlay>
                   </Box>
                 ))}
-              </StyledCarousel>
+              </Slider>
             ) : (
               <Box sx={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center", bgcolor: "#f5f5f5" }}>
                 <Typography variant="body2" color="#999">Нет фото</Typography>
@@ -373,15 +358,15 @@ export default function Products() {
     >
       {/* Баннеры */}
       <Box sx={{ borderRadius: "16px", overflow: "hidden", mb: 4 }}>
-        <RsCarousel autoplay autoplayInterval={9000}>
+        <Slider dots infinite speed={500} slidesToShow={1} slidesToScroll={1} autoplay autoplaySpeed={3000}>
           {banners.map((b, i) => (
             <Box key={i} sx={{ position: "relative", 
             // height: { xs: "200", md:"auto" }, 
             overflow: "hidden" }}>
-              <Image src={b.image} alt="" fill style={{ objectFit: "cover" }} />
+              <Image src={b.image} alt="" layout="responsive" width={16} height={9} objectFit="cover" />
             </Box>
           ))}
-        </RsCarousel>
+        </Slider>
       </Box>
 
       {/* Новинки */}
@@ -453,7 +438,7 @@ export default function Products() {
 
       {/* Сетка товаров */}
       <Box mb={3}>
-        <Grid container spacing={2}>
+        <Grid container spacing={{ xs: 1, sm: 2 }}>
           {loading ? [...Array(8)].map((_, i) => (
             <Grid item xs={6} sm={4} md={3} key={i}>
               <Skeleton variant="rectangular" width="100%" height={380} sx={{ borderRadius: "16px" }} />

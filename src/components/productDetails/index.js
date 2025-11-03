@@ -18,13 +18,9 @@ import {
   IconButton,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Carousel } from "rsuite";
-import "rsuite/dist/rsuite-no-reset.min.css";
-import Image from "next/image";
-import Head from "next/head";
-import { ShoppingCartOutlined, Close } from "@mui/icons-material";
-import { toast } from "react-toastify";
-import axios from "axios";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 // === СТИЛИ ===
 const StyledButton = styled(Button)(({ theme }) => ({
@@ -40,23 +36,6 @@ const StyledButton = styled(Button)(({ theme }) => ({
   "&:disabled": {
     backgroundColor: "#D3D3D3",
     color: "#666666",
-  },
-}));
-
-const StyledCarousel = styled(Carousel)(({ theme }) => ({
-  borderRadius: "12px",
-  overflow: "hidden",
-  "& .rs-carousel-item": {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "400px",
-    [theme.breakpoints.down("sm")]: {
-      height: "300px",
-    },
-  },
-  "& .rs-carousel-bar": {
-    bottom: 12,
   },
 }));
 
@@ -199,7 +178,7 @@ export default function ProductDetailPage({ params = {} }) {
           {/* === ЛЕВАЯ ЧАСТЬ: ФОТО === */}
           <Box sx={{ flex: 1, maxWidth: { xs: "100%", md: "50%" } }}>
             {images.length > 0 ? (
-              <StyledCarousel autoplay autoplayInterval={4000}>
+              <Slider dots infinite speed={500} slidesToShow={1} slidesToScroll={1}>
                 {images.map((img, index) => {
                   const src = getImageUrl(img.imagePath);
                   const errorKey = `${product.id}-${index}`;
@@ -233,7 +212,7 @@ export default function ProductDetailPage({ params = {} }) {
                     </Box>
                   );
                 })}
-              </StyledCarousel>
+              </Slider>
             ) : (
               <Box
                 sx={{

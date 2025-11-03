@@ -473,8 +473,8 @@ export default function TipsPage() {
           }
 
           .hero-placeholder {
-            width: 300px;
-            height: 200px;
+            width: auto;
+            // height: 200px;
           }
 
           .section-title {
@@ -514,8 +514,8 @@ export default function TipsPage() {
           }
 
           .hero-placeholder {
-            width: 250px;
-            height: 160px;
+            width: auto;
+            // height: 160px;
           }
 
           .modal-content {
