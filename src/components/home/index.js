@@ -386,13 +386,13 @@ export default function Products() {
 
       {/* Новинки */}
       <Box mb={1} sx={1} lg={4}>
-        <Typography variant="h5" fontWeight={700} mb={3} sx={{ fontSize: { xs: "1.5rem", md: "2rem" } }}>
+        <Typography variant="h5" fontWeight={600} mb={1} sx={{ fontSize: { xs: "1rem", md: "1.2rem" } }}>
           Новинки
         </Typography>
         {loading ? (
           <Grid container spacing={2}>
             {[...Array(4)].map((_, i) => (
-              <Grid item xs={6} sm={6} md={3} key={i}>
+              <Grid item xs={1} sm={1} md={2} key={i}>
                 <Skeleton variant="rectangular" width="100%" height={380} sx={{ borderRadius: "16px" }} />
               </Grid>
             ))}
