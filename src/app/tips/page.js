@@ -148,7 +148,8 @@ export default function TipsPage() {
 
         * {
           font-family: 'Roboto', sans-serif;
-        }
+         overflow-x: hidden;
+          }
 
         /* Hero Section */
         .hero-section {
@@ -268,8 +269,8 @@ export default function TipsPage() {
         /* Image Placeholders */
         .image-placeholder {
           background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
-         
-         
+      
+        
           display: flex;
           align-items: center;
           justify-content: center;
@@ -287,7 +288,7 @@ export default function TipsPage() {
           position: relative;
           width: 550px;
           height: 300px;
-        
+          border-radius: 10px;
           overflow: hidden;
         }
 
@@ -464,7 +465,7 @@ export default function TipsPage() {
         @media (max-width: 768px) {
           .hero-container {
             grid-template-columns: 1fr;
-            // gap: 30px;
+            gap: 30px;
             text-align: center;
           }
 
@@ -514,7 +515,7 @@ export default function TipsPage() {
           }
 
           .hero-placeholder {
-            width: auto;
+            width: 250px;
             // height: 160px;
           }
 
