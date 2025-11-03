@@ -385,7 +385,7 @@ export default function Products() {
       </Box>
 
       {/* Новинки */}
-      <Box mb={2} sx={2} lg={4}>
+      <Box mb={1} sx={1} lg={4}>
         <Typography variant="h5" fontWeight={700} mb={3} sx={{ fontSize: { xs: "1.5rem", md: "2rem" } }}>
           Новинки
         </Typography>
