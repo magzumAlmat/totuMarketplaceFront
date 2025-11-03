@@ -104,16 +104,16 @@ const Banner = styled(motion.div)(({ theme, bgImage }) => ({
 
 // Custom BannerCarousel component
 const BannerCarousel = styled(RsCarousel)({
-   height: "43rem",
+  height: "100%",
   borderRadius: "15px",
   overflow: "hidden",
   width: "100%",
-  maxWidth: "1536px",
+  maxWidth: "1920px",
   margin: "0 auto",
   "& .rs-carousel-item": {
    
     width: "100%",
-     height: "43rem",
+     height: "100%",
   },
   "& .rs-carousel-slider": {
     borderRadius: "15px",
@@ -187,17 +187,8 @@ export default function PremiumPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1 }}
-             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            >
-              {/* <Typography variant="h2" sx={{ fontWeight: 900, fontSize: "2.5rem", mb: 2 }}>
-                {banner.title}
-              </Typography>
-              <Typography variant="h5" sx={{ fontWeight: 400, mb: 3 }}>
-                {banner.subtitle}
-              </Typography>
-              <Link href="/katalog-tovarov">
-                <BannerCta>{banner.cta}</BannerCta>
-              </Link> */}
+            
+>
             </Banner>
           ))}
         </BannerCarousel>
@@ -318,7 +309,7 @@ export default function PremiumPage() {
                     src={selectedImage}
                     alt="Full-screen preview"
                     fill
-                    style={{ objectFit: "contain" }}
+                    style={{ objectFit: "" }}
                     quality={90}
                   />
                 </TransformComponent>
@@ -372,6 +363,36 @@ export default function PremiumPage() {
       </section>
 
       <style jsx>{`
+
+
+.banner-section {
+  width: 100%;
+  overflow: hidden; /* чтобы скрыть вылезающие части при анимации */
+}
+
+.banner-section .banner-carousel {
+  width: 100%;
+  height: auto;
+  max-height: 600px; /* можно регулировать или убрать */
+}
+
+.banner-section .banner-item {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.banner-section .banner-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* сохраняет пропорции и заполняет контейнер */
+  object-position: center;
+}
+
+
+
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap');
 
         * {
@@ -382,7 +403,7 @@ export default function PremiumPage() {
         /* Banner Section */
         .banner-section {
           width: 100%;
-          min-height: 40vh;
+          min-height: 100vh;
           display: flex;
           align-items: center;
           justify-content: center;
