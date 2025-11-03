@@ -91,9 +91,10 @@ export const metadata = {
   title: 'Купить Чехол',
   description:
     'Купить аксессуары для смартфонов, купить зарядные устройства, купить кабели Lightning, Type-C, USB-C, купить беспроводные наушники, купить защитные стекла и чехлы, купить автомобильные держатели и кабели, купить сетевые адаптеры и переходники, купить электронику и гаджеты',
-   
+  
   verification: {
-    google: 'Qmi_pB30aPPO__Ht7NT-D8VY8E8xKifhiMwMRybaur4',
+    // google: 'Qmi_pB30aPPO__Ht7NT-D8VY8E8xKifhiMwMRybaur4',
+    google:'Su2bLt19C5Hc5DOvhV2p9Oi2kMSHvIS0-5IpefdDy_Q'
   },
 };
 
